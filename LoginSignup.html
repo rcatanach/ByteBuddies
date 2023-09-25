@@ -1,0 +1,479 @@
+ <title>Mix Match Magic</title>
+ <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+  body {
+    font: 400 15px Lato, sans-serif;
+    line-height: 1.8;
+    color: #818181;
+  }
+   .description {
+    padding: 20px;
+  }
+  h2 {
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #303030;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+  h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    color: #303030;
+    font-weight: 400;
+    margin-bottom: 30px;
+  }  
+  .button {
+    background-color: #f4511e
+  }
+  .jumbotron {
+    background-color: #F44336;
+    color: #fff;
+    padding: 100px 25px;
+    font-family: Montserrat, sans-serif;
+  }
+  .container-fluid {
+    padding: 60px 50px;
+  }
+  .bg-grey {
+    background-color: #f6f6f6;
+  }
+  .logo-small {
+    color: #648fff;
+    font-size: 50px;
+  }
+  .logo {
+    color: #648fff;
+    font-size: 200px;
+  }
+  .thumbnail {
+    padding: 0 0 15px 0;
+    border: none;
+    border-radius: 0;
+  }
+  .thumbnail img {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+  }
+  .carousel-control.right, .carousel-control.left {
+    background-image: none;
+    color: #F44336;
+  }
+  .carousel-indicators li {
+    border-color: #648fff;
+  }
+  .carousel-indicators li.active {
+    background-color:#F44336;
+  }
+  .item h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    font-weight: 400;
+    font-style: italic;
+    margin: 70px 0;
+  }
+  .item span {
+    font-style: normal;
+  }
+  .panel {
+    border: 1px solid #F44336; 
+    border-radius:0 !important;
+    transition: box-shadow 0.5s;
+  }
+  .panel:hover {
+    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+  }
+  .panel-footer .btn:hover {
+    border: 1px solid #F44336;
+    background-color: #fff !important;
+    color: #648fff;
+  }
+  .panel-heading {
+    color: #fff !important;
+    background-color: #F44336 !important;
+    padding: 25px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .panel-footer {
+    background-color: white !important;
+  }
+  .panel-footer h3 {
+    font-size: 32px;
+  }
+  .panel-footer h4 {
+    color: #aaa;
+    font-size: 14px;
+  }
+  .panel-footer .btn {
+    margin: 15px 0;
+    background-color: #F44336;
+    color: #fff;
+  }
+  .navbar {
+    margin-bottom: 0;
+    background-color: #F44336;
+    z-index: 9999;
+    border: 0;
+    font-size: 12px !important;
+    line-height: 1.42857143 !important;
+    letter-spacing: 4px;
+    border-radius: 0;
+    font-family: Montserrat, sans-serif;
+  }
+  .navbar li a, .navbar .navbar-brand {
+    color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #F44336 !important;
+    background-color: #fff !important;
+  }
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #fff !important;
+  }
+  footer .glyphicon {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #F44336;
+  }
+  .slideanim {visibility:hidden;}
+  .slide {
+    animation-name: slide;
+    -webkit-animation-name: slide;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    visibility: visible;
+  }
+  @keyframes slide {
+    0% {
+      opacity: 0;
+      transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+  @-webkit-keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .col-sm-4 {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .btn-lg {
+      width: 100%;
+      margin-bottom: 35px;
+    }
+    .btn-orange {
+      background-color: #f4511e
+      width: 100%;
+      margin-bottom: 35px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .logo {
+      font-size: 150px;
+    }
+  }
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:wght@400;500&display=swap');
+      
+          .formcarry-container {
+            box-sizing: border-box;
+            margin: 40px auto 0 auto;
+            padding: 0;
+            font-family: "Montserrat", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: -0.01em;
+      
+            width: 400px;
+      
+            /* NORMAL */
+            --fc-border-color: #ECEFF9;
+            --fc-normal-text-color: #0E0B3D;
+            --fc-normal-placeholder-color: #B3B8D0;
+      
+            /* PRIMARY COLOR | HSL FORMAT*/
+            --fc-primary-color-hue: 220;
+            --fc-error-color-hue: 356;
+            --fc-primary-hsl: var(--fc-primary-color-hue), 100%, 54%;
+            --fc-error-hsl: var(--fc-error-color-hue), 100%, 54%;
+      
+            /* HOVER */
+            --fc-field-hover-bg-color: #F7F9FC;
+            --fc-border-hover-color: #DDE0EE;
+            --fc-field-hover-text-color: #B3B8D0;
+      
+            --fc-border-active-color: #1463FF;
+          }
+      
+          .formcarry-container * {
+            box-sizing: border-box;
+          }
+      
+          .formcarry-container label {
+            display: block;
+            cursor: pointer;
+          }
+      
+          .formcarry-container .formcarry-block:not(:first-child) {
+            margin-top: 16px;
+          }
+      
+          /*=============================================
+          =            Fields           =
+          =============================================*/
+          
+          .formcarry-container input,
+          .formcarry-container textarea,
+          .formcarry-container select {
+            margin-top: 4px;
+            width: 100%;
+            height: 42px;
+            border: 1px solid var(--fc-border-color);
+            box-shadow: 0 1px 2px var(--fc-border-color);
+            color: var(--fc-normal-text-color);
+            border-radius: 10px;
+            padding: 8px 12px;
+            
+            font-family: "Montserrat", sans-serif;
+            font-size:14px;
+            transition: 125ms background, 125ms color, 125ms box-shadow;
+          }
+      
+          .formcarry-container textarea{
+            min-height: 188px;
+            max-width: 100%;
+            padding-top: 12px;
+          }
+      
+          .formcarry-container input::placeholder,
+          .formcarry-container textarea::placeholder,
+          .formcarry-container select::placeholder {
+            color: var(--fc-normal-placeholder-color);
+          }
+      
+          .formcarry-container input:hover,
+          .formcarry-container textarea:hover,
+          .formcarry-container select:hover {
+            border-color: var(--fc-border-hover-color);
+            background-color: var(--fc-field-hover-bg-color);
+          }
+      
+          .formcarry-container input:hover::placeholder,
+          .formcarry-container textarea:hover::placeholder,
+          .formcarry-container select:hover::placeholder {
+            color: var(--fc-field-hover-text-color);
+          }
+      
+          .formcarry-container input:focus,
+          .formcarry-container textarea:focus,
+          .formcarry-container select:focus {
+            background-color: #fff;
+            border: 2px solid hsl(var(--fc-primary-hsl));
+            box-shadow: hsla(var(--fc-primary-hsl), 8%) 0px 0px 0px 3px;
+            outline: none;
+          }
+      
+          .formcarry-container input:focus,
+          .formcarry-container select:focus {
+            padding: 8px 11px;
+          }
+      
+          .formcarry-container textarea:focus {
+            padding: 11px;
+          }
+      
+          .formcarry-container select {
+            background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.9997 14.5001L8.46387 10.9642L9.64303 9.78589L11.9997 12.1434L14.3564 9.78589L15.5355 10.9642L11.9997 14.5001Z' fill='%236C6F93'/%3E%3C/svg%3E%0A");
+            /* background-position: calc(100% - 20px) calc(1em + 4px), calc(100% - 15px) calc(1em + 4px); */
+            background-size: 24px 24px;
+            background-position: 98%;
+            background-repeat: no-repeat;
+            appearance: none;
+            -webkit-appearance: none;
+          }
+      
+          .formcarry-container button {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: -0.02em;
+            height: 40px;
+            line-height: 24px;
+            width: 100%;
+            border: 0;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background-color: #F44336;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 0 0 transparent;
+            
+            transition: 125ms all;
+          }
+          
+          .formcarry-container button:hover {
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), hsla(var(--fc-primary-hsl));
+          }
+          
+          .formcarry-container button:focus {
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl));
+            border-inline: 1px solid inline rgba(255, 255, 255, 0.6);
+            box-shadow: 0px 0px 0px 3px rgba(var(--fc-primary-hsl), 12%);
+          }
+      
+          .formcarry-container button:active {
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl));
+          }
+      
+          .formcarry-container button:disabled {
+            background-color: hsla(var(--fc-primary-hsl), 40%);
+            cursor: not-allowed;
+          }
+      
+          .formcarry-container input:focus:required:invalid,
+          .formcarry-container input:focus:invalid, 
+          .formcarry-container select:focus:required:invalid,
+          .formcarry-container select:focus:invalid
+          {
+            color: hsl(var(--fc-error-hsl)); 
+            border-color: hsl(var(--fc-error-hsl));
+            box-shadow: 0px 0px 0px 3px hsla(var(--fc-error-hsl), 12%);
+          }
+
+          #fc-notice {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 24px;
+            letter-spacing: -0.01em;
+            text-decoration: none;
+            color: #6C6F93;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            margin-top: 24px;
+          }
+  </style>
+  
+  <!-- Header -->
+ <header class="w3-container w3-red w3-center" style="padding:128px 16px">
+  <h1 class="w3-margin w3-jumbo">START PAGE</h1>
+  <p class="w3-xlarge">Template by w3.css</p>
+  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" id="getStarted">Get Started</button>
+</header>
+
+<div class="container">
+    <div class="form-wrapper">
+    
+ <!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Lorem Ipsum</h1>
+      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+
+      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+
+    <div class="w3-third w3-center">
+      <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Second Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <i class="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i>
+    </div>
+
+    <div class="w3-twothird">
+      <h1>Lorem Ipsum</h1>
+      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+
+      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+  </div>
+</div>
+
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+    <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
+</div>
+     
+<!-- Log In / Sign Up -->
+
+      <section class="formcarry-container" id="loginSection">
+        <form action="https://formcarry.com/s/v7_bh4Qsvp" method="POST" target="_blank" enctype="multipart/form-data">
+          
+          <div class="formcarry-block">
+          <p> </p>
+            <label for="fc-generated-1-name">Email</label>
+            <input type="text" name="name" id="fc-generated-1-name" placeholder="john@doe.com" />
+          </div>
+          
+          <div class="formcarry-block">
+            <label for="fc-generated-1-email">Password</label>
+            <input type="email" name="email" id="fc-generated-1-email" placeholder="**********" />
+          </div>
+          
+          
+          <div class="formcarry-block">  
+            <button type="submit">Log In / Sign Up</button>
+          </div>
+        
+          <a id="fc-notice" href="https://formcarry.com/">
+            <span>Forms by</span>
+            <img
+              src="https://carrier.formcarry.com/templates/common/formcarry_footer_logo.svg"
+              width="113"
+              height="20"
+            />
+          </a>
+        </form>
+      </section>
+  
+      </div>
+      </div>
+      
+      
+ <script>
+    document.getElementById('getStarted').addEventListener('click', function() {
+        var targetSection = document.getElementById('loginSection');
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+    });
+</script>
