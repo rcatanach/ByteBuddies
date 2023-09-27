@@ -34,7 +34,24 @@
     color: #303030;
     font-weight: 400;
     margin-bottom: 30px;
-  }  
+  } 
+  
+  header.w3-container {
+    background-image: url('https://marketplace.canva.com/EAFL0FCQYlc/1/0/1600w/canva-brown-aesthetic-fashion-photo-collage-COIjqtvuAPQ.jpg'); 
+    background-size: cover;
+    background-position: center;
+  }
+  header.w3-container h1 {
+    background-color: #DE7E5D; /* Peach background color */
+  color: #fff; /* Text color for the header */
+  padding: 5px;
+  }
+
+  header.w3-container p {
+    background-color: #C5A477; /* Peach background color */
+  color: #fff; /* Text color for the header */
+  padding: 2px; /* Add padding for better visibility */
+  }
   .button {
     background-color: #f4511e
   }
@@ -359,7 +376,7 @@
             cursor: not-allowed;
           }
       
-          .formcarry-container input:focus:required:invalid,
+          /* .formcarry-container input:focus:required:invalid,
           .formcarry-container input:focus:invalid, 
           .formcarry-container select:focus:required:invalid,
           .formcarry-container select:focus:invalid
@@ -367,7 +384,7 @@
             color: hsl(var(--fc-error-hsl)); 
             border-color: hsl(var(--fc-error-hsl));
             box-shadow: 0px 0px 0px 3px hsla(var(--fc-error-hsl), 12%);
-          }
+          } */
 
           #fc-notice {
             font-weight: 400;
@@ -387,8 +404,8 @@
   
   <!-- Header -->
  <header class="w3-container w3-red w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo">START PAGE</h1>
-  <p class="w3-xlarge">Template by w3.css</p>
+  <h1 class="w3-margin w3-jumbo">Mix Match Magic</h1>
+  <p class="w3-xlarge">Unlock Your Style: Create Endless Outfits from Your Wardrobe!</p>
   <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" id="getStarted">Get Started</button>
 </header>
 
@@ -438,8 +455,9 @@
 <!-- Log In / Sign Up -->
 
       <section class="formcarry-container" id="loginSection">
+      <!--
         <form action="https://formcarry.com/s/v7_bh4Qsvp" method="POST" target="_blank" enctype="multipart/form-data">
-          
+          -->
           <div class="formcarry-block">
           <p> </p>
             <label for="fc-generated-1-name">Email</label>
@@ -453,18 +471,20 @@
           
           
           <div class="formcarry-block">  
-            <button type="submit">Log In / Sign Up</button>
+            <button type="submit" id="loginButton">Log In / Sign Up</button>
           </div>
+        <a id="fc-notice">
         
-          <a id="fc-notice" href="https://formcarry.com/">
-            <span>Forms by</span>
+            <span>Template by w3.css</span>
+            <!--
             <img
               src="https://carrier.formcarry.com/templates/common/formcarry_footer_logo.svg"
               width="113"
               height="20"
-            />
+            /> -->
           </a>
-        </form>
+          
+       <!-- </form> -->
       </section>
   
       </div>
@@ -476,4 +496,10 @@
         var targetSection = document.getElementById('loginSection');
         targetSection.scrollIntoView({ behavior: 'smooth' });
     });
+    
+    document.getElementById('loginButton').addEventListener('click', function() {
+        // Replace 'your-page-url.html' with the URL of the page you want to navigate to.
+        window.location.href = 'https://github.com/rcatanach/ByteBuddies/blob/main/home.html';
+    });
+
 </script>
