@@ -52,6 +52,11 @@
   color: #fff; /* Text color for the header */
   padding: 2px; /* Add padding for better visibility */
   }
+  header.w3-container button {
+    background-color: #73c573;
+    color: #fff;
+  }
+
   .button {
     background-color: #f4511e
   }
@@ -349,7 +354,7 @@
             border: 0;
             border-radius: 10px;
             box-sizing: border-box;
-            background-color: #F44336;
+            background-color: #73c573;
             color: #fff;
             cursor: pointer;
             box-shadow: 0 0 0 0 transparent;
@@ -358,17 +363,20 @@
           }
           
           .formcarry-container button:hover {
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), hsla(var(--fc-primary-hsl));
+            background: #DE7E5D;
+            /*background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), hsla(var(--fc-primary-hsl)); */
           }
           
           .formcarry-container button:focus {
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl));
+            background: #73c573;
+           /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl)); 
             border-inline: 1px solid inline rgba(255, 255, 255, 0.6);
-            box-shadow: 0px 0px 0px 3px rgba(var(--fc-primary-hsl), 12%);
+            box-shadow: 0px 0px 0px 3px rgba(var(--fc-primary-hsl), 12%); */
           }
       
           .formcarry-container button:active {
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl));
+            background: #73c573;
+            /*background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl)); */
           }
       
           .formcarry-container button:disabled {
@@ -406,7 +414,7 @@
  <header class="w3-container w3-red w3-center" style="padding:128px 16px">
   <h1 class="w3-margin w3-jumbo">Mix Match Magic</h1>
   <p class="w3-xlarge">Unlock Your Style: Create Endless Outfits from Your Wardrobe!</p>
-  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" id="getStarted">Get Started</button>
+  <button class="w3-button w3-padding-large w3-large w3-margin-top" id="getStarted">Get Started</button>
 </header>
 
 <div class="container">
