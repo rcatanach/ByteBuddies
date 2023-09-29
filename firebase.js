@@ -4,10 +4,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebas
 // Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 //Auth is used for login
-import { getAuth } from "firebase/auth";
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
 //Firestore is used to store user inventory data (wardrobe)
 //May need to use realtime database for web instead
-import { getFirestore } from "firebase/firestore";
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
 
 
 // Your web app's Firebase configuration
@@ -20,8 +20,12 @@ const firebaseConfig = {
   appId: "1:635447219934:web:9b873aedd01a140431944f"
 };
 
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+console.log("Firebase initialized:", app);
 
-// Export Firebase for potential use in HTML pages
-export default app;
+// Export the initialized Firebase app and services for use in other files
+export const firebaseApp = app;
+export const auth = getAuth(app);
+export const firestore = getFirestore(app);

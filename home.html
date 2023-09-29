@@ -72,8 +72,25 @@ body {
   border-radius: 50%;
   margin-bottom: 20px;
 }
+/*connect to the firebase SDK */
 </style>
+<script type="module" src="firebase.js"></script>
 </head>
+<script type="module">
+  import { firebaseApp, auth, firestore } from './firebase.js';
+
+  // Check if Firebase has been initialized
+  if (firebaseApp && auth && firestore) {
+      // Firebase has been initialized
+      console.log("Firebase has been initialized.");
+
+      // Use Firebase services here
+      // ...
+  } else {
+      // Firebase is not initialized
+      console.error("Firebase is not initialized.");
+  }
+</script>
 <body>
 
 <!-- Navbar -->
