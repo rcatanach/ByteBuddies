@@ -1,1 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Mix Match Magic</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 
+/* Custom Styles */
+body {
+  font: 400 15px Lato, sans-serif;
+  line-height: 1.8;
+  color: #818181;
+  background-color: #f6f6f6; /* Light Gray Background */
+}
+header.w3-container p {
+   background-color: #C5A477; /* brown background color */
+ color: #fff; /* Text color for the header */
+ padding: 2px; /* Add padding for better visibility */
+ }
+footer.f3-container {
+  background-image: none !important;
+  padding: 20px 10px !important;
+  text-align: center;
+} 
+.w3-bar .w3-button {
+  color: #F44336 !important; /* Red Color */
+}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.w3-top {
+  background-color: #F44336 !important; /* Red Color */
+}
+.w3-bar-item {
+  padding: 12px 16px !important;
+}
+.w3-button {
+  background-color: #DE7E5D; /* Peach Background Color */
+  color: #fff !important; /* White Text */
+}
+.w3-button:hover {
+  background-color: #C5A477; /* Darker Peach on Hover */
+}
+.w3-container {
+  background-image: url('https://marketplace.canva.com/EAFL0FCQYlc/1/0/1600w/canva-brown-aesthetic-fashion-photo-collage-COIjqtvuAPQ.jpg'); 
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+.w3-container h1, .w3-container p {
+  background-color: #DE7E5D; /* Peach Background Color */
+  padding: 10px;
+  border-radius: 5px;
+}
+/* Nav bar style */
+.w3-bar.w3-red {
+  background-color: #DE7E5D !important; /* Red Color */
+}
+.w3-bar-item.w3-button.w3-padding-large {
+  color: #fff !important; /* White Text */
+}
+.w3-bar-item.w3-button.w3-hide-small.w3-padding-large:hover{
+  background-color: #C5A477 !important;
+}
+
+.step {
+  text-align: center;
+  margin-top: 40px;
+  color: #303030; /* Dark Gray Text */
+}
+.w3-bar-item.w3-button.w3-padding-large.w3-white {
+  background-color: #73c573 !important; /* Dark Brown Background */
+  color: #fff !important; /* White Text */
+}
+.navbar-button:hover{
+  background-color: #442C21;
+}
+.step img {
+  width: 150px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+/*connect to the firebase SDK */
+</style>
+<script type="module" src="firebase.js"></script>
+</head>
+
+<body>
+
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="wardrobe.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large ">Wardrobe</a>
+    <a href="generator.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Generator</a>
+    <a href="upload_images.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Upload Images</a>
+    <a href="favorites.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Favorites</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
+  </div>
+</div>
+
+
+
+
+<script type="module">
+  import { firebaseApp, auth, firestore } from './firebase.js';
+
+  // Check if Firebase has been initialized
+  if (firebaseApp && auth && firestore) {
+      // Firebase has been initialized
+      console.log("Firebase has been initialized.");
+
+      // Use Firebase services here
+      // ...
+  } else {
+      // Firebase is not initialized
+      console.error("Firebase is not initialized.");
+  }
+</script>
+
+
+<!-- ... (keep your existing content) ... -->
+
+</body>
+</html>
