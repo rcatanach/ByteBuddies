@@ -412,7 +412,6 @@
            margin-top: 24px;
          }
  </style>
-<script type="module" src="firebase.js"></script>
 </head>
  
 <body> 
@@ -485,40 +484,6 @@
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
    <h1 class="w3-margin w3-xlarge">Get Started By Logging In!</h1>
 </div>
-    
-<!-- Log In / Sign Up -->
-
-     <section class="formcarry-container" id="loginSection">
-     <!--
-       <form action="https://formcarry.com/s/v7_bh4Qsvp" method="POST" target="_blank" enctype="multipart/form-data">
-         -->
-         <div class="formcarry-block">
-         <p> </p>
-           <label for="fc-generated-1-name">Username</label>
-           <input type="text" name="name" id="fc-generated-1-name" placeholder="johndoe1234" />
-         </div>
-         
-         <div class="formcarry-block">
-           <label for="fc-generated-1-email">Password</label>
-           <input type="text" name="password" id="fc-generated-1-email" placeholder="**********" />
-         </div>
-         
-        <a href="home.html">
-         <div class="formcarry-block">  
-           <button type="submit" id="loginButton">Log In / Sign Up</button>
-         </div>
-        </a>
-         
-       <a id="fc-notice">
-       
-         
-         </a>
-         
-      <!-- </form> -->
-     </section>
- 
-     </div>
-     </div>
      
      
 <script>
@@ -534,8 +499,26 @@
 */
 </script>
 
+
+<section class="formcarry-container" id="loginSection">
+  <form>
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="johndoe1234@email.com" required />
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="**********" required />
+
+    <button type="button" id="loginButton">Log In</button>
+    <button type="button" id="signUpButton">Sign Up</button>
+  </form>
+</section>
+
+<!-- Log In / Sign Up -->
+
+<script type="module" src="firebase.js"></script>
 <script type="module">
-  import { firebaseApp, auth, firestore } from './firebase.js';
+  //import modules from firebase.js
+  import { firebaseApp, auth, firestore, signIn, createUser } from './firebase.js';
 
   // Check if Firebase has been initialized
   if (firebaseApp && auth && firestore) {
@@ -548,6 +531,48 @@
       // Firebase is not initialized
       console.error("Firebase is not initialized.");
   }
+
+  // Login function
+  function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      signIn(auth, email, password)
+          .then((userCredential) => {
+              // User logged in successfully
+              const user = userCredential.user;
+              console.log('User logged in:', user);
+              // Redirect to the home page or perform any necessary actions
+              window.location.href = 'home.html';
+          })
+          .catch((error) => {
+              // Handle login errors
+              console.error('Login error:', error);
+          });
+  }
+
+  // Sign up function
+  function signUp() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      createUser(auth, email, password)
+          .then((userCredential) => {
+              // User signed up successfully
+              const user = userCredential.user;
+              console.log('User signed up:', user);
+              // Redirect to the home page or perform any necessary actions
+              window.location.href = 'home.html';
+          })
+          .catch((error) => {
+              // Handle signup errors
+              console.error('Signup error:', error);
+          });
+  }
+
+  // Add event listeners to the buttons
+  document.getElementById('loginButton').addEventListener('click', login);
+  document.getElementById('signUpButton').addEventListener('click', signUp);
 </script>
 
 </body>
