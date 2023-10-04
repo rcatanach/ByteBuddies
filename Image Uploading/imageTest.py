@@ -1,6 +1,6 @@
 # https://www.tutorialspoint.com/how-to-compress-images-using-python-and-pil
-# Compresses an image and then converts it to binary. Also converts from binary to an image. 9 29 2023
-# 
+# Compresses an image and then converts it to binary. Also converts from binary to an image. 9 Sepetember 2023
+# Binary conversion put on the backburner, focusing on uploading and compressing. 4 October 2023
 
 # import statements
 from PIL import Image
@@ -8,6 +8,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import numpy 
+from rembg import remove
 app = Flask(__name__)
 
 # Keep track of upload folder
@@ -26,6 +27,14 @@ def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}  # Corrected to match the HTML form
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# Removes the background of the image
+# Parameters: n -- file name
+def removeBackground(n):
+    i = Image.open(n)
+    out = remove(i)
+    n = n.replace('.', 'bg_rem.')
+    out.save(n, 'PNG')
+
 # Compresses images to half size, while optimizing
 # PRE: Called by uploadImage
 # Parameters: Image file name
@@ -33,6 +42,7 @@ def compress(n):
 
     # Use PILLOW to open images
     i = Image.open(n)
+    removeBackground(n)
 
     # Print regular size
     #print(i.size) # Testing
@@ -51,7 +61,7 @@ def compress(n):
     
     # Remove old file, keeping the compressed one
     os.remove(n)
-
+    
     # Print the optimized size
     # i = Image.open(new_n) # Testing
     # print(i.size) # Testing
