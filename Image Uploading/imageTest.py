@@ -110,6 +110,7 @@ def upload_file():
         full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(full_path)
         compress(full_path)
+        # Below code is currently commented out because I am not working on binary uploading. Currently focusing on uploading and compressing. 
         #binary_data = uploadImage(full_path)
         #binary_filename = filename.replace('.jpg', '.bin')
         #binary_full_path = os.path.join(BINARIES_FOLDER, binary_filename)
