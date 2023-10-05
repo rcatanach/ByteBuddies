@@ -30,10 +30,15 @@ def allowed_file(filename):
 # Removes the background of the image
 # Parameters: n -- file name
 def removeBackground(n):
-    i = Image.open(n)
+    #i = Image.open(n)
+    new_n = compress(n)
+    i = Image.open(new_n)
     out = remove(i)
-    n = n.replace('.', 'bg_rem.')
-    out.save(n, 'PNG')
+    nsplit = n.split('.')
+    n = nsplit[0] + '_bg_rem.png'
+    out.save(n)
+    os.remove(new_n) # Remove the compressed version, only leaving the one with no bg
+    return n
 
 # Compresses images to half size, while optimizing
 # PRE: Called by uploadImage
@@ -42,7 +47,6 @@ def compress(n):
 
     # Use PILLOW to open images
     i = Image.open(n)
-    removeBackground(n)
 
     # Print regular size
     #print(i.size) # Testing
@@ -67,6 +71,7 @@ def compress(n):
     # print(i.size) # Testing
     return new_n # Returns the new file name
 
+'''
 # Converts to binary to be able to store in database
 # PRE: Called by uploadImage
 # Parameters: Image file name
@@ -74,15 +79,24 @@ def convertToBinary(n):
     with open(n, 'rb') as file:
         binaryData = file.read()
     return binaryData
+'''
 
+'''
 # Uploads image
 # Parameters: n -- file name to upload
-def uploadImage(n):
+def uploadImageOld(n):
     compressed_filename = compress(n)
     binary_data = convertToBinary(compressed_filename)
     return binary_data
+'''
+
+def uploadImage(n):
+    new_n = removeBackground(n)
+    return new_n
+
 
 # Currently doesn't work, trying to write from binary to image
+'''
 def openBin(n):
     w, h = 50, 100
     with open(n, mode='rb') as f:
@@ -95,6 +109,7 @@ def openBin(n):
 def writeToImage(data, n):
     with open(n, 'wb') as file:
         file.write(data)
+'''
 
 # Puts the correct template up
 @app.route('/')
@@ -119,14 +134,15 @@ def upload_file():
         filename = secure_filename(file.filename)
         full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(full_path)
-        compress(full_path)
+        new_n = uploadImage(full_path)
         # Below code is currently commented out because I am not working on binary uploading. Currently focusing on uploading and compressing. 
-        #binary_data = uploadImage(full_path)
+        #binary_data = uploadImageOld(full_path)
         #binary_filename = filename.replace('.jpg', '.bin')
         #binary_full_path = os.path.join(BINARIES_FOLDER, binary_filename)
         #writeToImage(binary_data, binary_full_path)
         #openBin(binary_full_path)
-        return 'Upload successful'
+        #print(new_n)
+        return 'Upload success'
     else:
         return 'Invalid file format'
 
