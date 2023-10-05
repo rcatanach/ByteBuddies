@@ -49,9 +49,6 @@ def compress(n):
     # Use PILLOW to open images
     i = Image.open(n)
 
-    # Print regular size
-    #print(i.size) # Testing
-
     # Cut in half, add a filter to make it look cleaner
     i = i.resize((int(i.width/2),int(i.height/2)),Image.LANCZOS)
 
