@@ -1,6 +1,7 @@
 # https://www.tutorialspoint.com/how-to-compress-images-using-python-and-pil
-# Compresses an image and then converts it to binary. Also converts from binary to an image. 9 Sepetember 2023
-# Binary conversion put on the backburner, focusing on uploading and compressing. 4 October 2023
+# 9 September 2023 -- Compresses an image and then converts it to binary. Also converts from binary to an image.
+# 4 October 2023 -- Binary conversion put on the backburner, focusing on uploading and compressing. 
+# October 5 2023 -- Added bg removal
 
 # import statements
 from PIL import Image
