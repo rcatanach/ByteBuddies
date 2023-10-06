@@ -80,6 +80,7 @@ footer.f3-container {
 .navbar-button:hover{
   background-color: #442C21;
 }
+
 .generate button {
            font-family: "Montserrat", sans-serif;
            font-weight: 500;
@@ -119,6 +120,48 @@ footer.f3-container {
   border-radius: 50%;
   margin-bottom: 20px;
 }
+/* Wardrobe images*/
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 5vw);
+  grid-gap: 1.5rem; 
+}
+
+.gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; 
+}
+
+.gallery__item--1 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 3;
+
+  /** Alternative Syntax **/
+  /* grid-column: 1 / span 2;  */
+  /* grid-row: 1 / span 2; */
+}
+
+.gallery__item--2 {
+  grid-column-start: 3;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 3;
+
+  /** Alternative Syntax **/
+  /* grid-column: 3 / span 2;  */
+  /* grid-row: 1 / span 2; */
+}
+
+.gallery__item--3 {
+  grid-column-start: 5;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  grid-row-end: 3;
 /*connect to the firebase SDK */
 </style>
 <script type="module" src="firebase.js"></script>
@@ -153,29 +196,37 @@ footer.f3-container {
   <div class="generate">  
     <button type="submit" id="loginButton">Genterate Outfit</button>
   </div>
-  <!-- <div class="w3-row-padding">
-    <div class="w3-third">
-      <a href="upload_images.html">
-        <img src="https://media.tenor.com/60ksJGaruo0AAAAC/anime-clothes.gif" alt="Upload Image" style="width: 200px; height: 200px;">
-      </a>
-        <h3 style="font-size: 24px;">Step 1</h3>
-      <p>Upload Image</p>
-    </div>
-    <div class="w3-third">
-      <a href="generator.html">
-        <img src="https://hips.hearstapps.com/hmg-prod/images/cher-closet-fromclueless-1585327018.gif" alt="Generate Outfit" style="width: 200px; height: 200px;">
-      </a>
-        <h3 style="font-size: 24px;">Step 2</h3>
-      <p>Generate Outfit</p>
-    </div>
-    <div class="w3-third">
-      <a href="wardrobe.html">
-        <img src="https://media4.giphy.com/media/mY3XOOdZgWeCNIUEJ5/giphy.gif" alt="View Wardrobe" style="width: 200px; height: 200px;">
-      </a>
-        <h3 style="font-size: 24px;">Step 3</h3>
-      <p>View Wardrobe</p>
-    </div>
-  </div> -->
+ 
+</div>
+
+<!-- Wardrobe Gallery -->
+<div class="container">
+            <div class="gallery">
+                <figure class="gallery__item gallery__item--1">
+                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery__img">
+                </figure>
+                <figure class="gallery__item gallery__item--2">
+                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 2" class="gallery__img">
+                </figure>
+                <figure class="gallery__item gallery__item--3">
+                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 3" class="gallery__img">
+                </figure>
+                
+            </div>
+        </div>
+
+
+<div class=”gallery”>
+  <div class="gallery_item">
+    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery_img">
+  </div>
+  
+          
+  <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery_img">
+
+  <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery_img">
+   
+
 </div>
 
 
