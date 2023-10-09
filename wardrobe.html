@@ -120,48 +120,31 @@ footer.f3-container {
   border-radius: 50%;
   margin-bottom: 20px;
 }
-/* Wardrobe images*/
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(8, 5vw);
-  grid-gap: 1.5rem; 
+/* Styling gallery section where all images are */
+  .gallery {
+    width: 90%;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+    justify-content:center;
+    align-items: center; 
+  }
+ 
+  /* Styling Particular Image */
+  .gallery_img {
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  /* Styling gallery items */
+.gallery_item {
+  width: 100%; /* Adjust the width as needed */
+  text-align: center; /* Optional: Center align text within the item */
 }
 
-.gallery__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block; 
-}
-
-.gallery__item--1 {
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 3;
-
-  /** Alternative Syntax **/
-  /* grid-column: 1 / span 2;  */
-  /* grid-row: 1 / span 2; */
-}
-
-.gallery__item--2 {
-  grid-column-start: 3;
-  grid-column-end: 5;
-  grid-row-start: 1;
-  grid-row-end: 3;
-
-  /** Alternative Syntax **/
-  /* grid-column: 3 / span 2;  */
-  /* grid-row: 1 / span 2; */
-}
-
-.gallery__item--3 {
-  grid-column-start: 5;
-  grid-column-end: 7;
-  grid-row-start: 1;
-  grid-row-end: 3;
 /*connect to the firebase SDK */
 </style>
 <script type="module" src="firebase.js"></script>
@@ -193,41 +176,26 @@ footer.f3-container {
 <!-- Steps Process -->
 <div class="step">
   <h2>Bring Magic to Your Style</h2>
-  <div class="generate">  
-    <button type="submit" id="loginButton">Genterate Outfit</button>
-  </div>
+  
  
 </div>
 
 <!-- Wardrobe Gallery -->
 <div class="container">
-            <div class="gallery">
-                <figure class="gallery__item gallery__item--1">
-                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery__img">
-                </figure>
-                <figure class="gallery__item gallery__item--2">
-                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 2" class="gallery__img">
-                </figure>
-                <figure class="gallery__item gallery__item--3">
-                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 3" class="gallery__img">
-                </figure>
+            <div class="gallery" id="imageGallery">
+                
+                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery_img">
+               
+           
+                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 2" class="gallery_img">
+                
+                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 3" class="gallery_img">
+              
                 
             </div>
         </div>
 
 
-<div class=”gallery”>
-  <div class="gallery_item">
-    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery_img">
-  </div>
-  
-          
-  <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery_img">
-
-  <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery_img">
-   
-
-</div>
 
 
 
@@ -251,7 +219,44 @@ footer.f3-container {
 </script>
 
 
-<!-- ... (keep your existing content) ... -->
+<!-- Script for grabbing images from database -->
+<script>
+// Reference to the image gallery container
+const imageGallery = document.getElementById("imageGallery");
+
+// Function to fetch image URLs from Firestore
+function fetchImageUrlsFromFirestore() {
+  // Assuming you have a Firestore collection named "images"
+  const db = firebase.firestore();
+  const imagesCollection = db.collection("images");
+
+  imagesCollection.get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      const imageUrl = doc.data().imageUrl;
+      // Create an image element and append it to the gallery
+      createImageElement(imageUrl);
+    });
+  });
+}
+
+// Function to create an image element and append it to the gallery
+function createImageElement(imageUrl) {
+  const galleryItem = document.createElement("div");
+  galleryItem.classList.add("gallery_item");
+
+  const image = document.createElement("img");
+  image.classList.add("gallery_img");
+  image.src = imageUrl; // Set the image URL
+
+  galleryItem.appendChild(image);
+  imageGallery.appendChild(galleryItem);
+}
+
+// Call the function to fetch and display images
+fetchImageUrlsFromFirestore();
+</script>
+
+
 
 </body>
 </html>
