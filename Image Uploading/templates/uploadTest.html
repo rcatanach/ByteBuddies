@@ -1,14 +1,101 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Image Upload</title>
+    <title>Outfit Upload</title>
+    <script>
+        function showOptions(category) {
+            document.getElementById("topOptions").style.display = "none";
+            document.getElementById("bottomOptions").style.display = "none";
+            document.getElementById("shoesOptions").style.display = "none";
+
+            if (category === "top") {
+                document.getElementById("topOptions").style.display = "block";
+            } else if (category === "bottom") {
+                document.getElementById("bottomOptions").style.display = "block";
+            } else if (category === "shoes") {
+                document.getElementById("shoesOptions").style.display = "block";
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Upload an Image</h1>
     <form method="POST" enctype="multipart/form-data" action="/upload">
         <input type="file" name="file">
         <input type="submit" value="Upload">
+
+    </br>
+    </br>
+
+    <label>Select Clothing Category:</label><br>
+        <input type="radio" name="category" value="top" id="top" onclick="showOptions('top')"> Top
+        <input type="radio" name="category" value="bottom" id="bottom" onclick="showOptions('bottom')"> Bottom
+        <input type="radio" name="category" value="shoes" id="shoes" onclick="showOptions('shoes')"> Shoes<br><br>
+
+        <div id="topOptions" style="display:none;">
+            <label>Top Options:</label>
+            <input type="radio" name="top_type" value="short_sleeve"> Short Sleeve
+            <input type="radio" name="top_type" value="long_sleeve"> Long Sleeve
+            <input type="radio" name="top_type" value="tank_top"> Tank Top<br>
+            
+            <label>Fit:</label>
+            <input type="radio" name="top_fit" value="oversize"> Oversize
+            <input type="radio" name="top_fit" value="fits_well"> Fits Well
+            <input type="radio" name="top_fit" value="tight"> Tight<br>
+            
+            <label>Main Color:</label>
+            <input type="text" name="top_color"><br>
+            
+            <label>Pattern:</label>
+            <input type="radio" name="top_pattern" value="pattern"> Pattern
+            <input type="radio" name="top_pattern" value="no_pattern"> No Pattern<br>
+            
+            <label>Clothing Material:</label>
+            <input type="text" name="top_material"><br>
+        </div>
+
+        <div id="bottomOptions" style="display:none;">
+            <label>Bottom Options:</label>
+            <input type="radio" name="bottom_type" value="short_sleeve"> Shorts
+            <input type="radio" name="bottom_type" value="long_sleeve"> Pants
+            <input type="radio" name="bottom_type" value="tank_top"> Skirt <br>
+            
+            <label>Fit:</label>
+            <input type="radio" name="bottom_fit" value="oversize"> Oversize
+            <input type="radio" name="bottom_fit" value="fits_well"> Fits Well
+            <input type="radio" name="bottom_fit" value="tight"> Tight<br>
+            
+            <label>Main Color:</label>
+            <input type="text" name="bottom_color"><br>
+            
+            <label>Pattern:</label>
+            <input type="radio" name="bottom_pattern" value="pattern"> Pattern
+            <input type="radio" name="bottom_pattern" value="no_pattern"> No Pattern<br>
+            
+            <label>Clothing Material:</label>
+            <input type="text" name="top_material"><br>
+        </div>
+
+        <div id="shoesOptions" style="display:none;">
+            <label>Bottom Options:</label>
+            <input type="radio" name="shoe_type" value="low_top"> Low-Top
+            <input type="radio" name="shoe_type" value="high_top"> High-Top <br>
+            
+            <label>Main Color:</label>
+            <input type="text" name="shoe_color"><br>
+            
+            <label>Pattern:</label>
+            <input type="radio" name="shoe_pattern" value="pattern"> Pattern
+            <input type="radio" name="shoe_pattern" value="no_pattern"> No Pattern<br>
+            
+            <label>Material:</label>
+            <input type="text" name="shoe_material"><br>
+        </div>
+
+
     </form>
-    <img src = 
 </body>
+</html>
+
 </html>

@@ -36,7 +36,7 @@ def removeBackground(n):
     i = Image.open(new_n)
     out = remove(i)
     nsplit = n.split('.')
-    n = nsplit[0] + '_bg_rem.png'
+    n = nsplit[-2] + '_bg_rem.png'
     out.save(n)
     os.remove(new_n) # Remove the compressed version, only leaving the one with no bg
     return n
@@ -93,6 +93,12 @@ def uploadImage(n):
     return new_n
 
 
+# Get the main colors from the photo
+def getColors(name, num):
+    img = Image.open(name)
+    return img.getcolors(num)
+
+
 # Currently doesn't work, trying to write from binary to image
 '''
 def openBin(n):
@@ -132,14 +138,24 @@ def upload_file():
         filename = secure_filename(file.filename)
         full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(full_path)
-        new_n = uploadImage(full_path)
-        # Below code is currently commented out because I am not working on binary uploading. Currently focusing on uploading and compressing. 
+        new_n = compress(full_path) #uploadImage(full_path) # Doesn't remove background anymore
+        im = Image.open(new_n)
+        
+        # Trying to get main colors from picture
+        #print(new_n)
+        #img = Image.open(new_n)
+        #img.convert("RGB")
+        #img.show()
+        #print(img.getcolors(img.size[0]*img.size[1]))
+
+        # Below code is currently commented out because I am not working on binary uploading. Currently focusing on uploading and compressing. 4 October 2023
         #binary_data = uploadImageOld(full_path)
         #binary_filename = filename.replace('.jpg', '.bin')
         #binary_full_path = os.path.join(BINARIES_FOLDER, binary_filename)
         #writeToImage(binary_data, binary_full_path)
         #openBin(binary_full_path)
         #print(new_n)
+        
         return 'Upload success'
     else:
         return 'Invalid file format'
