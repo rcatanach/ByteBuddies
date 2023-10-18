@@ -148,14 +148,6 @@ def upload_file():
         #img.show()
         #print(img.getcolors(img.size[0]*img.size[1]))
 
-        # Below code is currently commented out because I am not working on binary uploading. Currently focusing on uploading and compressing. 4 October 2023
-        #binary_data = uploadImageOld(full_path)
-        #binary_filename = filename.replace('.jpg', '.bin')
-        #binary_full_path = os.path.join(BINARIES_FOLDER, binary_filename)
-        #writeToImage(binary_data, binary_full_path)
-        #openBin(binary_full_path)
-        #print(new_n)
-        
         return 'Upload success'
     else:
         return 'Invalid file format'
