@@ -514,7 +514,7 @@
 <script type="module" src="firebase.js"></script>
 <script type="module">
   //import modules from firebase.js
-  import { firebaseApp, auth, firestore, signIn, createUser } from './firebase.js';
+  import { firebaseApp, auth, firestore, signIn, createUser} from './firebase.js';
 
   // Check if Firebase has been initialized
   if (firebaseApp && auth && firestore) {
@@ -557,7 +557,7 @@
               // User signed up successfully
               const user = userCredential.user;
               console.log('User signed up:', user);
-              // Redirect to the home page or perform any necessary actions
+              // Redirect to the home page 
               window.location.href = 'home.html';
           })
           .catch((error) => {

@@ -9,6 +9,8 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} fr
 //May need to use realtime database for web instead
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
 
+import { getStorage, ref, uploadBytes } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js'
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,7 +19,8 @@ const firebaseConfig = {
   projectId: "mix-match-magic-f648a",
   storageBucket: "mix-match-magic-f648a.appspot.com",
   messagingSenderId: "635447219934",
-  appId: "1:635447219934:web:9b873aedd01a140431944f"
+  appId: "1:635447219934:web:9b873aedd01a140431944f",
+  storageBucket: "gs://mix-match-magic-f648a.appspot.com"
 };
 
 
@@ -29,7 +32,12 @@ console.log("Firebase initialized:", app);
 export const firebaseApp = app;
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
+export const storage = getStorage(app);
 
 // Export the authentication functions
 export const signIn = signInWithEmailAndPassword;
 export const createUser = createUserWithEmailAndPassword;
+
+//storage functions
+export const storageRef = ref(storage); // This is the root storage reference
+export {uploadBytes, ref}; // Export the uploadBytes function as uploadImage
