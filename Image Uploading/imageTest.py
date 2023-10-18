@@ -6,7 +6,7 @@
 # import statements
 from PIL import Image
 import os 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 import numpy 
 from rembg import remove
@@ -69,51 +69,14 @@ def compress(n):
     # print(i.size) # Testing
     return new_n # Returns the new file name
 
-'''
-# Converts to binary to be able to store in database
-# PRE: Called by uploadImage
-# Parameters: Image file name
-def convertToBinary(n):
-    with open(n, 'rb') as file:
-        binaryData = file.read()
-    return binaryData
-'''
-
-'''
-# Uploads image
-# Parameters: n -- file name to upload
-def uploadImageOld(n):
-    compressed_filename = compress(n)
-    binary_data = convertToBinary(compressed_filename)
-    return binary_data
-'''
-
 def uploadImage(n):
     new_n = removeBackground(n)
     return new_n
-
 
 # Get the main colors from the photo
 def getColors(name, num):
     img = Image.open(name)
     return img.getcolors(num)
-
-
-# Currently doesn't work, trying to write from binary to image
-'''
-def openBin(n):
-    w, h = 50, 100
-    with open(n, mode='rb') as f:
-        d = numpy.fromfile(f, dtype=numpy.uint8,count=w*h).reshape(h,w)
-    PILimage = Image.fromarray(d, 'RGB')
-    binarr = numpy.where(PILimage>128, 255, 0)
-
-# Write binary data to a new file
-# Parameters: Data -- binary data, n -- new file name
-def writeToImage(data, n):
-    with open(n, 'wb') as file:
-        file.write(data)
-'''
 
 # Puts the correct template up
 @app.route('/')
@@ -125,21 +88,38 @@ def index():
 def upload_file():
     #print('upload call') # Testing
     if 'file' not in request.files:
-        return redirect(request.url)
+        return jsonify({'error': 'No file part'})
     
     file = request.files['file']
 
     # If there is no file
     if file.filename == '':
-        return redirect(request.url)
+        return jsonify({'error': 'No selected file'})
 
     # Upload file
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(full_path)
-        new_n = compress(full_path) #uploadImage(full_path) # Doesn't remove background anymore
-        im = Image.open(new_n)
+        #new_n = compress(full_path) 
+        new_n = uploadImage(full_path) # Doesn't remove background anymore
+        
+        category = request.form.get('category')
+        if category == 'top':
+            type = request.form.get('top_type')
+            fit = request.form.get('top_fit')
+            color = request.form.get('top_color')
+            pattern = request.form.get('top_pattern')
+        elif category == 'bottom':
+            type = request.form.get('bottom_type')
+            fit = request.form.get('bottom_fit')
+            color = request.form.get('bottom_color')
+            pattern = request.form.get('bottom_pattern')
+        elif category == 'shoes':
+            type = request.form.get('shoe_type')
+            color = request.form.get('shoe_color')
+            pattern = request.form.get('shoe_pattern')
+        #img = Image.open(new_n)
         
         # Trying to get main colors from picture
         #print(new_n)
@@ -147,10 +127,15 @@ def upload_file():
         #img.convert("RGB")
         #img.show()
         #print(img.getcolors(img.size[0]*img.size[1]))
-
-        return 'Upload success'
+    
+    if category == 'top' or category == 'bottom':
+        return jsonify({'success': 'Upload success', 'image address': new_n, 'category': category, 'type': type, 
+                        'fit': fit, 'color': color, 'pattern': pattern})
+    if category == 'shoes':
+        return jsonify({'success': 'Upload success', 'image address': new_n, 'category': category, 'type': type, 
+                        'color': color, 'top pattern': pattern})
     else:
-        return 'Invalid file format'
+        return jsonify({'error': 'Invalid file format'})
 
 # Runs the file
 if __name__ == '__main__':
@@ -158,6 +143,5 @@ if __name__ == '__main__':
 
 # Testing
 #uploadImage('test.jpg')
-# writeFile(convertToBinary('testImage.jpg'), 'output.jpg')
 
 

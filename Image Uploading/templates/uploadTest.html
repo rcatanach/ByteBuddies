@@ -17,13 +17,55 @@
                 document.getElementById("shoesOptions").style.display = "block";
             }
         }
+
+        // Makes sure that everything has been filled out
+        function validateForm() {
+            var categorySelected = false;
+
+            var category = document.querySelector('input[name="category"]:checked');
+            if (category) {
+                categorySelected = true;
+            }
+
+            if (categorySelected) {
+                var categoryValue = category.value;
+
+                // Shoes has less options so check separately
+                if (categoryValue === "shoes") {
+                    var options = document.querySelector('input[name="shoe_pattern"]:checked');
+                    var mainColor = document.querySelector('input[name="shoe_color"]:checked');
+                    var pattern = document.querySelector('input[name="shoe_pattern"]:checked');
+
+                    if (!mainColor || !pattern || !options) {
+                        alert("Please select options for the chosen category.");
+                        return false;
+                    }
+                } 
+                // check for other categories
+                else {
+                    var options = document.querySelectorAll('input[name="' + categoryValue + '_type"]:checked');
+                    var mainColor = document.querySelector('input[name="' + categoryValue + '_color"]:checked');
+                    var pattern = document.querySelector('input[name="' + categoryValue + '_pattern"]:checked');
+                    var fit = document.querySelector('input[name="' + categoryValue + '_fit"]:checked');
+
+                    if (!options || !mainColor || !pattern || !fit) {
+                        alert("Please select options for the chosen category.");
+                        return false;
+                    }
+                }
+
+                return true;
+            } else {
+                alert("Please select a clothing category.");
+                return false;
+            }
+        }
     </script>
 </head>
-<body>
+<body onload="document.uploadForm.reset()">
     <h1>Upload an Image</h1>
-    <form method="POST" enctype="multipart/form-data" action="/upload">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
+    <form method="POST" name="uploadForm" enctype="multipart/form-data" action="/upload" id="uploadForm" onsubmit="return validateForm()">
+        <input type="file" name="file" required>
 
     </br>
     </br>
@@ -45,21 +87,30 @@
             <input type="radio" name="top_fit" value="tight"> Tight<br>
             
             <label>Main Color:</label>
-            <input type="text" name="top_color"><br>
+            <input type="radio" name="top_color" value="red"> Red
+            <input type="radio" name="top_color" value="orange"> Orange
+            <input type="radio" name="top_color" value="yellow"> Yellow 
+            <input type="radio" name="top_color" value="green"> Green
+            <input type="radio" name="top_color" value="blue"> Blue
+            <input type="radio" name="top_color" value="purple"> Purple
+            <input type="radio" name="top_color" value="white"> White
+            <input type="radio" name="top_color" value="black"> Black
+            <input type="radio" name="top_color" value="pink"> Pink
+            <input type="radio" name="top_color" value="grey"> Grey
+            <input type="radio" name="top_color" value="brown"> Brown
+            <br>
             
             <label>Pattern:</label>
             <input type="radio" name="top_pattern" value="pattern"> Pattern
             <input type="radio" name="top_pattern" value="no_pattern"> No Pattern<br>
-            
-            <label>Clothing Material:</label>
-            <input type="text" name="top_material"><br>
+
         </div>
 
         <div id="bottomOptions" style="display:none;">
             <label>Bottom Options:</label>
-            <input type="radio" name="bottom_type" value="short_sleeve"> Shorts
-            <input type="radio" name="bottom_type" value="long_sleeve"> Pants
-            <input type="radio" name="bottom_type" value="tank_top"> Skirt <br>
+            <input type="radio" name="bottom_type" value="shorts"> Shorts
+            <input type="radio" name="bottom_type" value="pants"> Pants
+            <input type="radio" name="bottom_type" value="skirt"> Skirt <br>
             
             <label>Fit:</label>
             <input type="radio" name="bottom_fit" value="oversize"> Oversize
@@ -67,36 +118,54 @@
             <input type="radio" name="bottom_fit" value="tight"> Tight<br>
             
             <label>Main Color:</label>
-            <input type="text" name="bottom_color"><br>
+            <input type="radio" name="bottom_color" value="red"> Red
+            <input type="radio" name="bottom_color" value="orange"> Orange
+            <input type="radio" name="bottom_color" value="yellow"> Yellow 
+            <input type="radio" name="bottom_color" value="green"> Green
+            <input type="radio" name="bottom_color" value="blue"> Blue
+            <input type="radio" name="bottom_color" value="purple"> Purple
+            <input type="radio" name="bottom_color" value="white"> White
+            <input type="radio" name="bottom_color" value="black"> Black
+            <input type="radio" name="bottom_color" value="pink"> Pink
+            <input type="radio" name="bottom_color" value="grey"> Grey
+            <input type="radio" name="bottom_color" value="brown"> Brown
+            <br>
             
             <label>Pattern:</label>
             <input type="radio" name="bottom_pattern" value="pattern"> Pattern
             <input type="radio" name="bottom_pattern" value="no_pattern"> No Pattern<br>
-            
-            <label>Clothing Material:</label>
-            <input type="text" name="top_material"><br>
+
         </div>
 
         <div id="shoesOptions" style="display:none;">
-            <label>Bottom Options:</label>
+            <label>Shoe Options:</label>
             <input type="radio" name="shoe_type" value="low_top"> Low-Top
             <input type="radio" name="shoe_type" value="high_top"> High-Top 
             <input type="radio" name="shoe_type" value="open_toed"> Open-Toed <br>
             
             <label>Main Color:</label>
-            <input type="text" name="shoe_color"><br>
+            <input type="radio" name="shoe_color" value="red"> Red
+            <input type="radio" name="shoe_color" value="orange"> Orange
+            <input type="radio" name="shoe_color" value="yellow"> Yellow 
+            <input type="radio" name="shoe_color" value="green"> Green
+            <input type="radio" name="shoe_color" value="blue"> Blue
+            <input type="radio" name="shoe_color" value="purple"> Purple
+            <input type="radio" name="shoe_color" value="white"> White
+            <input type="radio" name="shoe_color" value="black"> Black
+            <input type="radio" name="shoe_color" value="pink"> Pink
+            <input type="radio" name="shoe_color" value="grey"> Grey
+            <input type="radio" name="shoe_color" value="brown"> Brown
+            <br>
             
             <label>Pattern:</label>
             <input type="radio" name="shoe_pattern" value="pattern"> Pattern
             <input type="radio" name="shoe_pattern" value="no_pattern"> No Pattern<br>
             
-            <label>Material:</label>
-            <input type="text" name="shoe_material"><br>
         </div>
 
+        <input type="submit" value="Upload" id="uploadButton" >
 
     </form>
 </body>
 </html>
 
-</html>
