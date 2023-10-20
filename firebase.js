@@ -4,13 +4,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebas
 // Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 //Auth is used for login
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword} from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
+import { signOut } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
 //Firestore is used to store user inventory data (wardrobe)
 //May need to use realtime database for web instead
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
 
 import { getStorage, ref, uploadBytes } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js'
-
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -24,19 +25,22 @@ const firebaseConfig = {
 };
 
 
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 console.log("Firebase initialized:", app);
 
 // Export the initialized Firebase app and services for use in other files
 export const firebaseApp = app;
-export const auth = getAuth(app);
+//export const auth = getAuth(app);
+export const auth = getAuth(firebaseApp);
 export const firestore = getFirestore(app);
 export const storage = getStorage(app);
 
 // Export the authentication functions
 export const signIn = signInWithEmailAndPassword;
 export const createUser = createUserWithEmailAndPassword;
+export const signOutUser = signOut;
 
 //storage functions
 export const storageRef = ref(storage); // This is the root storage reference
