@@ -85,14 +85,35 @@ footer.f3-container {
   border-radius: 50%;
   margin-bottom: 20px;
 }
-/*connect to the firebase SDK */
+/* Add the following CSS for the button */
+#logoutButton {
+    background-color: #DE7E5D;
+    color: #fff !important;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px; /* Increase the font size */
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+}
+
+  #logoutButton:hover {
+    background-color: #C5A477;
+  }
+  /* Add this CSS for the login button */
+.w3-button:hover {
+    background-color: #C5A477 !important; /* Darker Peach on Hover */
+}
 </style>
+<script type="module" src="firebase.js"></script>
 </head>
 
 <body>
 
-
 <!-- Navbar -->
+<div class="w3-top">
+  <!-- Navbar -->
+<div class="w3-top">
+  <!-- Navbar -->
 <div class="w3-top">
   <div class="w3-bar w3-red w3-card w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
@@ -101,6 +122,15 @@ footer.f3-container {
     <a href="generator.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Generator</a>
     <a href="upload_images.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Upload Images</a>
     <a href="favorites.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Favorites</a>
+    <!-- Switched the order of Logged in as and Log Out button -->
+    <div style="display: flex; align-items: center;">
+      <button type="button" id="logoutButton" class="w3-button w3-padding-large">Log Out</button>
+      <div id="userInfo" class="w3-bar-item w3-padding-large" style="margin-left: auto; font-size: 14px;"></div>
+    </div>
+  </div>
+</div>
+
+
   </div>
 
   <!-- Navbar on small screens -->
@@ -154,25 +184,47 @@ footer.f3-container {
  <p>Credits to <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">creators</a></p>
 </footer>
 
-<script type="module" src="firebase.js"></script>
+<!-- Include the Firebase JavaScript file -->
+<div id="userInfo"></div>
+
+<!-- Add the following code to display the user info -->
 <script type="module">
-  import { firebaseApp, auth, firestore } from './firebase.js';
+  document.addEventListener('DOMContentLoaded', function() {
+    const userInfoElement = document.getElementById('userInfo');
+    const userEmail = localStorage.getItem('userEmail');
 
-  // Check if Firebase has been initialized
-  if (firebaseApp && auth && firestore) {
-      // Firebase has been initialized
-      console.log("Firebase has been initialized.");
+    if (userEmail) {
+        userInfoElement.textContent = `Logged in as: ${userEmail}`;
+    } else {
+        userInfoElement.textContent = 'Log in';
+    }
+});
 
-      // Use Firebase services here
-      // ...
-  } else {
-      // Firebase is not initialized
-      console.error("Firebase is not initialized.");
-  }
 </script>
 
 
-<!-- ... (keep your existing content) ... -->
+
+<script type="module">
+  // Import the necessary functions
+  import { auth, signOutUser } from './firebase.js';
+
+  function logout() {
+    const confirmed = confirm("Are you sure you want to log out?");
+    if (confirmed) {
+      signOutUser(auth).then(() => {
+        const userInfoElement = document.getElementById('userInfo');
+        userInfoElement.textContent = "";
+        window.location.href = 'LoginSignup.html'; 
+      }).catch((error) => {
+        console.error('Logout error:', error);
+      });
+    }
+  }
+
+  // Add the event listener for the logout button
+  document.getElementById('logoutButton').addEventListener('click', logout);
+
+</script>
 
 </body>
 </html>
