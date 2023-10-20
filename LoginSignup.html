@@ -425,7 +425,7 @@
 <div class="container">
    <div class="form-wrapper">
    
-<<!-- First Grid -->
+<!-- First Grid -->
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-twothird"> <!--element takes up two-thirds of the available horizontal space-->
@@ -481,20 +481,21 @@
    <h1 class="w3-margin w3-xlarge">Get Started By Logging In!</h1>
 </div>
      
-     
-<script>
-   document.getElementById('getStarted').addEventListener('click', function() {
-       var targetSection = document.getElementById('loginSection');
-       targetSection.scrollIntoView({ behavior: 'smooth' });
-   });
-   
- /*  document.getElementById('loginButton').addEventListener('click', function() {
-       // Replace 'your-page-url.html' with the URL of the page you want to navigate to.
-       window.location.href = 'https://github.com/rcatanach/ByteBuddies/blob/main/home.html';
-   });
-*/
-</script>
+<!--Create user info-->
+<div id="userInfo"></div>
 
+
+
+<html>
+<head>
+    <title>Login/Signup Page</title>
+</head>
+<body>
+    <div id="logoutMessage" style="display:none; color:green;">
+        You have been logged out successfully.
+    </div>
+</body>
+</html>
 
 <section class="formcarry-container" id="loginSection">
   <form>
@@ -509,12 +510,40 @@
   </form>
 </section>
 
+<script>
+   document.getElementById('getStarted').addEventListener('click', function() {
+       var targetSection = document.getElementById('loginSection');
+       targetSection.scrollIntoView({ behavior: 'smooth' });
+   });
+   
+   /*  
+   document.getElementById('loginButton').addEventListener('click', function() {
+       // Replace 'your-page-url.html' with the URL of the page you want to navigate to.
+       window.location.href = 'https://github.com/rcatanach/ByteBuddies/blob/main/home.html';
+   });
+   */
+</script>
+
+<!--<script type="module">
+  document.addEventListener('DOMContentLoaded', function() {
+      const userInfoElement = document.getElementById('userInfo');
+      const userEmail = localStorage.getItem('userEmail');
+
+      if (userEmail) {
+          userInfoElement.textContent = `Logged in as: ${userEmail}`;
+      } else {
+          userInfoElement.textContent = 'Log in';
+      }
+  });
+</script>-->
+
+
 <!-- Log In / Sign Up -->
 
 <script type="module" src="firebase.js"></script>
 <script type="module">
-  //import modules from firebase.js
-  import { firebaseApp, auth, firestore, signIn, createUser} from './firebase.js';
+  // import modules from firebase.js
+  import { firebaseApp, auth, firestore, signIn, createUser } from './firebase.js';
 
   // Check if Firebase has been initialized
   if (firebaseApp && auth && firestore) {
@@ -528,48 +557,53 @@
       console.error("Firebase is not initialized.");
   }
 
-  // Login function
   function login() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-      signIn(auth, email, password)
-          .then((userCredential) => {
-              // User logged in successfully
-              const user = userCredential.user;
-              console.log('User logged in:', user);
-              // Redirect to the home page or perform any necessary actions
-              window.location.href = 'home.html';
-          })
-          .catch((error) => {
-              // Handle login errors
-              console.error('Login error:', error);
-          });
-  }
+    // After successful login
+signIn(auth, email, password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('User logged in:', user);
 
-  // Sign up function
-  function signUp() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+        // Store user email in localStorage
+        localStorage.setItem('userEmail', user.email);
 
-      createUser(auth, email, password)
-          .then((userCredential) => {
-              // User signed up successfully
-              const user = userCredential.user;
-              console.log('User signed up:', user);
-              // Redirect to the home page 
-              window.location.href = 'home.html';
-          })
-          .catch((error) => {
-              // Handle signup errors
-              console.error('Signup error:', error);
-          });
-  }
+        // Redirect to the home page
+        window.location.href = 'home.html';
+    })
+    .catch((error) => {
+        console.error('Login error:', error);
+    });
+}
 
-  // Add event listeners to the buttons
-  document.getElementById('loginButton').addEventListener('click', login);
-  document.getElementById('signUpButton').addEventListener('click', signUp);
+function signUp() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // After successful signup
+createUser(auth, email, password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('User signed up:', user);
+
+        // Store user email in localStorage
+        localStorage.setItem('userEmail', user.email);
+
+        // Redirect to the home page
+        window.location.href = 'home.html';
+    })
+    .catch((error) => {
+        console.error('Signup error:', error);
+    });
+}
+
+// Add event listeners to the buttons
+document.getElementById('loginButton').addEventListener('click', login);
+document.getElementById('signUpButton').addEventListener('click', signUp);
 </script>
+
 
 </body>
 </html>
