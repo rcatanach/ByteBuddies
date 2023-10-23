@@ -592,17 +592,14 @@ createUser(auth, email, password)
         localStorage.setItem('userEmail', user.email);
 
         // Add a new document in collection "users"
-        setDoc(doc(db, "users", user.email), {
-          
-        });
-
-        //wait half a second to allow the document to be added
-        setTimeout(function() {
-          // Redirect to the home page
-          window.location.href = 'home.html';
-        }, 1000);
-
-
+        setDoc(doc(db, "users", user.email), {})
+          .then(() => {
+            console.log("Document successfully written to Firestore.");
+            window.location.href = 'home.html'; // Redirect after the document is written
+          })
+          .catch((error) => {
+            console.error("Error writing document to Firestore: ", error);
+          });
         
     })
     .catch((error) => {
