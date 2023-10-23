@@ -543,10 +543,10 @@
 <script type="module" src="firebase.js"></script>
 <script type="module">
   // import modules from firebase.js
-  import { firebaseApp, auth, firestore, signIn, createUser } from './firebase.js';
+  import { firebaseApp, auth, signIn, createUser, db, doc, setDoc } from './firebase.js';
 
   // Check if Firebase has been initialized
-  if (firebaseApp && auth && firestore) {
+  if (firebaseApp && auth && db) {
       // Firebase has been initialized
       console.log("Firebase has been initialized.");
 
@@ -591,8 +591,19 @@ createUser(auth, email, password)
         // Store user email in localStorage
         localStorage.setItem('userEmail', user.email);
 
-        // Redirect to the home page
-        window.location.href = 'home.html';
+        // Add a new document in collection "users"
+        setDoc(doc(db, "users", user.email), {
+          
+        });
+
+        //wait half a second to allow the document to be added
+        setTimeout(function() {
+          // Redirect to the home page
+          window.location.href = 'home.html';
+        }, 1000);
+
+
+        
     })
     .catch((error) => {
         console.error('Signup error:', error);

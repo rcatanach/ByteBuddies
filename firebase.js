@@ -9,7 +9,7 @@ import { getAuth } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth
 import { signOut } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
 //Firestore is used to store user inventory data (wardrobe)
 //May need to use realtime database for web instead
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
+import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
 
 import { getStorage, ref, uploadBytes } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js'
 
@@ -32,16 +32,18 @@ console.log("Firebase initialized:", app);
 
 // Export the initialized Firebase app and services for use in other files
 export const firebaseApp = app;
-//export const auth = getAuth(app);
-export const auth = getAuth(firebaseApp);
-export const firestore = getFirestore(app);
-export const storage = getStorage(app);
 
 // Export the authentication functions
+export const auth = getAuth(firebaseApp);
 export const signIn = signInWithEmailAndPassword;
 export const createUser = createUserWithEmailAndPassword;
 export const signOutUser = signOut;
 
 //storage functions
+export const storage = getStorage(app);
 export const storageRef = ref(storage); // This is the root storage reference
-export {uploadBytes, ref}; // Export the uploadBytes function as uploadImage
+export {uploadBytes, ref}; // Export the uploadBytes function and ref
+
+//firestore functions
+export const db = getFirestore(app);
+export {doc, setDoc}
