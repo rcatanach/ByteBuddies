@@ -24,7 +24,96 @@
 .w3-bar-item.w3-button.w3-hide-small.w3-padding-large:hover {
   background-color: #C5A477 !important;
 }
+
+/* Style for the dropdown button */
+.w3-dropdown-click .w3-button {
+  background-color: #DE7E5D; /* Peach Background Color */
+  color: #fff;
+  padding: 12px 16px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+.w3-dropdown-click .w3-button.w3-padding-large {
+  background-color: #DE7E5D !important; /* Green Background */
+  color: #fff !important; /* White Text */
+}
+
+/* Style for the dropdown content */
+.w3-dropdown-click .w3-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff; /* Background color for the dropdown */
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Style for dropdown links */
+.w3-dropdown-click .w3-dropdown-content a {
+  color: #fff !important; /* Text color for the dropdown links */
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.w3-dropdown-click .w3-dropdown-content a:hover {
+  background-color: #C5A477 !important; /* Darker Peach on Hover */
+}
+
+/* Show the dropdown content on hover */
+.w3-dropdown-click:hover .w3-dropdown-content {
+  display: block;
+}
+
+/* Add the following CSS for the button */
+#logoutButton {
+    background-color: #DE7E5D;
+    color: #fff !important;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px; /* Increase the font size */
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+}
+
+  #logoutButton:hover {
+    background-color: #C5A477;
+  }
+  /* Add this CSS for the login button */
+.w3-button:hover {
+    background-color: #C5A477 !important; /* Darker Peach on Hover */
+}
 </style>
+<script type="module" src="firebase.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var includeHTML = function() {
+      var z, i, elmnt, file, xhttp;
+      z = document.getElementsByTagName("*");
+      for (i = 0; i < z.length; i++) {
+        elmnt = z[i];
+        file = elmnt.getAttribute("w3-include-html");
+        if (file) {
+          xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              elmnt.innerHTML = this.responseText;
+              elmnt.removeAttribute("w3-include-html");
+              includeHTML();
+            }
+          }
+          xhttp.open("GET", file, true);
+          xhttp.send();
+          return;
+        }
+      }
+    };
+    includeHTML();
+  });
+</script>
 </head>
 
 <body>
@@ -32,7 +121,14 @@
     <div class="w3-bar w3-red w3-card w3-left-align w3-large">
       <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
       <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-      <a href="wardrobe.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large ">Wardrobe</a>
+      <div class="w3-dropdown-click">
+        <a href="wardrobe.html" class="3-bar-item w3-button w3-hide-small w3-padding-large">Wardrobe <i class="fa fa-caret-down"></i></a>
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+          <a href="#" class="w3-bar-item w3-button">Tops</a>
+          <a href="#" class="w3-bar-item w3-button">Bottoms</a>
+          <a href="#" class="w3-bar-item w3-button">Shoes</a>
+        </div>
+      </div>
       <a href="generator.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Generator</a>
       <a href="upload_images.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Upload Images</a>
       <a href="favorites.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Favorites</a>
@@ -46,5 +142,10 @@
       <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
     </div>
   </div>
+
+  
+
+
+
 </body>
 </html>
