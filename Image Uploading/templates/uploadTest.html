@@ -33,10 +33,9 @@
                 // Shoes has less options so check separately
                 if (categoryValue === "shoes") {
                     var options = document.querySelector('input[name="shoe_pattern"]:checked');
-                    var mainColor = document.querySelector('input[name="shoe_color"]:checked');
                     var pattern = document.querySelector('input[name="shoe_pattern"]:checked');
 
-                    if (!mainColor || !pattern || !options) {
+                    if ( !pattern || !options) {
                         alert("Please select options for the chosen category.");
                         return false;
                     }
@@ -44,11 +43,10 @@
                 // check for other categories
                 else {
                     var options = document.querySelectorAll('input[name="' + categoryValue + '_type"]:checked');
-                    var mainColor = document.querySelector('input[name="' + categoryValue + '_color"]:checked');
                     var pattern = document.querySelector('input[name="' + categoryValue + '_pattern"]:checked');
                     var fit = document.querySelector('input[name="' + categoryValue + '_fit"]:checked');
 
-                    if (!options || !mainColor || !pattern || !fit) {
+                    if (!options  || !pattern || !fit) {
                         alert("Please select options for the chosen category.");
                         return false;
                     }
@@ -86,6 +84,7 @@
             <input type="radio" name="top_fit" value="fits_well"> Fits Well
             <input type="radio" name="top_fit" value="tight"> Tight<br>
             
+            <!--
             <label>Main Color:</label>
             <input type="radio" name="top_color" value="red"> Red
             <input type="radio" name="top_color" value="orange"> Orange
@@ -99,7 +98,7 @@
             <input type="radio" name="top_color" value="grey"> Grey
             <input type="radio" name="top_color" value="brown"> Brown
             <br>
-            
+            -->
             <label>Pattern:</label>
             <input type="radio" name="top_pattern" value="pattern"> Pattern
             <input type="radio" name="top_pattern" value="no_pattern"> No Pattern<br>
@@ -117,6 +116,7 @@
             <input type="radio" name="bottom_fit" value="fits_well"> Fits Well
             <input type="radio" name="bottom_fit" value="tight"> Tight<br>
             
+            <!--
             <label>Main Color:</label>
             <input type="radio" name="bottom_color" value="red"> Red
             <input type="radio" name="bottom_color" value="orange"> Orange
@@ -130,7 +130,7 @@
             <input type="radio" name="bottom_color" value="grey"> Grey
             <input type="radio" name="bottom_color" value="brown"> Brown
             <br>
-            
+            -->
             <label>Pattern:</label>
             <input type="radio" name="bottom_pattern" value="pattern"> Pattern
             <input type="radio" name="bottom_pattern" value="no_pattern"> No Pattern<br>
@@ -143,6 +143,7 @@
             <input type="radio" name="shoe_type" value="high_top"> High-Top 
             <input type="radio" name="shoe_type" value="open_toed"> Open-Toed <br>
             
+            <!--
             <label>Main Color:</label>
             <input type="radio" name="shoe_color" value="red"> Red
             <input type="radio" name="shoe_color" value="orange"> Orange
@@ -156,6 +157,7 @@
             <input type="radio" name="shoe_color" value="grey"> Grey
             <input type="radio" name="shoe_color" value="brown"> Brown
             <br>
+            -->
             
             <label>Pattern:</label>
             <input type="radio" name="shoe_pattern" value="pattern"> Pattern
@@ -166,6 +168,7 @@
         <input type="submit" value="Upload" id="uploadButton" >
 
     </form>
+    
 </body>
 </html>
 

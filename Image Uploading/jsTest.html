@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Background Removal Example</title>
+</head>
+<body>
+    <h1>Background Removal</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" id="image-upload" accept="image/*" />
+        <button type="button" id="remove-background">Remove Background</button>
+    </form>
+    <div id="output-container">
+        <h2>Original Image</h2>
+        <img id="original-image" alt="Original Image" />
+        <h2>Background Removed</h2>
+        <img id="background-removed-image" alt="Background Removed Image" />
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/background-removal-js@1.0.0/dist/background-removal.js"></script>
+    <script>
+        const uploadForm = document.getElementById('upload-form');
+        const imageUpload = document.getElementById('image-upload');
+        const removeBackgroundButton = document.getElementById('remove-background');
+        const originalImage = document.getElementById('original-image');
+        const backgroundRemovedImage = document.getElementById('background-removed-image');
+        const outputContainer = document.getElementById('output-container');
+
+        // Add an event listener to handle image upload
+        imageUpload.addEventListener('change', () => {
+            const file = imageUpload.files[0];
+            if (file) {
+                const imageUrl = URL.createObjectURL(file);
+                originalImage.src = imageUrl;
+                outputContainer.style.display = 'block';
+            }
+        });
+
+        // Add an event listener to remove the background
+        removeBackgroundButton.addEventListener('click', async () => {
+            const file = imageUpload.files[0];
+            if (file) {
+                const result = await removeBackground(file);
+                backgroundRemovedImage.src = result.resultUrl;
+            }
+        });
+    </script>
+</body>
+</html>
