@@ -11,7 +11,7 @@ import { signOut } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth
 //May need to use realtime database for web instead
 import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
 
-import { getStorage, ref, uploadBytes } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -42,7 +42,7 @@ export const signOutUser = signOut;
 //storage functions
 export const storage = getStorage(app);
 export const storageRef = ref(storage); // This is the root storage reference
-export {uploadBytes, ref}; // Export the uploadBytes function and ref
+export {uploadBytes, ref, getDownloadURL}; // Export the uploadBytes function and ref
 
 //firestore functions
 export const db = getFirestore(app);
