@@ -9,9 +9,9 @@ import { getAuth } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth
 import { signOut } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
 //Firestore is used to store user inventory data (wardrobe)
 //May need to use realtime database for web instead
-import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
+import { getFirestore, doc, setDoc, getDoc, getDocs, collection } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
 
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js'
+import { getStorage, ref, uploadBytes, getDownloadURL} from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -46,4 +46,4 @@ export {uploadBytes, ref, getDownloadURL}; // Export the uploadBytes function an
 
 //firestore functions
 export const db = getFirestore(app);
-export {doc, setDoc}
+export {doc, setDoc, getDoc, getDocs, collection}

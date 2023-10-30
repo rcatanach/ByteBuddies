@@ -77,52 +77,60 @@
 
 <script type="module" src="firebase.js"></script>
 <script type="module">
-  import { storage, firebaseApp, auth, ref, storageRef, uploadBytes, getDownloadURL, db, doc, setDoc } from './firebase.js';
+  import { storage, firebaseApp, auth, ref, storageRef, uploadBytes, getDownloadURL, db, doc, setDoc, getDoc, getDocs, collection } from './firebase.js';
+  const userEmail = localStorage.getItem('userEmail');
 
 
   document.addEventListener("DOMContentLoaded", function () {
   const imageInput = document.getElementById('imageInput');
   const uploadButton = document.getElementById('uploadButton');
 
-  uploadButton.addEventListener('click', () => {
-    const file = imageInput.files[0];
+    uploadButton.addEventListener('click', () => {
+      const file = imageInput.files[0];
 
-    if (file) {
-      // Generate a unique file name (if needed)
-      const uniqueFileName = `${Date.now()}-${file.name}`;
-      const imagesRef = ref(storage, 'images');
-      const fileRef = ref(storage, 'images/' +uniqueFileName)
+      if (file) {
+        // Generate a unique file name (if needed)
+        const uniqueFileName = `${Date.now()}-${file.name}`;
+        const imagesRef = ref(storage, 'images');
+        const fileRef = ref(storage, 'images/' +uniqueFileName)
 
-      uploadBytes(fileRef, file)
-      .then((snapshot) => {
-        console.log('Image uploaded successfully:', snapshot);
-        // get the downloadURL to store in firestore
-        getDownloadURL(ref(storage, fileRef))
-        .then((downloadURL) =>  {
-          
-          const userEmail = localStorage.getItem('userEmail');
-          const userRef = doc(db,"users", userEmail);
+        uploadBytes(fileRef, file)
+        .then((snapshot) => {
+          console.log('Image uploaded successfully:', snapshot);
+          // get the downloadURL to store in firestore
+          getDownloadURL(ref(storage, fileRef))
+          .then((downloadURL) =>  {
+            
+            const userRef = doc(db,"users", userEmail);
 
-          setDoc(doc(userRef, "clothing", uniqueFileName), {
-            color: "Red",
-            length: "long",
-            image: downloadURL
-          }).then(function() {
-            console.log("clothing created");
-          });// end then
+            setDoc(doc(userRef, "clothing", uniqueFileName), {
+              color: "Red",
+              length: "long",
+              image: downloadURL
+            }).then(function() {
+              console.log("clothing created");
+            });// end then
+          })//end then
+          .catch((error) => {
+            // Handle any errors
+          });//end catch
         })//end then
         .catch((error) => {
-          // Handle any errors
+          console.error('Image upload error:', error);
         });//end catch
-      })//end then
-      .catch((error) => {
-        console.error('Image upload error:', error);
-      });//end catch
-    } else {
-      console.error('No file selected for upload');
-    }
+      } else {
+        console.error('No file selected for upload');
+      }
+    });
   });
-});
+
+  const clothingRef = collection(db, "users", userEmail, "clothing")
+  const querySnapshot = await getDocs(clothingRef);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+  });
+
 
 </script>
 <!-- ... (rest of your upload_images.html content) ... -->
