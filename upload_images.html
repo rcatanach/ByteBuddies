@@ -68,7 +68,7 @@
 
 
 <!-- Your content for upload_images.html goes here -->
-
+<!--Create buttons to select and upload image-->
 <input type="file" id="imageInput" accept="image/*" />
 <button id="uploadButton">Upload Image</button>
 
@@ -94,33 +94,30 @@
       const fileRef = ref(storage, 'images/' +uniqueFileName)
 
       uploadBytes(fileRef, file)
-        .then((snapshot) => {
-          console.log('Image uploaded successfully:', snapshot);
-          // get the downloadURL to store in firestore
-          getDownloadURL(ref(storage, fileRef))
-            .then((downloadURL) =>  {
-              
-              const userEmail = localStorage.getItem('userEmail');
-              const userRef = doc(db,"users", userEmail);
+      .then((snapshot) => {
+        console.log('Image uploaded successfully:', snapshot);
+        // get the downloadURL to store in firestore
+        getDownloadURL(ref(storage, fileRef))
+        .then((downloadURL) =>  {
+          
+          const userEmail = localStorage.getItem('userEmail');
+          const userRef = doc(db,"users", userEmail);
 
-              setDoc(doc(userRef, "clothing", uniqueFileName), {
-                color: "Red",
-                length: "long",
-                image: downloadURL
-              }).then(function() {
-                console.log("clothing created");
-              });
-
-
-
-            })
-            .catch((error) => {
-              // Handle any errors
-            });
-            })
+          setDoc(doc(userRef, "clothing", uniqueFileName), {
+            color: "Red",
+            length: "long",
+            image: downloadURL
+          }).then(function() {
+            console.log("clothing created");
+          });// end then
+        })//end then
         .catch((error) => {
-          console.error('Image upload error:', error);
-        });
+          // Handle any errors
+        });//end catch
+      })//end then
+      .catch((error) => {
+        console.error('Image upload error:', error);
+      });//end catch
     } else {
       console.error('No file selected for upload');
     }
