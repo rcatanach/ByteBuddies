@@ -249,12 +249,12 @@ footer.f3-container {
 <div class="container">
             <div class="gallery" id="imageGallery">
                 
-                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery_img">
+                    <!-- <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery_img">
                
            
                     <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 2" class="gallery_img">
                 
-                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 3" class="gallery_img">
+                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 3" class="gallery_img"> -->
               
                 
             </div>
@@ -268,6 +268,7 @@ footer.f3-container {
 
 
 <script type="module">
+  import { db, doc, collection, getDocs, query, where } from './firebase.js';
   import { firebaseApp, auth, firestore } from './firebase.js';
 
   // Check if Firebase has been initialized
@@ -287,38 +288,84 @@ footer.f3-container {
 <!-- Script for grabbing images from database -->
 <script>
 // Reference to the image gallery container
-const imageGallery = document.getElementById("imageGallery");
+// const imageGallery = document.getElementById("imageGallery");
 
-// Function to fetch image URLs from Firestore
-function fetchImageUrlsFromFirestore() {
-  // Assuming you have a Firestore collection named "images"
-  const db = firebase.firestore();
-  const imagesCollection = db.collection("images");
+// // Function to fetch image URLs from Firestore
+// function fetchImageUrlsFromFirestore() {
+//   // Assuming you have a Firestore collection named "images"
+//   const db = firebase.firestore();
+//   const imagesCollection = db.collection("images");
 
-  imagesCollection.get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      const imageUrl = doc.data().imageUrl;
-      // Create an image element and append it to the gallery
-      createImageElement(imageUrl);
-    });
+//   imagesCollection.get().then((querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//       const imageUrl = doc.data().imageUrl;
+//       // Create an image element and append it to the gallery
+//       createImageElement(imageUrl);
+//     });
+//   });
+// }
+
+// // Function to create an image element and append it to the gallery
+// function createImageElement(imageUrl) {
+//   const galleryItem = document.createElement("div");
+//   galleryItem.classList.add("gallery_item");
+
+//   const image = document.createElement("img");
+//   image.classList.add("gallery_img");
+//   image.src = imageUrl; // Set the image URL
+
+//   galleryItem.appendChild(image);
+//   imageGallery.appendChild(galleryItem);
+// }
+
+// // Call the function to fetch and display images
+// fetchImageUrlsFromFirestore();
+ </script>
+
+<script type="module">
+  import { db, doc, collection, getDocs, query, where } from './firebase.js';
+
+  const imageGallery = document.getElementById("imageGallery");
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get the current user's email from local storage
+    const userEmail = localStorage.getItem('userEmail');
+
+    if (userEmail) {
+      // Reference to the user's collection
+      const userRef = doc(db, "users", userEmail);
+
+      // Reference to the "clothing" subcollection
+      const clothingCollectionRef = collection(userRef, "clothing");
+
+      // Query to retrieve all documents in the "clothing" subcollection
+      const q = query(clothingCollectionRef);
+
+      // Get the documents in the "clothing" subcollection
+      getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const imageUrl = data.image;
+          // You can now use 'imageUrl' to display the images or do anything else with them
+          console.log("Image URL: " + imageUrl);
+
+          const galleryItem = document.createElement("div");
+          galleryItem.classList.add("gallery_item");
+
+          const image = document.createElement("img");
+          image.classList.add("gallery_img");
+          image.src = imageUrl; // Set the image URL
+
+          galleryItem.appendChild(image);
+          imageGallery.appendChild(galleryItem);
+        });
+      }).catch((error) => {
+        console.error("Error getting images: ", error);
+      });
+    } else {
+      console.error("User email not found in local storage");
+    }
   });
-}
-
-// Function to create an image element and append it to the gallery
-function createImageElement(imageUrl) {
-  const galleryItem = document.createElement("div");
-  galleryItem.classList.add("gallery_item");
-
-  const image = document.createElement("img");
-  image.classList.add("gallery_img");
-  image.src = imageUrl; // Set the image URL
-
-  galleryItem.appendChild(image);
-  imageGallery.appendChild(galleryItem);
-}
-
-// Call the function to fetch and display images
-fetchImageUrlsFromFirestore();
 </script>
 
 
