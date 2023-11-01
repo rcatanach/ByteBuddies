@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Mix Match Magic</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+
+/* Custom Styles */
+body {
+  font: 400 15px Lato, sans-serif;
+  line-height: 1.8;
+  color: #818181;
+  background-color: #f6f6f6; /* Light Gray Background */
+}
+header.w3-container p {
+   background-color: #C5A477; /* brown background color */
+ color: #fff; /* Text color for the header */
+ padding: 2px; /* Add padding for better visibility */
+ }
+footer.f3-container {
+  background-image: none !important;
+  padding: 20px 10px !important;
+  text-align: center;
+} 
+.w3-bar .w3-button {
+  color: #F44336 !important; /* Red Color */
+}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.w3-top {
+  background-color: #F44336 !important; /* Red Color */
+}
+.w3-bar-item {
+  padding: 12px 16px !important;
+}
+.w3-button {
+  background-color: #DE7E5D; /* Peach Background Color */
+  color: #fff !important; /* White Text */
+}
+.w3-button:hover {
+  background-color: #C5A477; /* Darker Peach on Hover */
+}
+.w3-container {
+  background-image: url('https://marketplace.canva.com/EAFL0FCQYlc/1/0/1600w/canva-brown-aesthetic-fashion-photo-collage-COIjqtvuAPQ.jpg'); 
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+.w3-container h1, .w3-container p {
+  background-color: #DE7E5D; /* Peach Background Color */
+  padding: 10px;
+  border-radius: 5px;
+}
+/* Nav bar style */
+.w3-bar.w3-red {
+  background-color: #DE7E5D !important; /* Red Color */
+}
+.w3-bar-item.w3-button.w3-padding-large {
+  color: #fff !important; /* White Text */
+}
+.w3-bar-item.w3-button.w3-hide-small.w3-padding-large:hover{
+  background-color: #C5A477 !important;
+}
+
+.step {
+  text-align: center;
+  margin-top: 60px;
+  color: #303030; /* Dark Gray Text */
+}
+.w3-bar-item.w3-button.w3-padding-large.w3-white {
+  background-color: #73c573 !important; /* Dark Brown Background */
+  color: #fff !important; /* White Text */
+}
+.navbar-button:hover{
+  background-color: #442C21;
+}
+
+.generate button {
+           font-family: "Montserrat", sans-serif;
+           font-weight: 500;
+           font-size: 14px;
+           letter-spacing: -0.02em;
+           height: 40px;
+           line-height: 24px;
+           width: 50%;
+           border: 0;
+           border-radius: 10px;
+           box-sizing: border-box;
+           background-color: #73c573;
+           color: #fff;
+           cursor: pointer;
+           box-shadow: 0 0 0 0 transparent;
+           
+           transition: 125ms all;
+         }
+.generate button:hover {
+           background: #DE7E5D;
+           /*background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), hsla(var(--fc-primary-hsl)); */
+         }
+         
+.generate button:focus {
+    background: #73c573;
+    /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl)); 
+    border-inline: 1px solid inline rgba(255, 255, 255, 0.6);
+    box-shadow: 0px 0px 0px 3px rgba(var(--fc-primary-hsl), 12%); */
+}
+     
+.generate button:active {
+    background: #73c573;
+    /*background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl)); */
+}
+.step img {
+  width: 150px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+/* Styling gallery section where all images are */
+  .gallery {
+    width: 90%;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+    justify-content:center;
+    align-items: center; 
+  }
+ 
+  /* Styling Particular Image */
+  .gallery_img {
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  /* Styling gallery items */
+.gallery_item {
+  width: 100%; /* Adjust the width as needed */
+  text-align: center; /* Optional: Center align text within the item */
+}
+
+/* Style for the dropdown button */
+.w3-dropdown-click .w3-button {
+  background-color: #DE7E5D; /* Peach Background Color */
+  color: #fff;
+  padding: 12px 16px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+.w3-dropdown-click .w3-button.w3-padding-large {
+  background-color: #73c573 !important; /* Green Background */
+  color: #fff !important; /* White Text */
+}
+
+/* Style for the dropdown content */
+.w3-dropdown-click .w3-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff; /* Background color for the dropdown */
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Style for dropdown links */
+.w3-dropdown-click .w3-dropdown-content a {
+  color: #fff !important; /* Text color for the dropdown links */
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.w3-dropdown-click .w3-dropdown-content a:hover {
+  background-color: #C5A477 !important; /* Darker Peach on Hover */
+}
+
+/* Show the dropdown content on hover */
+.w3-dropdown-click:hover .w3-dropdown-content {
+  display: block;
+}
+
+
+/*connect to the firebase SDK */
+</style>
+<script type="module" src="firebase.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var includeHTML = function() {
+      var z, i, elmnt, file, xhttp;
+      z = document.getElementsByTagName("*");
+      for (i = 0; i < z.length; i++) {
+        elmnt = z[i];
+        file = elmnt.getAttribute("w3-include-html");
+        if (file) {
+          xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              elmnt.innerHTML = this.responseText;
+              elmnt.removeAttribute("w3-include-html");
+              includeHTML();
+            }
+          }
+          xhttp.open("GET", file, true);
+          xhttp.send();
+          return;
+        }
+      }
+    };
+    includeHTML();
+  });
+</script>
+</head>
+
+<body>
+
+
+<!-- Navbar -->
+<div w3-include-html="navbar.html"></div>
+
+  
+
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
+  </div>
+</div>
+
+<!-- Steps Process -->
+<div class="step">
+  
+  
+ 
+</div>
+
+<!-- Wardrobe Gallery -->
+<div class="container">
+            <div class="gallery" id="imageGallery">
+                
+                    <!-- <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 1" class="gallery_img">
+               
+           
+                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 2" class="gallery_img">
+                
+                    <img src="https://i.pinimg.com/1200x/39/46/6c/39466ceaa107aab3b13321ff1c454eba.jpg" alt="Gallery image 3" class="gallery_img"> -->
+              
+                
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+<script type="module">
+  import { db, doc, collection, getDocs, query, where } from './firebase.js';
+  import { firebaseApp, auth, firestore } from './firebase.js';
+
+  // Check if Firebase has been initialized
+  if (firebaseApp && auth && firestore) {
+      // Firebase has been initialized
+      console.log("Firebase has been initialized.");
+
+      // Use Firebase services here
+      // ...
+  } else {
+      // Firebase is not initialized
+      console.error("Firebase is not initialized.");
+  }
+</script>
+
+
+<!-- Script for grabbing images from database -->
+<script>
+// Reference to the image gallery container
+// const imageGallery = document.getElementById("imageGallery");
+
+// // Function to fetch image URLs from Firestore
+// function fetchImageUrlsFromFirestore() {
+//   // Assuming you have a Firestore collection named "images"
+//   const db = firebase.firestore();
+//   const imagesCollection = db.collection("images");
+
+//   imagesCollection.get().then((querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//       const imageUrl = doc.data().imageUrl;
+//       // Create an image element and append it to the gallery
+//       createImageElement(imageUrl);
+//     });
+//   });
+// }
+
+// // Function to create an image element and append it to the gallery
+// function createImageElement(imageUrl) {
+//   const galleryItem = document.createElement("div");
+//   galleryItem.classList.add("gallery_item");
+
+//   const image = document.createElement("img");
+//   image.classList.add("gallery_img");
+//   image.src = imageUrl; // Set the image URL
+
+//   galleryItem.appendChild(image);
+//   imageGallery.appendChild(galleryItem);
+// }
+
+// // Call the function to fetch and display images
+// fetchImageUrlsFromFirestore();
+ </script>
+
+<script type="module">
+  import { db, doc, collection, getDocs, query, where } from './firebase.js';
+
+  const imageGallery = document.getElementById("imageGallery");
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get the current user's email from local storage
+    const userEmail = localStorage.getItem('userEmail');
+
+    if (userEmail) {
+      // Reference to the user's collection
+      const userRef = doc(db, "users", userEmail);
+
+      // Reference to the "clothing" subcollection
+      const clothingCollectionRef = collection(userRef, "clothing");
+
+      // Query to retrieve all documents in the "clothing" subcollection
+      const q = query(clothingCollectionRef);
+
+      // Get the documents in the "clothing" subcollection
+      getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const imageUrl = data.image;
+          // You can now use 'imageUrl' to display the images or do anything else with them
+          console.log("Image URL: " + imageUrl);
+
+          const galleryItem = document.createElement("div");
+          galleryItem.classList.add("gallery_item");
+
+          const image = document.createElement("img");
+          image.classList.add("gallery_img");
+          image.src = imageUrl; // Set the image URL
+
+          galleryItem.appendChild(image);
+          imageGallery.appendChild(galleryItem);
+        });
+      }).catch((error) => {
+        console.error("Error getting images: ", error);
+      });
+    } else {
+      console.error("User email not found in local storage");
+    }
+  });
+</script>
+
+
+
+</body>
+</html>
