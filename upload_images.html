@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+  
   <style>
     body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
@@ -57,10 +57,90 @@
       };
       includeHTML();
     });
+    function showOptions(category) {
+            document.getElementById("topOptions").style.display = "none";
+            document.getElementById("bottomOptions").style.display = "none";
+            document.getElementById("shoesOptions").style.display = "none";
+
+            if (category === "top") {
+                document.getElementById("topOptions").style.display = "block";
+            } else if (category === "bottom") {
+                document.getElementById("bottomOptions").style.display = "block";
+            } else if (category === "shoes") {
+                document.getElementById("shoesOptions").style.display = "block";
+            }
+        }
+
+        // Makes sure that everything has been filled out
+        function validateForm() {
+            var categorySelected = false;
+            var selFit = null;
+            var additionalColors = []
+
+            var category = document.querySelector('input[name="category"]:checked');
+            if (category) {
+                categorySelected = true;
+            }
+
+            if (categorySelected) {
+                var categoryValue = category.value;
+
+                // Shoes has less options so check separately
+                if (categoryValue === "shoes") {
+                    var typeCheck = document.querySelector('input[name="shoe_type"]:checked');
+                    var patternCheck = document.querySelector('input[name="shoe_pattern"]:checked');
+                    var colorCheck = document.querySelector('input[name="shoe_color"]:checked');
+
+                    if ( !colorCheck || !patternCheck || !typeCheck) {
+                        alert("Please select options for the chosen category.");
+                        return false;
+                    }
+                    
+                    var additionalColors =  document.getElementsByName('shoe_additional_color');
+                    var selType = document.querySelector('input[name="shoe_type"]').value;
+                    var selColor = document.querySelector('input[name="shoe_color"]').value;
+                    var selPattern = document.querySelector('input[name="shoe_pattern"]').value;
+                } 
+                // check for other categories
+                else {
+                    var typeCheck = document.querySelectorAll('input[name="' + categoryValue + '_type"]:checked');
+                    var patternCheck = document.querySelector('input[name="' + categoryValue + '_pattern"]:checked');
+                    var colorCheck = document.querySelector('input[name="' + categoryValue + '_color"]:checked');
+                    var fitCheck = document.querySelector('input[name="' + categoryValue + '_fit"]:checked');
+                    
+
+                    if (!colorCheck || !typeCheck  || !patternCheck || !fitCheck) {
+                        alert("Please select options for the chosen category.");
+                        return false;
+                    }
+
+                    
+                    var additionalColors =  document.getElementsByName(categoryValue + '_additional_color');
+                    var selType = document.querySelector('input[name="' + categoryValue + '_type"]').value;
+                    var selPattern = document.querySelector('input[name="' + categoryValue + '_pattern"]').value;
+                    var selColor = document.querySelector('input[name="' + categoryValue + '_color"]').value;
+                    var selFit = document.querySelector('input[name="' + categoryValue + '_fit"]').value;
+                    
+                }
+                selAddColors = [];
+                for (var i=0;i<additionalColors.length;i++){
+                  if ( additionalColors[i].checked ) {
+                    selAddColors.push(additionalColors[i].value);
+                  }
+                }
+
+                return true;
+            } else {
+                alert("Please select a clothing category.");
+                return false;
+            }
+
+            
+        }
   </script>
 </head>
 
-<body>
+<body onload="document.imageInput.reset()">
 
 <!-- Include navbar -->
 
@@ -68,9 +148,158 @@
 
 
 <!-- Your content for upload_images.html goes here -->
-<!--Create buttons to select and upload image-->
-<input type="file" id="imageInput" accept="image/*" />
+<!--Create buttons to select and upload image
+<input type="file" id="imageInput" accept="image/*" required />
 <button id="uploadButton">Upload Image</button>
+-->
+</br>
+  <h1>Upload an Image</h1>
+  <form name="imageInput" enctype="multipart/form-data" id="imageInput" onsubmit="return validateForm()">
+      <input type="file" name="imageUpload" required>
+
+  </br>
+  </br>
+
+  <label>Select Clothing Category:</label><br>
+      <input type="radio" name="category" value="top" id="top" onclick="showOptions('top')"> Top
+      <input type="radio" name="category" value="bottom" id="bottom" onclick="showOptions('bottom')"> Bottom
+      <input type="radio" name="category" value="shoes" id="shoes" onclick="showOptions('shoes')"> Shoes<br><br>
+
+      <div id="topOptions" style="display:none;">
+          <label>Top Options:</label>
+          <input type="radio" name="top_type" value="short_sleeve"> Short Sleeve
+          <input type="radio" name="top_type" value="long_sleeve"> Long Sleeve
+          <input type="radio" name="top_type" value="tank_top"> Tank Top<br>
+          
+          <label>Fit:</label>
+          <input type="radio" name="top_fit" value="oversize"> Oversize
+          <input type="radio" name="top_fit" value="fits_well"> Fits Well
+          <input type="radio" name="top_fit" value="tight"> Tight<br>
+          
+          
+          <label>Main Color:</label>
+          <input type="radio" name="top_color" value="red"> Red
+          <input type="radio" name="top_color" value="orange"> Orange
+          <input type="radio" name="top_color" value="yellow"> Yellow 
+          <input type="radio" name="top_color" value="green"> Green
+          <input type="radio" name="top_color" value="blue"> Blue
+          <input type="radio" name="top_color" value="purple"> Purple
+          <input type="radio" name="top_color" value="white"> White
+          <input type="radio" name="top_color" value="black"> Black
+          <input type="radio" name="top_color" value="pink"> Pink
+          <input type="radio" name="top_color" value="grey"> Grey
+          <input type="radio" name="top_color" value="brown"> Brown
+          <br>
+
+          <label>Additional Colors (Optional): </label>
+          <input type="checkbox" name="top_additional_color" value="red"> Red
+          <input type="checkbox" name="top_additional_color" value="orange"> Orange
+          <input type="checkbox" name="top_additional_color" value="yellow"> Yellow 
+          <input type="checkbox" name="top_additional_color" value="green"> Green
+          <input type="checkbox" name="top_additional_color" value="blue"> Blue
+          <input type="checkbox" name="top_additional_color" value="purple"> Purple
+          <input type="checkbox" name="top_additional_color" value="white"> White
+          <input type="checkbox" name="top_additional_color" value="black"> Black
+          <input type="checkbox" name="top_additional_color" value="pink"> Pink
+          <input type="checkbox" name="top_additional_color" value="grey"> Grey
+          <input type="checkbox" name="top_additional_color" value="brown"> Brown
+          <br>
+          
+          <label>Pattern:</label>
+          <input type="radio" name="top_pattern" value="pattern"> Pattern
+          <input type="radio" name="top_pattern" value="no_pattern"> No Pattern<br>
+
+      </div>
+
+      <div id="bottomOptions" style="display:none;">
+          <label>Bottom Options:</label>
+          <input type="radio" name="bottom_type" value="shorts"> Shorts
+          <input type="radio" name="bottom_type" value="pants"> Pants
+          <input type="radio" name="bottom_type" value="skirt"> Skirt <br>
+          
+          <label>Fit:</label>
+          <input type="radio" name="bottom_fit" value="oversize"> Oversize
+          <input type="radio" name="bottom_fit" value="fits_well"> Fits Well
+          <input type="radio" name="bottom_fit" value="tight"> Tight<br>
+          
+          
+          <label>Main Color:</label>
+          <input type="radio" name="bottom_color" value="red"> Red
+          <input type="radio" name="bottom_color" value="orange"> Orange
+          <input type="radio" name="bottom_color" value="yellow"> Yellow 
+          <input type="radio" name="bottom_color" value="green"> Green
+          <input type="radio" name="bottom_color" value="blue"> Blue
+          <input type="radio" name="bottom_color" value="purple"> Purple
+          <input type="radio" name="bottom_color" value="white"> White
+          <input type="radio" name="bottom_color" value="black"> Black
+          <input type="radio" name="bottom_color" value="pink"> Pink
+          <input type="radio" name="bottom_color" value="grey"> Grey
+          <input type="radio" name="bottom_color" value="brown"> Brown
+          <br>
+
+          <label>Additional Colors (Optional): </label>
+          <input type="checkbox" name="bottom_additional_color" value="red"> Red
+          <input type="checkbox" name="bottom_additional_color" value="orange"> Orange
+          <input type="checkbox" name="bottom_additional_color" value="yellow"> Yellow 
+          <input type="checkbox" name="bottom_additional_color" value="green"> Green
+          <input type="checkbox" name="bottom_additional_color" value="blue"> Blue
+          <input type="checkbox" name="bottom_additional_color" value="purple"> Purple
+          <input type="checkbox" name="bottom_additional_color" value="white"> White
+          <input type="checkbox" name="bottom_additional_color" value="black"> Black
+          <input type="checkbox" name="bottom_additional_color" value="pink"> Pink
+          <input type="checkbox" name="bottom_additional_color" value="grey"> Grey
+          <input type="checkbox" name="bottom_additional_color" value="brown"> Brown
+          <br>
+
+          <label>Pattern:</label>
+          <input type="radio" name="bottom_pattern" value="pattern"> Pattern
+          <input type="radio" name="bottom_pattern" value="no_pattern"> No Pattern<br>
+
+      </div>
+
+      <div id="shoesOptions" style="display:none;">
+          <label>Shoe Options:</label>
+          <input type="radio" name="shoe_type" value="low_top"> Low-Top
+          <input type="radio" name="shoe_type" value="high_top"> High-Top 
+          <input type="radio" name="shoe_type" value="open_toed"> Open-Toed <br>
+          
+          <label>Main Color:</label>
+          <input type="radio" name="shoe_color" value="red"> Red
+          <input type="radio" name="shoe_color" value="orange"> Orange
+          <input type="radio" name="shoe_color" value="yellow"> Yellow 
+          <input type="radio" name="shoe_color" value="green"> Green
+          <input type="radio" name="shoe_color" value="blue"> Blue
+          <input type="radio" name="shoe_color" value="purple"> Purple
+          <input type="radio" name="shoe_color" value="white"> White
+          <input type="radio" name="shoe_color" value="black"> Black
+          <input type="radio" name="shoe_color" value="pink"> Pink
+          <input type="radio" name="shoe_color" value="grey"> Grey
+          <input type="radio" name="shoe_color" value="brown"> Brown
+          <br>
+
+          <label>Additional Colors (Optional): </label>
+          <input type="checkbox" name="shoe_additional_color" value="red"> Red
+          <input type="checkbox" name="shoe_additional_color" value="orange"> Orange
+          <input type="checkbox" name="shoe_additional_color" value="yellow"> Yellow 
+          <input type="checkbox" name="shoe_additional_color" value="green"> Green
+          <input type="checkbox" name="shoe_additional_color" value="blue"> Blue
+          <input type="checkbox" name="shoe_additional_color" value="purple"> Purple
+          <input type="checkbox" name="shoe_additional_color" value="white"> White
+          <input type="checkbox" name="shoe_additional_color" value="black"> Black
+          <input type="checkbox" name="shoe_additional_color" value="pink"> Pink
+          <input type="checkbox" name="shoe_additional_color" value="grey"> Grey
+          <input type="checkbox" name="shoe_additional_color" value="brown"> Brown
+          <br>
+          
+          <label>Pattern:</label>
+          <input type="radio" name="shoe_pattern" value="pattern"> Pattern
+          <input type="radio" name="shoe_pattern" value="no_pattern"> No Pattern<br>
+          
+      </div>
+
+      <input type="submit" value="Upload" id="uploadButton" onsubmit="fireBaseUpload()" >
+
+  </form>
 
 
 
@@ -86,10 +315,11 @@
   const uploadButton = document.getElementById('uploadButton');
 
     uploadButton.addEventListener('click', () => {
-      const file = imageInput.files[0];
+      const file = document.getElementByid(imageInput);
 
       if (file) {
         // Generate a unique file name (if needed)
+        console.log('Uploaded')
         const uniqueFileName = `${Date.now()}-${file.name}`;
         const imagesRef = ref(storage, 'images');
         const fileRef = ref(storage, 'images/' +uniqueFileName)
@@ -104,8 +334,19 @@
             const userRef = doc(db,"users", userEmail);
 
             setDoc(doc(userRef, "clothing", uniqueFileName), {
-              color: "Red",
-              length: "long",
+              color: selColor,
+              //length: "long",
+              /**
+               * var selAddColors =  document.getElementsByName(categoryValue + '_additional_color');
+                    var selType = document.querySelector('input[name="' + categoryValue + '_type"]').value;
+                    var selPattern = document.querySelector('input[name="' + categoryValue + '_pattern"]').value;
+                    var selColor = document.querySelector('input[name="' + categoryValue + '_color"]').value;
+                    var selFit
+               **/
+              additionalColors: selAddColors,
+              type: selType, 
+              pattern: selPattern,
+              fit: selFit,
               image: downloadURL
             }).then(function() {
               console.log("clothing created");
@@ -121,19 +362,20 @@
       } else {
         console.error('No file selected for upload');
       }
+    //});
     });
-  });
 
+  /*
   const clothingRef = collection(db, "users", userEmail, "clothing")
   const querySnapshot = await getDocs(clothingRef);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     console.log(doc.id, " => ", doc.data());
   });
-
+  */
 
 </script>
-<!-- ... (rest of your upload_images.html content) ... -->
+ <!--... (rest of your upload_images.html content) ... -->
 
 </body>
 </html>
