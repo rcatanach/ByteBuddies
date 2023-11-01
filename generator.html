@@ -209,33 +209,45 @@
     }
     
     /*Outfit format*/
-    .outfit {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin: 20px;
-      
-    }
-    .image-block {
-      flex: 1;
-      text-align: center;
-      background-color: #fff; /* Add a background color if needed */
-      padding: 20px; /* Add padding as needed */
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add box shadow as needed */
-      height: 200px !important;
-      width: 300px !important;
-    }
-    .image-block img {
-      width: 100%; /* Make the images responsive */
-      max-width: 300px; /* Set a max width as needed */
-    }
-    .outfit-image {
-      width: 200px; 
-      height: 300px; 
-      
-    }
+    body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
 
+        .step {
+            text-align: center;
+            margin-top: 50px; /* Adjust the top margin as needed */
+            color: #303030; /* Dark Gray Text */
+        }
+
+        .outfit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .image-block {
+            text-align: center;
+            background-color: #fff; /* Add a background color if needed */
+            padding: 20px; /* Add padding as needed */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add box shadow as needed */
+            margin: 10px; /* Add margin as needed */
+        }
+
+        .image-block img {
+            width: 100%; /* Make the images responsive */
+            max-width: 300px; /* Set a max width as needed */
+        }
+
+        .outfit-image {
+            width: 200px; 
+            height: 300px;
+            object-fit: cover;
+        }
+        
     /* Style for the dropdown button */
     .w3-dropdown-click .w3-button {
       background-color: #DE7E5D; /* Peach Background Color */
@@ -290,7 +302,7 @@
     <div class="w3-top">
       <div class="w3-bar w3-red w3-card w3-left-align w3-large">
         <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-        <a href="home.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Home</a>
+        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
         <div class="w3-dropdown-click">
           <a href="wardrobe.html" class="3-bar-item w3-button w3-hide-small w3-padding-large">Wardrobe <i class="fa fa-caret-down"></i></a>
           <div class="w3-dropdown-content w3-bar-block w3-card-4">
@@ -299,7 +311,7 @@
             <a href="shoes.html" class="w3-bar-item w3-button">Shoes</a>
           </div>
         </div>
-        <a href="generator.html" class="w3-bar-item w3-button w3-padding-large w3-white">Generator</a>
+        <a href="generator.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Generator</a>
         <a href="upload_images.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Upload Images</a>
         <a href="favorites.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Favorites</a>
       </div>
@@ -315,40 +327,34 @@
     
     <!-- Generating Process -->
     <div class="step">
-      <h2>Bring Magic to Your Style</h2>
-      <div class="outfit">
-        <div class="image-block">
-          <div class="generate">  
-              <button type="submit" id="GenerateTop">TOP</button>
+        <h2>Bring Magic to Your Style</h2>
+        <div class="outfit">
+            <div class="image-block">
+                <!-- Add your image here for the top -->
+                <img src="https://static.vecteezy.com/system/resources/previews/014/989/719/original/question-mark-hand-drawn-doodle-faq-symbol-free-vector.jpg" alt="Top Image" id="TopImage" class="outfit-image">
+                <div class="generate">
+                    <button type="submit" id="GenerateTop">TOP</button>
+                </div>
             </div>
-              <!-- Add your image here for the top -->
-              <img src="https://static.vecteezy.com/system/resources/previews/014/989/719/original/question-mark-hand-drawn-doodle-faq-symbol-free-vector.jpg" alt="Top Image" id="TopImage" class="outfit-image">
-          </div>
-          <div class="image-block">
-            <div class="generate">  
-              <button type="submit" id="GenerateBottom">BOTTOM</button>
+            <div class="image-block">
+                <!-- Add your image here for the bottom -->
+                <img src="https://static.vecteezy.com/system/resources/previews/014/989/719/original/question-mark-hand-drawn-doodle-faq-symbol-free-vector.jpg" alt="Bottom Image" id="BottomImage" class="outfit-image">
+                <div class="generate">
+                    <button type="submit" id="GenerateBottom">BOTTOM</button>
+                </div>
             </div>
-              <!-- Add your image here for the bottom -->
-              <img src="https://static.vecteezy.com/system/resources/previews/014/989/719/original/question-mark-hand-drawn-doodle-faq-symbol-free-vector.jpg" alt="Bottom Image" id="BottomImage" class="outfit-image">
-          </div>
-          <div class="image-block">
-            <div class="generate">  
-              <button type="submit" id="GenerateShoes">SHOES</button>
+            <div class="image-block">
+                <!-- Add your image here for the shoes -->
+                <img src="https://static.vecteezy.com/system/resources/previews/014/989/719/original/question-mark-hand-drawn-doodle-faq-symbol-free-vector.jpg" alt="Shoes Image" id="ShoesImage" class="outfit-image">
+                <div class="generate">
+                    <button type="submit" id="GenerateShoes">SHOES</button>
+                </div>
             </div>
-
-              <!-- Add your image here for the shoes -->
-              <img src="https://static.vecteezy.com/system/resources/previews/014/989/719/original/question-mark-hand-drawn-doodle-faq-symbol-free-vector.jpg" alt="Shoes Image" id="ShoesImage" class="outfit-image">
-          </div>
-      </div>
-      <div class="generate">  
-        <button type="submit" id="GenerateOutfit">Generate Outfit</button>
-      </div>
-      
+        </div>
+        <div class="generate">
+            <button type="submit" id="GenerateOutfit">Generate Outfit</button>
+        </div>
     </div>
-    
-    
-    
-    
     
     
     <script type="module">
