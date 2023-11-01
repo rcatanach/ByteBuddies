@@ -315,7 +315,7 @@
   const uploadButton = document.getElementById('uploadButton');
 
     uploadButton.addEventListener('click', () => {
-      const file = document.getElementByid(imageInput);
+      const file = document.getElementById(imageInput);
 
       if (file) {
         // Generate a unique file name (if needed)
@@ -364,7 +364,7 @@
       }
     //});
     });
-
+  });
   /*
   const clothingRef = collection(db, "users", userEmail, "clothing")
   const querySnapshot = await getDocs(clothingRef);
