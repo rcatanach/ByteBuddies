@@ -33,6 +33,20 @@
   
 
   <script>
+function showOptions(category) {
+            document.getElementById("topOptions").style.display = "none";
+            document.getElementById("bottomOptions").style.display = "none";
+            document.getElementById("shoesOptions").style.display = "none";
+
+            if (category === "top") {
+                document.getElementById("topOptions").style.display = "block";
+            } else if (category === "bottom") {
+                document.getElementById("bottomOptions").style.display = "block";
+            } else if (category === "shoes") {
+                document.getElementById("shoesOptions").style.display = "block";
+            }
+        }
+
     document.addEventListener("DOMContentLoaded", function() {
       var includeHTML = function() {
         var z, i, elmnt, file, xhttp;
@@ -57,86 +71,7 @@
       };
       includeHTML();
     });
-    function showOptions(category) {
-            document.getElementById("topOptions").style.display = "none";
-            document.getElementById("bottomOptions").style.display = "none";
-            document.getElementById("shoesOptions").style.display = "none";
 
-            if (category === "top") {
-                document.getElementById("topOptions").style.display = "block";
-            } else if (category === "bottom") {
-                document.getElementById("bottomOptions").style.display = "block";
-            } else if (category === "shoes") {
-                document.getElementById("shoesOptions").style.display = "block";
-            }
-        }
-
-        // Makes sure that everything has been filled out
-        function validateForm() {
-            var categorySelected = false;
-            var selFit = null;
-            var additionalColors = []
-
-            var category = document.querySelector('input[name="category"]:checked');
-            if (category) {
-                categorySelected = true;
-            }
-
-            if (categorySelected) {
-                var categoryValue = category.value;
-
-                // Shoes has less options so check separately
-                if (categoryValue === "shoes") {
-                    var typeCheck = document.querySelector('input[name="shoe_type"]:checked');
-                    var patternCheck = document.querySelector('input[name="shoe_pattern"]:checked');
-                    var colorCheck = document.querySelector('input[name="shoe_color"]:checked');
-
-                    if ( !colorCheck || !patternCheck || !typeCheck) {
-                        alert("Please select options for the chosen category.");
-                        return false;
-                    }
-                    
-                    var additionalColors =  document.getElementsByName('shoe_additional_color');
-                    var selType = document.querySelector('input[name="shoe_type"]').value;
-                    var selColor = document.querySelector('input[name="shoe_color"]').value;
-                    var selPattern = document.querySelector('input[name="shoe_pattern"]').value;
-                } 
-                // check for other categories
-                else {
-                    var typeCheck = document.querySelectorAll('input[name="' + categoryValue + '_type"]:checked');
-                    var patternCheck = document.querySelector('input[name="' + categoryValue + '_pattern"]:checked');
-                    var colorCheck = document.querySelector('input[name="' + categoryValue + '_color"]:checked');
-                    var fitCheck = document.querySelector('input[name="' + categoryValue + '_fit"]:checked');
-                    
-
-                    if (!colorCheck || !typeCheck  || !patternCheck || !fitCheck) {
-                        alert("Please select options for the chosen category.");
-                        return false;
-                    }
-
-                    
-                    var additionalColors =  document.getElementsByName(categoryValue + '_additional_color');
-                    var selType = document.querySelector('input[name="' + categoryValue + '_type"]').value;
-                    var selPattern = document.querySelector('input[name="' + categoryValue + '_pattern"]').value;
-                    var selColor = document.querySelector('input[name="' + categoryValue + '_color"]').value;
-                    var selFit = document.querySelector('input[name="' + categoryValue + '_fit"]').value;
-                    
-                }
-                selAddColors = [];
-                for (var i=0;i<additionalColors.length;i++){
-                  if ( additionalColors[i].checked ) {
-                    selAddColors.push(additionalColors[i].value);
-                  }
-                }
-
-                return true;
-            } else {
-                alert("Please select a clothing category.");
-                return false;
-            }
-
-            
-        }
   </script>
 </head>
 
@@ -154,8 +89,8 @@
 -->
 </br>
   <h1>Upload an Image</h1>
-  <form name="imageInput" enctype="multipart/form-data" id="imageInput" onsubmit="return validateForm()">
-      <input type="file" name="imageUpload" required>
+  <form name="imageInput" enctype="multipart/form-data" id="imageInput">
+      <input type="file" id="imageUpload" name="imageUpload" required>
 
   </br>
   </br>
@@ -297,7 +232,7 @@
           
       </div>
 
-      <input type="submit" value="Upload" id="uploadButton" onsubmit="fireBaseUpload()" >
+      <input type="submit" value="Upload" id="uploadButton" >
 
   </form>
 
@@ -306,76 +241,146 @@
 
 <script type="module" src="firebase.js"></script>
 <script type="module">
+  
   import { storage, firebaseApp, auth, ref, storageRef, uploadBytes, getDownloadURL, db, doc, setDoc, getDoc, getDocs, collection } from './firebase.js';
   const userEmail = localStorage.getItem('userEmail');
-
-
-  document.addEventListener("DOMContentLoaded", function () {
-  const imageInput = document.getElementById('imageInput');
-  const uploadButton = document.getElementById('uploadButton');
-
-    uploadButton.addEventListener('click', () => {
-      const file = document.getElementById(imageInput);
-
-      if (file) {
-        // Generate a unique file name (if needed)
-        console.log('Uploaded')
-        const uniqueFileName = `${Date.now()}-${file.name}`;
-        const imagesRef = ref(storage, 'images');
-        const fileRef = ref(storage, 'images/' +uniqueFileName)
-
-        uploadBytes(fileRef, file)
-        .then((snapshot) => {
-          console.log('Image uploaded successfully:', snapshot);
-          // get the downloadURL to store in firestore
-          getDownloadURL(ref(storage, fileRef))
-          .then((downloadURL) =>  {
-            
-            const userRef = doc(db,"users", userEmail);
-
-            setDoc(doc(userRef, "clothing", uniqueFileName), {
-              color: selColor,
-              //length: "long",
-              /**
-               * var selAddColors =  document.getElementsByName(categoryValue + '_additional_color');
-                    var selType = document.querySelector('input[name="' + categoryValue + '_type"]').value;
-                    var selPattern = document.querySelector('input[name="' + categoryValue + '_pattern"]').value;
-                    var selColor = document.querySelector('input[name="' + categoryValue + '_color"]').value;
-                    var selFit
-               **/
-              additionalColors: selAddColors,
-              type: selType, 
-              pattern: selPattern,
-              fit: selFit,
-              image: downloadURL
-            }).then(function() {
-              console.log("clothing created");
-            });// end then
-          })//end then
-          .catch((error) => {
-            // Handle any errors
-          });//end catch
-        })//end then
-        .catch((error) => {
-          console.error('Image upload error:', error);
-        });//end catch
-      } else {
-        console.error('No file selected for upload');
+  let additionalColors = [];
+  let selType = null;
+  let selPattern = null;
+  let selColor = null;
+  let selFit = null;
+  let selAddColors = [];
+  let categoryValue = null;
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add event listener to the form for form submission
+    const uploadButton = document.getElementById('uploadButton');
+    uploadButton.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent the default form submission
+      
+      if (validateForm()) {
+        fireUpload(); // Call the fireUpload function after validation
+        document.imageInput.reset();
       }
-    //});
     });
   });
-  /*
+
+  function fireUpload() {
+    const imageInput = document.getElementById('imageUpload');
+    const file = imageInput.files[0]; // Access the selected file
+    
+    if (file) {
+      // Generate a unique file name
+      window.alert('Image Uploaded Sucessfully');
+      const uniqueFileName = `${Date.now()}-${file.name}`;
+      const imagesRef = ref(storage, 'images');
+      const fileRef = ref(storage, 'images/' + uniqueFileName);
+
+      uploadBytes(fileRef, file)
+        .then((snapshot) => {
+          console.log('Image uploaded successfully:', snapshot);
+          // get the downloadURL to store in Firestore
+          getDownloadURL(ref(storage, fileRef))
+            .then((downloadURL) => {
+              const userRef = doc(db, "users", userEmail);
+
+              // Define the variables selColor, selAddColors, selType, selPattern, selFit
+              // based on your form inputs here
+
+              setDoc(doc(userRef, "clothing", uniqueFileName), {
+                color: selColor,
+                additionalColors: selAddColors,
+                type: selType,
+                pattern: selPattern,
+                fit: selFit,
+                category: categoryValue,
+                image: downloadURL
+              }).then(function() {
+                console.log("Clothing created");
+              });
+            })
+            .catch((error) => {
+              // Handle any errors
+              console('Error:', error)
+            });
+        })
+        .catch((error) => {
+          console.error('Image upload error:', error);
+        });
+    } else {
+      console.error('No file selected for upload');
+    }
+  }
+     // Makes sure that everything has been filled out
+function validateForm() {
+    var category = document.querySelector('input[name="category"]:checked');
+    
+    if (category) {
+        categoryValue = category.value;
+
+        if (categoryValue === "shoes") {
+            var typeCheck = document.querySelector('input[name="shoe_type"]:checked');
+            var patternCheck = document.querySelector('input[name="shoe_pattern"]:checked');
+            var colorCheck = document.querySelector('input[name="shoe_color"]:checked');
+
+            if (!colorCheck || !patternCheck || !typeCheck) {
+                alert("Please select options for the chosen category.");
+                return false;
+            }
+
+            selType = typeCheck.value;
+            selColor = colorCheck.value;
+            selPattern = patternCheck.value;
+        } else {
+            var typeCheck = document.querySelector('input[name="' + categoryValue + '_type"]:checked');
+            var patternCheck = document.querySelector('input[name="' + categoryValue + '_pattern"]:checked');
+            var colorCheck = document.querySelector('input[name="' + categoryValue + '_color"]:checked');
+            var fitCheck = document.querySelector('input[name="' + categoryValue + '_fit"]:checked');
+
+            if (!colorCheck || !typeCheck || !patternCheck || !fitCheck) {
+                alert("Please select options for the chosen category.");
+                return false;
+            }
+
+            selType = typeCheck.value;
+            selPattern = patternCheck.value;
+            selColor = colorCheck.value;
+            selFit = fitCheck.value;
+        }
+
+        selAddColors = [];
+        var additionalColors = document.getElementsByName(categoryValue + '_additional_color');
+        for (var i = 0; i < additionalColors.length; i++) {
+            if (additionalColors[i].checked) {
+                selAddColors.push(additionalColors[i].value);
+            }
+        }
+
+        /* Testing
+        console.log(selAddColors);
+        console.log(selPattern);
+        console.log(selColor);
+        console.log(selType);
+        console.log(selFit);
+        */
+        return true;
+    } else {
+        alert("Please select a clothing category.");
+        return false;
+    }
+}
+  
+
+  
   const clothingRef = collection(db, "users", userEmail, "clothing")
   const querySnapshot = await getDocs(clothingRef);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     console.log(doc.id, " => ", doc.data());
   });
-  */
+  
 
 </script>
- <!--... (rest of your upload_images.html content) ... -->
 
 </body>
 </html>
