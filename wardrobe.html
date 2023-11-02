@@ -187,6 +187,50 @@ footer.f3-container {
   display: block;
 }
 
+/* Styling Particular Image */
+.gallery_item {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.gallery_item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image covers the entire container */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  opacity: 0; /* Start with overlay hidden */
+  transition: opacity 0.2s; /* Add opacity transition */
+}
+
+.gallery_item:hover .overlay {
+  opacity: 1; /* Show overlay on hover */
+}
+
+.fa-heart, .fa-trash {
+  font-size: 24px;
+  margin: 0 10px;
+  color: #fff; /* Set icon color to white */
+  cursor: pointer;
+}
+
+.fa-heart.clicked {
+  color: red; /* Change the heart icon color to red when clicked */
+}
 
 /*connect to the firebase SDK */
 </style>
@@ -323,51 +367,76 @@ footer.f3-container {
  </script>
 
 <script type="module">
-  import { db, doc, collection, getDocs, query, where } from './firebase.js';
-
-  const imageGallery = document.getElementById("imageGallery");
-
-  document.addEventListener("DOMContentLoaded", function() {
-    // Get the current user's email from local storage
-    const userEmail = localStorage.getItem('userEmail');
-
-    if (userEmail) {
-      // Reference to the user's collection
-      const userRef = doc(db, "users", userEmail);
-
-      // Reference to the "clothing" subcollection
-      const clothingCollectionRef = collection(userRef, "clothing");
-
-      // Query to retrieve all documents in the "clothing" subcollection
-      const q = query(clothingCollectionRef);
-
-      // Get the documents in the "clothing" subcollection
-      getDocs(q).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          const imageUrl = data.image;
-          // You can now use 'imageUrl' to display the images or do anything else with them
-          console.log("Image URL: " + imageUrl);
-
-          const galleryItem = document.createElement("div");
-          galleryItem.classList.add("gallery_item");
-
-          const image = document.createElement("img");
-          image.classList.add("gallery_img");
-          image.src = imageUrl; // Set the image URL
-
-          galleryItem.appendChild(image);
-          imageGallery.appendChild(galleryItem);
+    import { db, doc, collection, getDocs, query, where } from './firebase.js';
+  
+    const imageGallery = document.getElementById("imageGallery");
+  
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get the current user's email from local storage
+      const userEmail = localStorage.getItem('userEmail');
+  
+      if (userEmail) {
+        // Reference to the user's collection
+        const userRef = doc(db, "users", userEmail);
+  
+        // Reference to the "clothing" subcollection
+        const clothingCollectionRef = collection(userRef, "clothing");
+  
+        // Query to retrieve all documents in the "clothing" subcollection
+        const q = query(clothingCollectionRef);
+  
+        // Get the documents in the "clothing" subcollection
+        getDocs(q).then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const imageUrl = data.image;
+            // You can now use 'imageUrl' to display the images or do anything else with them
+            console.log("Image URL: " + imageUrl);
+  
+            const galleryItem = document.createElement("div");
+            galleryItem.classList.add("gallery_item");
+  
+            const image = document.createElement("img");
+            image.classList.add("gallery_img");
+            image.src = imageUrl; // Set the image URL
+          
+            const overlay = document.createElement("div");
+              overlay.classList.add("overlay");
+  
+              const heartIcon = document.createElement("i");
+              heartIcon.classList.add("fa", "fa-heart");
+              heartIcon.addEventListener('click', handleHeartClick);
+  
+              const trashIcon = document.createElement("i");
+              trashIcon.classList.add("fa", "fa-trash");
+              trashIcon.addEventListener('click', handleTrashClick);
+  
+              overlay.appendChild(heartIcon);
+              overlay.appendChild(trashIcon);
+  
+              galleryItem.appendChild(overlay);
+              galleryItem.appendChild(image);
+              imageGallery.appendChild(galleryItem);
+          });
+        }).catch((error) => {
+          console.error("Error getting images: ", error);
         });
-      }).catch((error) => {
-        console.error("Error getting images: ", error);
-      });
-    } else {
-      console.error("User email not found in local storage");
-    }
+      } else {
+        console.error("User email not found in local storage");
+      }
   });
-</script>
-
+  
+  function handleHeartClick(event) {
+      event.stopPropagation();
+      event.target.classList.toggle('clicked');
+  }
+  
+  function handleTrashClick() {
+      console.log('Trash button clicked');
+      // Add your trash button functionality here
+  }
+  </script>
+  
 
 
 </body>
