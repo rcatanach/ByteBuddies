@@ -271,7 +271,6 @@ function showOptions(category) {
     
     if (file) {
       // Generate a unique file name
-      window.alert('Image Uploaded Sucessfully');
       const uniqueFileName = `${Date.now()}-${file.name}`;
       const imagesRef = ref(storage, 'images');
       const fileRef = ref(storage, 'images/' + uniqueFileName);
@@ -297,6 +296,7 @@ function showOptions(category) {
                 image: downloadURL
               }).then(function() {
                 console.log("Clothing created");
+                window.alert('Image Uploaded Sucessfully');
               });
             })
             .catch((error) => {
