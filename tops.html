@@ -339,7 +339,7 @@ footer.f3-container {
       const clothingCollectionRef = collection(userRef, "clothing");
 
       // Query to retrieve all documents in the "clothing" subcollection
-      const q = query(clothingCollectionRef);
+      const q = query(clothingCollectionRef, where("category", "==", "top"));
 
       // Get the documents in the "clothing" subcollection
       getDocs(q).then((querySnapshot) => {
