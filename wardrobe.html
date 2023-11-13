@@ -199,7 +199,7 @@ footer.f3-container {
 .gallery_item img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensure the image covers the entire container */
+  object-fit: contain; /* Set to 'contain' */
 }
 
 .overlay {
@@ -305,12 +305,6 @@ footer.f3-container {
         </div>
 
 
-
-
-
-
-
-
 <script type="module">
   import { db, doc, collection, getDocs, query, where } from './firebase.js';
   import { firebaseApp, auth, firestore } from './firebase.js';
@@ -367,7 +361,7 @@ footer.f3-container {
  </script>
 
 <script type="module">
-    import { db, doc, collection, getDocs, query, where } from './firebase.js';
+    import { db, doc, setDoc, collection, getDocs, query, where } from './firebase.js';
   
     const imageGallery = document.getElementById("imageGallery");
   
@@ -387,37 +381,45 @@ footer.f3-container {
   
         // Get the documents in the "clothing" subcollection
         getDocs(q).then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const imageUrl = data.image;
-            // You can now use 'imageUrl' to display the images or do anything else with them
-            console.log("Image URL: " + imageUrl);
-  
-            const galleryItem = document.createElement("div");
-            galleryItem.classList.add("gallery_item");
-  
-            const image = document.createElement("img");
-            image.classList.add("gallery_img");
-            image.src = imageUrl; // Set the image URL
-          
-            const overlay = document.createElement("div");
-              overlay.classList.add("overlay");
-  
-              const heartIcon = document.createElement("i");
-              heartIcon.classList.add("fa", "fa-heart");
-              heartIcon.addEventListener('click', handleHeartClick);
-  
-              const trashIcon = document.createElement("i");
-              trashIcon.classList.add("fa", "fa-trash");
-              trashIcon.addEventListener('click', handleTrashClick);
-  
-              overlay.appendChild(heartIcon);
-              overlay.appendChild(trashIcon);
-  
-              galleryItem.appendChild(overlay);
-              galleryItem.appendChild(image);
-              imageGallery.appendChild(galleryItem);
-          });
+          // Inside the forEach loop where you get the documents in the "clothing" subcollection
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const imageUrl = data.image;
+                const docId = doc.id;
+
+                const galleryItem = document.createElement("div");
+                galleryItem.classList.add("gallery_item");
+                galleryItem.setAttribute("data-id", docId);
+
+                const image = document.createElement("img");
+                image.classList.add("gallery_img");
+                image.src = imageUrl;
+
+                const overlay = document.createElement("div");
+                overlay.classList.add("overlay");
+
+                const heartIcon = document.createElement("i");
+                heartIcon.classList.add("fa", "fa-heart");
+
+                // Check local storage for liked status
+                const isLiked = localStorage.getItem(`liked-${docId}`) === 'true';
+                if (isLiked) {
+                    heartIcon.classList.add('clicked');
+                }
+
+                heartIcon.addEventListener('click', handleHeartClick);
+
+                const trashIcon = document.createElement("i");
+                trashIcon.classList.add("fa", "fa-trash");
+                trashIcon.addEventListener('click', handleTrashClick);
+
+                overlay.appendChild(heartIcon);
+                overlay.appendChild(trashIcon);
+
+                galleryItem.appendChild(overlay);
+                galleryItem.appendChild(image);
+                imageGallery.appendChild(galleryItem);
+            });
         }).catch((error) => {
           console.error("Error getting images: ", error);
         });
@@ -426,11 +428,20 @@ footer.f3-container {
       }
   });
   
-  function handleHeartClick(event) {
-      event.stopPropagation();
-      event.target.classList.toggle('clicked');
-  }
-  
+    function handleHeartClick(event) {
+        event.stopPropagation();
+        const userEmail = localStorage.getItem('userEmail');
+        const docId = event.target.closest('.gallery_item').getAttribute('data-id');
+        const clothingDocRef = doc(db, "users", userEmail, "clothing", docId);
+        const isLiked = event.target.classList.toggle('clicked');
+        localStorage.setItem(`liked-${docId}`, isLiked);
+
+        setDoc(clothingDocRef, { liked: isLiked }, { merge: true });
+
+        // Call the function to update favorites
+        updateFavorites(docId, isLiked);
+    }
+
   function handleTrashClick() {
       console.log('Trash button clicked');
       // Add your trash button functionality here
