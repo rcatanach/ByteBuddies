@@ -372,6 +372,13 @@
         <a href="generator.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Generator</a>
         <a href="upload_images.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Upload Images</a>
         <a href="favorites.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Favorites</a>
+
+        <div class="w3-dropdown-click" style="position: absolute; right: 0;">
+          <button class="w3-button w3-padding-large" id="userDropdownBtn"><span id="userInfo"></span> <i class="fa fa-caret-down"></i></button>
+          <div class="w3-dropdown-content w3-bar-block w3-card-4" style="right: 0;">
+            <a id="logoutButton" class="w3-bar-item w3-button">Log Out</a>
+          </div>
+        </div>
       </div>
     
       <!-- Navbar on small screens -->
@@ -382,6 +389,21 @@
         <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
       </div>
     </div>
+
+    <!-- Add the following code to display the user info -->
+    <script type="module">
+      document.addEventListener('DOMContentLoaded', function() {
+        const userInfoElement = document.getElementById('userInfo');
+        const userEmail = localStorage.getItem('userEmail');
+
+        if (userEmail) {
+            userInfoElement.textContent = `Logged in as: ${userEmail}`;
+        } else {
+            userInfoElement.textContent = 'Log in';
+        }
+    });
+
+</script>
     
     <!-- Generating Process -->
     <div class="step">

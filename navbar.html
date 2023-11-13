@@ -86,7 +86,6 @@
     background-color: #C5A477 !important; /* Darker Peach on Hover */
 }
 </style>
-<script type="module" src="firebase.js"></script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
@@ -117,6 +116,7 @@
 </head>
 
 <body>
+  <script type="module" src="firebase.js"></script>
   <div class="w3-top">
     <div class="w3-bar w3-red w3-card w3-left-align w3-large">
       <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
@@ -132,7 +132,15 @@
       <a href="generator.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Generator</a>
       <a href="upload_images.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Upload Images</a>
       <a href="favorites.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large">Favorites</a>
+
+      <div class="w3-dropdown-click" style="position: absolute; right: 0;">
+        <button class="w3-button w3-padding-large" id="userDropdownBtn"><span id="userInfo"></span> <i class="fa fa-caret-down"></i></button>
+        <div class="w3-dropdown-content w3-bar-block w3-card-4" style="right: 0;">
+          <a id="logoutButton" class="w3-bar-item w3-button">Log Out</a>
+        </div>
+      </div>
     </div>
+  </div>
 
     <!-- Navbar on small screens -->
     <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
@@ -142,9 +150,6 @@
       <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
     </div>
   </div>
-
-  
-
 
 
 </body>
