@@ -290,40 +290,71 @@
     .w3-dropdown-click:hover .w3-dropdown-content {
       display: block;
     }
-    
-    /*connect to the firebase SDK */
+  
+    .try-on-section {
+    text-align: center;
+    margin-top: 20px; /* Add some space at the top */
+    }
+ 
+    .try-on-button {
+    display: block;
+    margin: 20px auto; /* Center the button and add some space around it */
+    }
+    .outfit-preview .outfit-image {
+    width: 150px; /* Adjust the width to make the images smaller */
+    height: 150px; /* Adjust the height to make the images smaller */
+    }
+    .vertical-align {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    }
+    .outfit-image {
+    width: 200px; 
+    height: 300px;
+    object-fit: contain; /* Set to 'contain' */
+    }
+    .outfit-preview .outfit-image:hover {
+    transform: scale(1.1); /* Scale the image on hover */
+    transition: transform 0.3s; /* Add a smooth transition */
+    }
+    .confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    }
+
+    .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0.7;
+    transform: rotate(45deg);
+    animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+        0% {
+            transform: translateY(0) rotate(45deg);
+        }
+        100% {
+            transform: translateY(100vh) rotate(45deg);
+        }
+    }
+
     </style>
     <script type="module" src="firebase.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        var includeHTML = function() {
-          var z, i, elmnt, file, xhttp;
-          z = document.getElementsByTagName("*");
-          for (i = 0; i < z.length; i++) {
-            elmnt = z[i];
-            file = elmnt.getAttribute("w3-include-html");
-            if (file) {
-              xhttp = new XMLHttpRequest();
-              xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                  elmnt.innerHTML = this.responseText;
-                  elmnt.removeAttribute("w3-include-html");
-                  includeHTML();
-                }
-              }
-              xhttp.open("GET", file, true);
-              xhttp.send();
-              return;
-            }
-          }
-        };
-        includeHTML();
-      });
-    </script>
     </head>
     
     <body>
-    
+
     
     <!-- Navbar -->
     <div class="w3-top">
@@ -381,9 +412,48 @@
         <div class="generate">
             <button type="submit" id="GenerateOutfit">Generate Outfit</button>
         </div>
+          
     </div>
     
-   
+    <div class="confetti-container"></div>
+
+  <div class="try-on-section">
+    <button type="button" id="TryOnOutfit" class="try-on-button" style="background-color: transparent; border: none; cursor: pointer;">
+        <img src="hanger.png" alt="Try On" style="width: 40px; height: 40px;">
+        <span id="ButtonText">Try On</span>
+    </button>
+</div>
+
+<div class="outfit-preview" style="display: none;">
+    <h3>Outfit Preview</h3>
+    <div class="outfit vertical-align">
+        <div class="image-block">
+            <img src="" alt="Top Image" id="PreviewTopImage" class="outfit-image">
+        </div>
+        <div class="image-block">
+            <img src="" alt="Bottom Image" id="PreviewBottomImage" class="outfit-image">
+        </div>
+        <div class="image-block">
+            <img src="" alt="Shoes Image" id="PreviewShoesImage" class="outfit-image">
+        </div>
+    </div>
+</div>
+    
+    <script type="module">
+      import { firebaseApp, auth, firestore } from './firebase.js';
+    
+      // Check if Firebase has been initialized
+      if (firebaseApp && auth && firestore) {
+          // Firebase has been initialized
+          console.log("Firebase has been initialized.");
+    
+          // Use Firebase services here
+          // ...
+      } else {
+          // Firebase is not initialized
+          console.error("Firebase is not initialized.");
+      }
+    </script>
     
     
     <!-- ... (keep your existing content) ... -->
@@ -401,24 +471,7 @@
     
     <!-- Algorithm Base setup -->
 
-    <script type="module">
-      import { db, doc, collection, getDocs, query, where } from './firebase.js';
-      import { firebaseApp, auth, firestore } from './firebase.js';
-    
-      // Check if Firebase has been initialized
-      if (firebaseApp && auth && firestore) {
-          // Firebase has been initialized
-          console.log("Firebase has been initialized.");
-    
-          // Use Firebase services here
-          // ...
-      } else {
-          // Firebase is not initialized
-          console.error("Firebase is not initialized.");
-      }
-    </script>
-
-<!-- Working for grabbing images from database-->
+  <!-- Working for grabbing images from database-->
     <script type="module">
       import { db, doc, collection, getDocs, query, where } from './firebase.js';
       document.addEventListener("DOMContentLoaded", function() {
@@ -545,9 +598,56 @@ getDocs(shoesQuery)
     shoesImage.src = randomShoesImageUrl;
   }
 });
+document.getElementById("TryOnOutfit").addEventListener("click", function () {
+    const outfitPreview = document.querySelector('.outfit-preview');
+    const generateOutfitSection = document.querySelector('.step');
+    const tryOnButton = document.getElementById("TryOnOutfit");
+    const confettiContainer = document.querySelector('.confetti-container'); // Define confettiContainer
+    
+    if (outfitPreview.style.display === 'none') {
+        // Show outfit preview, hide generate outfit
+        outfitPreview.style.display = 'block';
+        generateOutfitSection.style.display = 'none';
 
-  
-  
+        // Change button text to "Go Back to Generator"
+        tryOnButton.innerHTML = '<img src="hanger.png" alt="Try On" style="width: 40px; height: 40px;">\nBack to Generator';
+          // Generate confetti
+          generateConfetti(confettiContainer);
+    } else {
+        // Show generate outfit, hide outfit preview
+        outfitPreview.style.display = 'none';
+        generateOutfitSection.style.display = 'block';
+
+        // Change button text back to "Try On"
+        tryOnButton.innerHTML = '<img src="hanger.png" alt="Try On" style="width: 40px; height: 40px;">\nTry On';
+    }
+
+    const topImage = document.getElementById("TopImage").src;
+    const bottomImage = document.getElementById("BottomImage").src;
+    const shoesImage = document.getElementById("ShoesImage").src;
+
+    // Update the preview images
+    document.getElementById("PreviewTopImage").src = topImage;
+    document.getElementById("PreviewBottomImage").src = bottomImage;
+    document.getElementById("PreviewShoesImage").src = shoesImage;
+});
+function generateConfetti(container) {
+    const colors = ['#FFD700', '#FF6347', '#00FA9A', '#9400D3']; // Define your confetti colors
+
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.animationDuration = `${Math.random() * 1 + 0.5}s`; // Adjust the animation duration
+        container.appendChild(confetti);
+
+        setTimeout(() => {
+            container.removeChild(confetti);
+        }, 2000);
+    }
+}
 </script>
+
 </body>
 </html>
