@@ -71,6 +71,7 @@ input[type="file"]::file-selector-button:active {
 
 
   <script>
+    /*
 function showOptions(category) {
             document.getElementById("topOptions").style.display = "none";
             document.getElementById("bottomOptions").style.display = "none";
@@ -84,6 +85,59 @@ function showOptions(category) {
                 document.getElementById("shoesOptions").style.display = "block";
             }
         }
+*/
+/* Resets the chosen options when switching between top, bottom, and shoes*/
+function resetOptions(category) {
+    var typeRadio = document.querySelectorAll('input[name="' + category + '_type"]');
+    var patternRadio = document.querySelectorAll('input[name="' + category + '_pattern"]');
+    var colorRadio = document.querySelectorAll('input[name="' + category + '_color"]');
+    var fitRadio = document.querySelectorAll('input[name="' + category + '_fit"]');
+    var additionalColorsCheckbox = document.getElementsByName(category + '_additional_color');
+
+    // Reset radio buttons
+    typeRadio.forEach(function (radio) {
+        radio.checked = false;
+    });
+    patternRadio.forEach(function (radio) {
+        radio.checked = false;
+    });
+    colorRadio.forEach(function (radio) {
+        radio.checked = false;
+    });
+    fitRadio.forEach(function (radio) {
+        radio.checked = false;
+    });
+
+    // Reset additional colors checkboxes
+    additionalColorsCheckbox.forEach(function (checkbox) {
+        checkbox.checked = false;
+    });
+}
+
+// Shows the correct option while resetting the rest
+function showOptions(category) {
+    resetOptions("top");
+    resetOptions("bottom");
+    resetOptions("shoes");
+
+    var categories = ["top", "bottom", "shoes"];
+    
+    categories.forEach(function (cat) {
+        var optionsElement = document.getElementById(cat + "Options");
+        if (category === cat) {
+            optionsElement.classList.add("show");
+        } else {
+            optionsElement.classList.remove("show");
+        }
+    });
+}
+
+// Function to reset all options when the form is reset
+function resetForm() {
+    resetOptions("top");
+    resetOptions("bottom");
+    resetOptions("shoes");
+}
 
 document.addEventListener("DOMContentLoaded", function() {
   var includeHTML = function() {
@@ -119,12 +173,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <div w3-include-html="navbar.html"></div>
 
-
-<!-- Your content for upload_images.html goes here -->
-<!--Create buttons to select and upload image
-<input type="file" id="imageInput" accept="image/*" required />
-<button id="uploadButton">Upload Image</button>
--->
+<!-- Upload Page Begin -->
   <h1>Upload an Image</h1>
 </br>
   <form name="imageInput" enctype="multipart/form-data" id="imageInput">
