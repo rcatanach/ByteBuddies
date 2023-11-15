@@ -15,13 +15,15 @@
   
   <style>
         body,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;           
-                            text-align: center;}
+                            text-align: center;
+                          background-color: #ede4d8 }
     h1{
    background-color: #C5A477; /* brown background color */
  color: #fff; /* Text color for the header */
- padding: 2px; /* Add padding for better visibility */
+ padding-top: 35px; /* Add padding for better visibility */
+ padding-bottom: 5px;
  }
-    .w3-bar,button {font-family: "Montserrat", sans-serif}
+    .w3-bar {font-family: "Montserrat", sans-serif}
 
     /* Add your custom styles here */
 
@@ -31,16 +33,42 @@
 
 
 <style>
-  #imageInput { /*SUPPORT FOR BUTTON*/
-    margin-top: 100px; /* Adds 100 pixels of margin at the top */
-  }
-
-  #uploadButton {
-    margin-top: 100px; /* Adds 100 pixels of margin at the top */
-  }
+input[type="file"]::file-selector-button {
+  font-family: "Montserrat", sans-serif;
+  border-radius: 4px;
+  padding: 0 10px;
+  height: 30px;
+  cursor: pointer;
+  background-color: #C5A477;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  margin-right: 16px;
+  transition: background-color 200ms;
+}
+input[type="file"]::file-selector-button:hover {
+  background-color: #DE7E5D;
+  height: 35px;
+  padding: 0 15px;
+}
+input[type="file"]::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+#uploadButton {
+  margin-top: 100px; /* Adds 100 pixels of margin at the top */
+  font-family: "Montserrat", sans-serif;
+  background-color: #C5A477;
+  padding: 5px;
+}
+#uploadButton:hover {
+  background-color: #DE7E5D;
+  padding: 8px;
+  
+}
+.show {
+        display: block !important;
+    }
 </style>
 
-  
 
   <script>
 function showOptions(category) {
@@ -57,30 +85,30 @@ function showOptions(category) {
             }
         }
 
-    document.addEventListener("DOMContentLoaded", function() {
-      var includeHTML = function() {
-        var z, i, elmnt, file, xhttp;
-        z = document.getElementsByTagName("*");
-        for (i = 0; i < z.length; i++) {
-          elmnt = z[i];
-          file = elmnt.getAttribute("w3-include-html");
-          if (file) {
-            xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-              if (this.readyState == 4 && this.status == 200) {
-                elmnt.innerHTML = this.responseText;
-                elmnt.removeAttribute("w3-include-html");
-                window.includeDone();
-              }
-            }
-            xhttp.open("GET", file, true);
-            xhttp.send();
-            return;
+document.addEventListener("DOMContentLoaded", function() {
+  var includeHTML = function() {
+    var z, i, elmnt, file, xhttp;
+    z = document.getElementsByTagName("*");
+    for (i = 0; i < z.length; i++) {
+      elmnt = z[i];
+      file = elmnt.getAttribute("w3-include-html");
+      if (file) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            elmnt.innerHTML = this.responseText;
+            elmnt.removeAttribute("w3-include-html");
+            window.includeDone();
           }
         }
-      };
-      includeHTML();
-    });
+        xhttp.open("GET", file, true);
+        xhttp.send();
+        return;
+      }
+    }
+  };
+  includeHTML();
+});
 
   </script>
 </head>
@@ -97,12 +125,15 @@ function showOptions(category) {
 <input type="file" id="imageInput" accept="image/*" required />
 <button id="uploadButton">Upload Image</button>
 -->
-</br>
   <h1>Upload an Image</h1>
+</br>
   <form name="imageInput" enctype="multipart/form-data" id="imageInput">
       <input type="file" id="imageUpload" name="imageUpload" required>
+    
 
   </br>
+  <!-- Add this img element inside your form -->
+<img id="imagePreview" src="#" alt="Selected Image" style="max-width: 300px; max-height: 300px; margin-top: 10px; display: none; display: block; margin-left: auto; margin-right: auto;">
   </br>
 
   <label>Select Clothing Category:</label><br>
@@ -262,6 +293,7 @@ function showOptions(category) {
   let selAddColors = [];
   let categoryValue = null;
   
+  /*
   document.addEventListener('DOMContentLoaded', function() {
     // Add event listener to the form for form submission
     const uploadButton = document.getElementById('uploadButton');
@@ -274,7 +306,7 @@ function showOptions(category) {
       }
     });
   });
-
+*/
   function fireUpload() {
     const imageInput = document.getElementById('imageUpload');
     const file = imageInput.files[0]; // Access the selected file
@@ -321,6 +353,53 @@ function showOptions(category) {
       console.error('No file selected for upload');
     }
   }
+
+  document.addEventListener('DOMContentLoaded', function() {
+  // Add event listener to the file input for change event
+  const imageInput = document.getElementById('imageUpload');
+  imageInput.addEventListener('change', function(event) {
+    previewImage(event.target);
+  });
+
+  // Add event listener to the form for form submission
+  const uploadButton = document.getElementById('uploadButton');
+  uploadButton.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    if (validateForm()) {
+      fireUpload(); // Call the fireUpload function after validation
+      document.imageInput.reset();
+      resetImagePreview(); // Reset image preview after upload
+    }
+  });
+});
+
+// shows the image that was uploaded using file reader
+function previewImage(input) {
+  const file = input.files[0];
+  const imagePreview = document.getElementById('imagePreview');
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      imagePreview.src = e.target.result;
+      imagePreview.style.display = 'block';
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    resetImagePreview();
+  }
+}
+
+// Resets back to invisible
+function resetImagePreview() {
+  const imagePreview = document.getElementById('imagePreview');
+  imagePreview.src = '#';
+  imagePreview.style.display = 'none';
+}
+
      // Makes sure that everything has been filled out
 function validateForm() {
     var category = document.querySelector('input[name="category"]:checked');
