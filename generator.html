@@ -96,6 +96,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <style>
     body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
@@ -246,7 +247,7 @@
         .outfit-image {
             width: 200px; 
             height: 300px;
-            object-fit: cover;
+            object-fit: contain; /* Set to 'contain' */
         }
         
     /* Style for the dropdown button */
@@ -290,7 +291,7 @@
     .w3-dropdown-click:hover .w3-dropdown-content {
       display: block;
     }
-  
+    
     .try-on-section {
     text-align: center;
     margin-top: 20px; /* Add some space at the top */
@@ -349,12 +350,39 @@
         }
     }
 
+    /*connect to the firebase SDK */
     </style>
     <script type="module" src="firebase.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var includeHTML = function() {
+          var z, i, elmnt, file, xhttp;
+          z = document.getElementsByTagName("*");
+          for (i = 0; i < z.length; i++) {
+            elmnt = z[i];
+            file = elmnt.getAttribute("w3-include-html");
+            if (file) {
+              xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                  elmnt.innerHTML = this.responseText;
+                  elmnt.removeAttribute("w3-include-html");
+                  includeHTML();
+                }
+              }
+              xhttp.open("GET", file, true);
+              xhttp.send();
+              return;
+            }
+          }
+        };
+        includeHTML();
+      });
+    </script>
     </head>
     
     <body>
-
+    
     
     <!-- Navbar -->
     <div class="w3-top">
@@ -390,20 +418,20 @@
       </div>
     </div>
 
-    <!-- Add the following code to display the user info -->
-    <script type="module">
-      document.addEventListener('DOMContentLoaded', function() {
-        const userInfoElement = document.getElementById('userInfo');
-        const userEmail = localStorage.getItem('userEmail');
-
-        if (userEmail) {
-            userInfoElement.textContent = `Logged in as: ${userEmail}`;
-        } else {
-            userInfoElement.textContent = 'Log in';
-        }
-    });
-
-</script>
+       <!-- Add the following code to display the user info -->
+       <script type="module">
+        document.addEventListener('DOMContentLoaded', function() {
+          const userInfoElement = document.getElementById('userInfo');
+          const userEmail = localStorage.getItem('userEmail');
+  
+          if (userEmail) {
+              userInfoElement.textContent = `Logged in as: ${userEmail}`;
+          } else {
+              userInfoElement.textContent = 'Log in';
+          }
+      });
+  
+      </script>
     
     <!-- Generating Process -->
     <div class="step">
@@ -434,47 +462,33 @@
         <div class="generate">
             <button type="submit" id="GenerateOutfit">Generate Outfit</button>
         </div>
-          
     </div>
-    
+
     <div class="confetti-container"></div>
 
-  <div class="try-on-section">
-    <button type="button" id="TryOnOutfit" class="try-on-button" style="background-color: transparent; border: none; cursor: pointer;">
-        <img src="hanger.png" alt="Try On" style="width: 40px; height: 40px;">
-        <span id="ButtonText">Try On</span>
-    </button>
-</div>
-
-<div class="outfit-preview" style="display: none;">
-    <div class="outfit vertical-align">
-        <div class="image-block">
-            <img src="" alt="Top Image" id="PreviewTopImage" class="outfit-image">
-        </div>
-        <div class="image-block">
-            <img src="" alt="Bottom Image" id="PreviewBottomImage" class="outfit-image">
-        </div>
-        <div class="image-block">
-            <img src="" alt="Shoes Image" id="PreviewShoesImage" class="outfit-image">
-        </div>
-    </div>
-</div>
+    <div class="try-on-section">
+      <button type="button" id="TryOnOutfit" class="try-on-button" style="background-color: transparent; border: none; cursor: pointer;">
+          <img src="hanger.png" alt="Try On" style="width: 40px; height: 40px;">
+          <span id="ButtonText">Try On</span>
+      </button>
+  </div>
+  
+  <div class="outfit-preview" style="display: none;">
+      <!-- <h3>Outfit Preview</h3> -->
+      <div class="outfit vertical-align">
+          <div class="image-block">
+              <img src="" alt="Top Image" id="PreviewTopImage" class="outfit-image">
+          </div>
+          <div class="image-block">
+              <img src="" alt="Bottom Image" id="PreviewBottomImage" class="outfit-image">
+          </div>
+          <div class="image-block">
+              <img src="" alt="Shoes Image" id="PreviewShoesImage" class="outfit-image">
+          </div>
+      </div>
+  </div>
     
-    <script type="module">
-      import { firebaseApp, auth, firestore } from './firebase.js';
-    
-      // Check if Firebase has been initialized
-      if (firebaseApp && auth && firestore) {
-          // Firebase has been initialized
-          console.log("Firebase has been initialized.");
-    
-          // Use Firebase services here
-          // ...
-      } else {
-          // Firebase is not initialized
-          console.error("Firebase is not initialized.");
-      }
-    </script>
+   
     
     
     <!-- ... (keep your existing content) ... -->
@@ -492,134 +506,36 @@
     
     <!-- Algorithm Base setup -->
 
-  <!-- Working for grabbing images from database-->
+    <script type="module">
+      import { db, doc, collection, getDocs, query, where } from './firebase.js';
+      import { firebaseApp, auth, firestore } from './firebase.js';
+    
+      // Check if Firebase has been initialized
+      if (firebaseApp && auth && firestore) {
+          // Firebase has been initialized
+          console.log("Firebase has been initialized.");
+    
+          // Use Firebase services here
+          // ...
+      } else {
+          // Firebase is not initialized
+          console.error("Firebase is not initialized.");
+      }
+    </script>
+
+<!-- Working for grabbing images from database-->
     <script type="module">
       import { db, doc, collection, getDocs, query, where } from './firebase.js';
       document.addEventListener("DOMContentLoaded", function() {
   // Initialize Firebase (make sure this code is present)
   const userEmail = localStorage.getItem('userEmail');
   
-  // TOP IMAGES
-  // Initialize the top image URLs
-  const topImageUrls = [];
-
-  // Reference to the "clothing" subcollection for tops
-  const topsCollectionRef = collection(db, "users", userEmail, "clothing");
-
-  // Query to retrieve all top documents
-  const topsQuery = query(topsCollectionRef, where("category", "==", "top"));
-
-  getDocs(topsQuery)
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // Get the image URL from the top document and add it to the array
-        const imageUrl = doc.data().image;
-        topImageUrls.push(imageUrl);
-      });
-
-      // Now that we have the top image URLs, you can use them for generating the top image
-      const topImage = document.getElementById("TopImage");
-      const generateTopButton = document.getElementById("GenerateTop");
-
-      generateTopButton.addEventListener("click", function() {
-        // Randomly choose a top image URL
-        const randomImageUrl = topImageUrls[Math.floor(Math.random() * topImageUrls.length)];
-        // Set the chosen image URL as the source of the top image element
-        topImage.src = randomImageUrl;
-      });
-    })
-    .catch((error) => {
-      console.error("Error getting top images: ", error);
-    });
-
-    // BOTTOM IMAGES
-  // Initialize the top image URLs
-  const bottomImageUrls = [];
-
-  // Reference to the "clothing" subcollection for tops
-  const bottomCollectionRef = collection(db, "users", userEmail, "clothing");
-
-  // Query to retrieve all top documents
-  const bottomQuery = query(bottomCollectionRef, where("category", "==", "bottom"));
-
-  getDocs(bottomQuery)
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // Get the image URL from the top document and add it to the array
-        const imageUrl = doc.data().image;
-        bottomImageUrls.push(imageUrl);
-      });
-
-      // Now that we have the top image URLs, you can use them for generating the bottom image
-      const bottomImage = document.getElementById("BottomImage");
-      const generateBottomButton = document.getElementById("GenerateBottom");
-
-      generateBottomButton.addEventListener("click", function() {
-        // Randomly choose a top image URL
-        const randomImageUrl = bottomImageUrls[Math.floor(Math.random() * bottomImageUrls.length)];
-        // Set the chosen image URL as the source of the top image element
-        bottomImage.src = randomImageUrl;
-      });
-    })
-    .catch((error) => {
-      console.error("Error getting bottom images: ", error);
-    });
-
-     // SHOES IMAGES
-  // Initialize the top image URLs
-  const shoesImageUrls = [];
-
-// Reference to the "clothing" subcollection for tops
-const shoesCollectionRef = collection(db, "users", userEmail, "clothing");
-
-// Query to retrieve all top documents
-const shoesQuery = query(shoesCollectionRef, where("category", "==", "shoes"));
-
-getDocs(shoesQuery)
-  .then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      // Get the image URL from the top document and add it to the array
-      const imageUrl = doc.data().image;
-      shoesImageUrls.push(imageUrl);
-    });
-
-    // Now that we have the top image URLs, you can use them for generating the shoes image
-    const shoesImage = document.getElementById("ShoesImage");
-    const generateShoesButton = document.getElementById("GenerateShoes");
-
-    generateShoesButton.addEventListener("click", function() {
-      // Randomly choose a top image URL
-      const randomImageUrl = shoesImageUrls[Math.floor(Math.random() * shoesImageUrls.length)];
-      // Set the chosen image URL as the source of the top image element
-      shoesImage.src = randomImageUrl;
-    });
-  })
-  .catch((error) => {
-    console.error("Error getting shoes images: ", error);
-  });
 
   // GENERATE OUTFIT
   const generateOutfitButton = document.getElementById("GenerateOutfit");
   generateOutfitButton.addEventListener("click", generateOutfit);
 
-  function generateOutfit() {
-    // Randomly select images for the top, bottom, and shoes
-    const randomTopImageUrl = topImageUrls[Math.floor(Math.random() * topImageUrls.length)];
-    const randomBottomImageUrl = bottomImageUrls[Math.floor(Math.random() * bottomImageUrls.length)];
-    const randomShoesImageUrl = shoesImageUrls[Math.floor(Math.random() * shoesImageUrls.length)];
-
-    // Set the selected images as the source for the corresponding HTML elements
-    const topImage = document.getElementById("TopImage");
-    topImage.src = randomTopImageUrl;
-
-    const bottomImage = document.getElementById("BottomImage");
-    bottomImage.src = randomBottomImageUrl;
-
-    const shoesImage = document.getElementById("ShoesImage");
-    shoesImage.src = randomShoesImageUrl;
-  }
-});
-document.getElementById("TryOnOutfit").addEventListener("click", function () {
+  document.getElementById("TryOnOutfit").addEventListener("click", function () {
     const outfitPreview = document.querySelector('.outfit-preview');
     const generateOutfitSection = document.querySelector('.step');
     const tryOnButton = document.getElementById("TryOnOutfit");
@@ -668,7 +584,451 @@ function generateConfetti(container) {
         }, 2000);
     }
 }
-</script>
 
+  function generateOutfit() {
+    
+
+
+    // TOP IMAGES
+  // Initialize the top image URLs
+  const topImageUrls = [];
+  let bottomImageUrls = [];
+  let shoesImageUrls = [];
+
+  // Reference to the "clothing" subcollection for tops
+  const topsCollectionRef = collection(db, "users", userEmail, "clothing");
+
+  // Query to retrieve all top documents
+  const topsQuery = query(topsCollectionRef, where("category", "==", "top"));
+  let topColor = "";
+  let patternBool = "";
+  let bottomColor = "";
+  getDocs(topsQuery)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // Get the image URL from the top document and add it to the array
+        const imageUrl = doc.data().image;
+        const colorData = doc.data().color;
+        const patternData = doc.data().pattern;
+        console.log((imageUrl, colorData));
+        topImageUrls.push([imageUrl, colorData, patternData]);
+      });
+
+      // Now that we have the top image URLs, you can use them for generating the top image
+      const topImage = document.getElementById("TopImage");
+      const generateTopButton = document.getElementById("GenerateTop");
+      // let topColor = "";
+      // let patternBool = "";
+
+      
+        // Randomly choose a top image URL
+        const randomImage = topImageUrls[Math.floor(Math.random() * topImageUrls.length)];
+        console.log("stuff:" + randomImage);
+        const randomImageUrl = randomImage[0];
+        topColor = randomImage[1];
+        patternBool = randomImage[2];
+        console.log(topColor);
+        // Set the chosen image URL as the source of the top image element
+        topImage.src = randomImageUrl;
+
+        generateTopButton.addEventListener("click", function() {
+          // Randomly choose a top image URL
+          const randomImage = topImageUrls[Math.floor(Math.random() * topImageUrls.length)];
+          console.log("stuff:" + randomImage);
+          const randomImageUrl = randomImage[0];
+          topColor = randomImage[1];
+          patternBool = randomImage[2];
+          console.log(topColor);
+          // Set the chosen image URL as the source of the top image element
+          topImage.src = randomImageUrl;
+          getBottoms();
+      });
+
+        
+    
+    })
+    .catch((error) => {
+      console.error("Error getting top images: ", error);
+    });
+
+    
+
+    // BOTTOM IMAGES
+  // Initialize the bottom image URLs
+  bottomImageUrls = [];
+
+  // Reference to the "clothing" subcollection for tops
+  const bottomCollectionRef = collection(db, "users", userEmail, "clothing");
+
+  // Query to retrieve all top documents
+  let bottomQuery;
+  if(patternBool == "no_pattern"){
+    bottomQuery = query(bottomCollectionRef, where("category", "==", "bottom"));
+  } else{
+    bottomQuery = query(bottomCollectionRef, where("category", "==", "bottom"), where("pattern", "==", "no_pattern"));
+  }
+  getDocs(bottomQuery)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // Get the image URL from the top document and add it to the array
+        const imageUrl = doc.data().image;
+        const colorData = doc.data().color;
+        
+        console.log("here");
+
+        if(topColor == "red" && ["green", "orange", "yellow", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for red top`);
+        }
+        else if(topColor == "blue" && ["green", "orange", "blue", "black", "white", "grey"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for blue top`);
+        }
+        else if(topColor == "orange" && ["blue", "red", "yellow", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for orange top`);
+        }
+        else if(topColor == "yellow" && ["green", "purple", "grey", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for yellow top`);
+        }
+        else if(topColor == "green" && ["pink", "blue", "yellow", "black", "white", "brown", "grey"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for green top`);
+        }
+        else if(topColor == "purple" && ["yellow", "blue", "grey", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for purple top`);
+        }
+        else if(topColor == "pink" && ["brown", "red", "green", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for pink top`);
+        }
+        else if(topColor == "black"){
+          bottomImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "white"){
+          bottomImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "brown" && ["green", "pink", "blue", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for brown top`);
+        }
+        else if(topColor == "grey" && ["green", "blue", "brown", "black", "white", "grey"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for grey top`);
+        }
+        
+      });
+
+      // Now that we have the top image URLs, you can use them for generating the bottom image
+      const bottomImage = document.getElementById("BottomImage");
+      const generateBottomButton = document.getElementById("GenerateBottom");
+      // let bottomColor = "";
+
+        // Randomly choose a top image URL
+        const randomImageUrl = bottomImageUrls[Math.floor(Math.random() * bottomImageUrls.length)];
+        // Set the chosen image URL as the source of the top image element
+        bottomImage.src = randomImageUrl[0];
+        bottomColor = randomImageUrl[1];
+
+      generateBottomButton.addEventListener("click", function() {
+        // Randomly choose a top image URL
+        getBottoms()
+          .then(() => {
+            const randomImageUrl = bottomImageUrls[Math.floor(Math.random() * bottomImageUrls.length)];
+            // Set the chosen image URL as the source of the top image element
+            bottomImage.src = randomImageUrl[0];
+            bottomColor = randomImageUrl[1];
+          })
+          .catch((error) => {
+            console.error('Error fetching bottom images:', error);
+          });
+        // const randomImageUrl = bottomImageUrls[Math.floor(Math.random() * bottomImageUrls.length)];
+        // // Set the chosen image URL as the source of the top image element
+        // bottomImage.src = randomImageUrl[0];
+        // bottomColor = randomImageUrl[1];
+        // getShoes();
+      });
+        
+      
+    })
+    .catch((error) => {
+      console.error("Error getting bottom images: ", error);
+    });
+  
+     // SHOES IMAGES
+  // Initialize the top image URLs
+  shoesImageUrls = [];
+
+// Reference to the "clothing" subcollection for tops
+const shoesCollectionRef = collection(db, "users", userEmail, "clothing");
+
+// Query to retrieve all top documents
+const shoesQuery = query(shoesCollectionRef, where("category", "==", "shoes"));
+
+getDocs(shoesQuery)
+  .then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      // Get the image URL from the top document and add it to the array
+      const imageUrl = doc.data().image;
+      const colorData = doc.data().color;
+
+        if(topColor == "red" && ["red", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "blue" && ["green", "orange", "blue", "black", "white", "grey"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "orange" && ["orange", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "yellow" && ["yellow", "grey", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "green" && ["green", "black", "white", "brown", "grey"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "purple" && ["purple", "grey", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "pink" && ["pink", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "black" && [bottomColor, "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "white" && [bottomColor, "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "brown" && ["brown", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "grey" && [bottomColor, "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else{
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+    });
+
+    // Now that we have the top image URLs, you can use them for generating the shoes image
+    const shoesImage = document.getElementById("ShoesImage");
+    const generateShoesButton = document.getElementById("GenerateShoes");
+
+      // Randomly choose a top image URL
+      const randomImageUrl = shoesImageUrls[Math.floor(Math.random() * shoesImageUrls.length)];
+      // Set the chosen image URL as the source of the top image element
+      shoesImage.src = randomImageUrl[0];
+
+      generateShoesButton.addEventListener("click", function() {
+        // Randomly choose a top image URL
+        getShoes()
+          .then(() => {
+            const randomImageUrl = shoesImageUrls[Math.floor(Math.random() * shoesImageUrls.length)];
+            // Set the chosen image URL as the source of the top image element
+            shoesImage.src = randomImageUrl[0];
+          })
+          .catch((error) => {
+            console.error('Error fetching shoes images:', error);
+          });
+      });
+    
+  })
+  .catch((error) => {
+    console.error("Error getting shoes images: ", error);
+  });
+
+
+  // ----------------------------------------------
+      // BOTTOM IMAGES
+  // Initialize the top image URLs
+  function getBottoms(){
+    return new Promise((resolve, reject) => {
+    bottomImageUrls = [];
+
+  // Reference to the "clothing" subcollection for tops
+  const bottomCollectionRef = collection(db, "users", userEmail, "clothing");
+
+  // Query to retrieve all top documents
+  let bottomQuery;
+  if(patternBool == "no_pattern"){
+    bottomQuery = query(bottomCollectionRef, where("category", "==", "bottom"));
+  } else{
+    bottomQuery = query(bottomCollectionRef, where("category", "==", "bottom"), where("pattern", "==", "no_pattern"));
+  }
+  setTimeout(() => {
+  getDocs(bottomQuery)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // Get the image URL from the top document and add it to the array
+        const imageUrl = doc.data().image;
+        const colorData = doc.data().color;
+        
+        console.log("here");
+
+        if(topColor == "red" && ["green", "orange", "yellow", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for red top`);
+        }
+        else if(topColor == "blue" && ["green", "orange", "blue", "black", "white", "grey"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for blue top`);
+        }
+        else if(topColor == "orange" && ["blue", "red", "yellow", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for orange top`);
+        }
+        else if(topColor == "yellow" && ["green", "purple", "grey", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for yellow top`);
+        }
+        else if(topColor == "green" && ["pink", "blue", "yellow", "black", "white", "brown", "grey"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for green top`);
+        }
+        else if(topColor == "purple" && ["yellow", "blue", "grey", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for purple top`);
+        }
+        else if(topColor == "pink" && ["brown", "red", "green", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for pink top`);
+        }
+        else if(topColor == "black"){
+          bottomImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "white"){
+          bottomImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "brown" && ["green", "pink", "blue", "black", "white"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for brown top`);
+        }
+        else if(topColor == "grey" && ["green", "blue", "brown", "black", "white", "grey"].includes(colorData)){
+          bottomImageUrls.push([imageUrl, colorData]);
+          console.log(`Added bottom with color ${colorData} for grey top`);
+        }
+        else{
+          // console.log("in else");
+          // bottomImageUrls.push([imageUrl, colorData]);
+        }
+      });
+
+      // Now that we have the top image URLs, you can use them for generating the bottom image
+     const bottomImage = document.getElementById("BottomImage");
+     const generateBottomButton = document.getElementById("GenerateBottom");
+      let bottomColor = "";
+      resolve();
+    
+      // generateBottomButton.addEventListener("click", function() {
+      //   // Randomly choose a top image URL
+      //   getBottoms();
+      //   const randomImageUrl = bottomImageUrls[Math.floor(Math.random() * bottomImageUrls.length)];
+      //   // Set the chosen image URL as the source of the top image element
+      //   bottomImage.src = randomImageUrl[0];
+      //   bottomColor = randomImageUrl[1];
+      //   // getShoes();
+      // });
+
+    })
+    .catch((error) => {
+      console.error("Error getting bottom images: ", error);
+    });
+
+    
+    }, 2000); //end timeout
+
+
+    }); // end promise
+  }
+  
+
+     // SHOES IMAGES
+  // Initialize the top image URLs
+  function getShoes(){
+    return new Promise((resolve, reject) => {
+    shoesImageUrls = [];
+
+// Reference to the "clothing" subcollection for tops
+const shoesCollectionRef = collection(db, "users", userEmail, "clothing");
+
+// Query to retrieve all top documents
+const shoesQuery = query(shoesCollectionRef, where("category", "==", "shoes"));
+setTimeout(() => {
+getDocs(shoesQuery)
+  .then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      // Get the image URL from the top document and add it to the array
+      const imageUrl = doc.data().image;
+      const colorData = doc.data().color;
+
+        if(topColor == "red" && ["red", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "blue" && ["green", "orange", "blue", "black", "white", "grey"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "orange" && ["orange", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "yellow" && ["yellow", "grey", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "green" && ["green", "black", "white", "brown", "grey"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "purple" && ["purple", "grey", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "pink" && ["pink", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "black" && [bottomColor, "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "white" && [bottomColor, "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "brown" && ["brown", "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else if(topColor == "grey" && [bottomColor, "black", "white"].includes(colorData)){
+          shoesImageUrls.push([imageUrl, colorData]);
+        }
+        else{
+          // shoesImageUrls.push([imageUrl, colorData]);
+        }
+    });
+
+    // Now that we have the top image URLs, you can use them for generating the shoes image
+    const shoesImage = document.getElementById("ShoesImage");
+    const generateShoesButton = document.getElementById("GenerateShoes");
+
+    resolve();
+
+    // generateShoesButton.addEventListener("click", function() {
+    //   // Randomly choose a top image URL
+    //   getShoes();
+    //   const randomImageUrl = shoesImageUrls[Math.floor(Math.random() * shoesImageUrls.length)];
+    //   // Set the chosen image URL as the source of the top image element
+    //   shoesImage.src = randomImageUrl[0];
+    // });
+  })
+  .catch((error) => {
+    console.error("Error getting shoes images: ", error);
+  });
+
+      }, 2000); //end timeout
+    }); // end promise
+  } //end get shoes
+
+  
+  }
+});
+
+  
+  
+</script>
 </body>
 </html>
