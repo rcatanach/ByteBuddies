@@ -193,133 +193,166 @@ document.addEventListener("DOMContentLoaded", function() {
 
       <div id="topOptions" style="display:none;">
           <label>Top Options:</label>
-          <input type="radio" name="top_type" value="short_sleeve"> Short Sleeve
-          <input type="radio" name="top_type" value="long_sleeve"> Long Sleeve
-          <input type="radio" name="top_type" value="tank_top"> Tank Top<br>
+          <select name="top_type" id = "top_type">
+          <option value="short_sleeve"> Short Sleeve
+          <option value="long_sleeve"> Long Sleeve
+          <option type="radio" name="top_type" value="tank_top"> Tank Top
+        </select>
+        <br/>
           
           <label>Fit:</label>
-          <input type="radio" name="top_fit" value="oversize"> Oversize
-          <input type="radio" name="top_fit" value="fits_well"> Fits Well
-          <input type="radio" name="top_fit" value="tight"> Tight<br>
+          <select name="top_fit" id="top_fit">
+            <option value="fits_well"> Fits Well  
+            <option value="oversize"> Oversize
+            <option value="tight"> Tight
+        </select>
+        <br/>
           
           
           <label>Main Color:</label>
-          <input type="radio" name="top_color" value="red"> Red
-          <input type="radio" name="top_color" value="orange"> Orange
-          <input type="radio" name="top_color" value="yellow"> Yellow 
-          <input type="radio" name="top_color" value="green"> Green
-          <input type="radio" name="top_color" value="blue"> Blue
-          <input type="radio" name="top_color" value="purple"> Purple
-          <input type="radio" name="top_color" value="white"> White
-          <input type="radio" name="top_color" value="black"> Black
-          <input type="radio" name="top_color" value="pink"> Pink
-          <input type="radio" name="top_color" value="grey"> Grey
-          <input type="radio" name="top_color" value="brown"> Brown
+          <select name = "top_color" id="top_color">
+            <option value="red"> Red
+            <option value="orange"> Orange
+            <option value="yellow"> Yellow 
+            <option value="green"> Green
+            <option value="blue"> Blue
+            <option value="purple"> Purple
+            <option value="white"> White
+            <option value="black"> Black
+            <option value="pink"> Pink
+            <option value="grey"> Grey
+            <option value="brown"> Brown
+        </select>
           <br>
 
-          <label>Additional Colors (Optional): </label>
-          <input type="checkbox" name="top_additional_color" value="red"> Red
-          <input type="checkbox" name="top_additional_color" value="orange"> Orange
-          <input type="checkbox" name="top_additional_color" value="yellow"> Yellow 
-          <input type="checkbox" name="top_additional_color" value="green"> Green
-          <input type="checkbox" name="top_additional_color" value="blue"> Blue
-          <input type="checkbox" name="top_additional_color" value="purple"> Purple
-          <input type="checkbox" name="top_additional_color" value="white"> White
-          <input type="checkbox" name="top_additional_color" value="black"> Black
-          <input type="checkbox" name="top_additional_color" value="pink"> Pink
-          <input type="checkbox" name="top_additional_color" value="grey"> Grey
-          <input type="checkbox" name="top_additional_color" value="brown"> Brown
+          <label>Additional Colors (Optional, Ctrl click for multiple): </label>
+          <select name = "top_additional_color" id="top_additional_color" multiple size = "2">
+            <option value="red"> Red
+            <option value="orange"> Orange
+            <option value="yellow"> Yellow 
+            <option value="green"> Green
+            <option value="blue"> Blue
+            <option value="purple"> Purple
+            <option value="white"> White
+            <option value="black"> Black
+            <option value="pink"> Pink
+            <option value="grey"> Grey
+            <option value="brown"> Brown
+          </select>
           <br>
           
           <label>Pattern:</label>
-          <input type="radio" name="top_pattern" value="pattern"> Pattern
-          <input type="radio" name="top_pattern" value="no_pattern"> No Pattern<br>
+          <select name = "top_pattern" id="top_pattern">
+            <option value="no_pattern"> No Pattern<br>  
+            <option value="pattern"> Pattern
+          </select>
 
       </div>
 
       <div id="bottomOptions" style="display:none;">
           <label>Bottom Options:</label>
-          <input type="radio" name="bottom_type" value="shorts"> Shorts
-          <input type="radio" name="bottom_type" value="pants"> Pants
-          <input type="radio" name="bottom_type" value="skirt"> Skirt <br>
+          <select name = "bottom_type" id="bottom_type">
+            <option value="shorts"> Shorts
+            <option value="pants"> Pants
+            <option value="skirt"> Skirt 
+        </select>
+          <br>
           
           <label>Fit:</label>
-          <input type="radio" name="bottom_fit" value="oversize"> Oversize
-          <input type="radio" name="bottom_fit" value="fits_well"> Fits Well
-          <input type="radio" name="bottom_fit" value="tight"> Tight<br>
-          
+          <select name = "bottom_fit" id="bottom_fit">
+            <option value="fits_well"> Fits Well  
+            <option value="oversize"> Oversize
+            <option value="tight"> Tight<br>
+          </select>
+          <br>
           
           <label>Main Color:</label>
-          <input type="radio" name="bottom_color" value="red"> Red
-          <input type="radio" name="bottom_color" value="orange"> Orange
-          <input type="radio" name="bottom_color" value="yellow"> Yellow 
-          <input type="radio" name="bottom_color" value="green"> Green
-          <input type="radio" name="bottom_color" value="blue"> Blue
-          <input type="radio" name="bottom_color" value="purple"> Purple
-          <input type="radio" name="bottom_color" value="white"> White
-          <input type="radio" name="bottom_color" value="black"> Black
-          <input type="radio" name="bottom_color" value="pink"> Pink
-          <input type="radio" name="bottom_color" value="grey"> Grey
-          <input type="radio" name="bottom_color" value="brown"> Brown
+          <select name="bottom_color" id="bottom_color">
+            <option value="red"> Red
+            <option value="orange"> Orange
+            <option value="yellow"> Yellow 
+            <option value="green"> Green
+            <option value="blue"> Blue
+            <option value="purple"> Purple
+            <option value="white"> White
+            <option value="black"> Black
+            <option value="pink"> Pink
+            <option value="grey"> Grey
+            <option value="brown"> Brown
+          </select>
           <br>
 
-          <label>Additional Colors (Optional): </label>
-          <input type="checkbox" name="bottom_additional_color" value="red"> Red
-          <input type="checkbox" name="bottom_additional_color" value="orange"> Orange
-          <input type="checkbox" name="bottom_additional_color" value="yellow"> Yellow 
-          <input type="checkbox" name="bottom_additional_color" value="green"> Green
-          <input type="checkbox" name="bottom_additional_color" value="blue"> Blue
-          <input type="checkbox" name="bottom_additional_color" value="purple"> Purple
-          <input type="checkbox" name="bottom_additional_color" value="white"> White
-          <input type="checkbox" name="bottom_additional_color" value="black"> Black
-          <input type="checkbox" name="bottom_additional_color" value="pink"> Pink
-          <input type="checkbox" name="bottom_additional_color" value="grey"> Grey
-          <input type="checkbox" name="bottom_additional_color" value="brown"> Brown
+          <label>Additional Colors (Optional, Ctrl click for multiple): </label>
+          <select name="bottom_additional_color" id="bottom_additional_color" multiple size="3">
+            <option value="red"> Red
+            <option value="orange"> Orange
+            <option value="yellow"> Yellow 
+            <option value="green"> Green
+            <option value="blue"> Blue
+            <option value="purple"> Purple
+            <option value="white"> White
+            <option value="black"> Black
+            <option value="pink"> Pink
+            <option value="grey"> Grey
+            <option value="brown"> Brown
+          </select>
           <br>
 
           <label>Pattern:</label>
-          <input type="radio" name="bottom_pattern" value="pattern"> Pattern
-          <input type="radio" name="bottom_pattern" value="no_pattern"> No Pattern<br>
-
+          <select name="bottom_pattern" id="bottom_pattern">
+            <option value="no_pattern"> No Pattern  
+            <option value="pattern"> Pattern
+          </select><br>
+          
       </div>
 
       <div id="shoesOptions" style="display:none;">
           <label>Shoe Options:</label>
-          <input type="radio" name="shoe_type" value="low_top"> Low-Top
-          <input type="radio" name="shoe_type" value="high_top"> High-Top 
-          <input type="radio" name="shoe_type" value="open_toed"> Open-Toed <br>
+          <select name="shoes_type" id="shoes_type">
+            <option value="low_top"> Low-Top
+            <option value="high_top"> High-Top 
+            <option value="open_toed"> Open-Toed 
+          </select>
+          <br>
           
+
           <label>Main Color:</label>
-          <input type="radio" name="shoe_color" value="red"> Red
-          <input type="radio" name="shoe_color" value="orange"> Orange
-          <input type="radio" name="shoe_color" value="yellow"> Yellow 
-          <input type="radio" name="shoe_color" value="green"> Green
-          <input type="radio" name="shoe_color" value="blue"> Blue
-          <input type="radio" name="shoe_color" value="purple"> Purple
-          <input type="radio" name="shoe_color" value="white"> White
-          <input type="radio" name="shoe_color" value="black"> Black
-          <input type="radio" name="shoe_color" value="pink"> Pink
-          <input type="radio" name="shoe_color" value="grey"> Grey
-          <input type="radio" name="shoe_color" value="brown"> Brown
+          <select name="shoes_color" id="shoes_color">
+            <option value="red"> Red
+            <option value="orange"> Orange
+            <option value="yellow"> Yellow 
+            <option value="green"> Green
+            <option value="blue"> Blue
+            <option value="purple"> Purple
+            <option value="white"> White
+            <option value="black"> Black
+            <option value="pink"> Pink
+            <option value="grey"> Grey
+            <option value="brown"> Brown
+          </select>
           <br>
 
-          <label>Additional Colors (Optional): </label>
-          <input type="checkbox" name="shoe_additional_color" value="red"> Red
-          <input type="checkbox" name="shoe_additional_color" value="orange"> Orange
-          <input type="checkbox" name="shoe_additional_color" value="yellow"> Yellow 
-          <input type="checkbox" name="shoe_additional_color" value="green"> Green
-          <input type="checkbox" name="shoe_additional_color" value="blue"> Blue
-          <input type="checkbox" name="shoe_additional_color" value="purple"> Purple
-          <input type="checkbox" name="shoe_additional_color" value="white"> White
-          <input type="checkbox" name="shoe_additional_color" value="black"> Black
-          <input type="checkbox" name="shoe_additional_color" value="pink"> Pink
-          <input type="checkbox" name="shoe_additional_color" value="grey"> Grey
-          <input type="checkbox" name="shoe_additional_color" value="brown"> Brown
-          <br>
+          <label>Additional Colors (Optional, Ctrl click for multiple): </label>
+          <select name="shoes_additional_color" id="shoes_additional_color" multiple size="3">
+            <option value="red"> Red
+            <option value="orange"> Orange
+            <option value="yellow"> Yellow 
+            <option value="green"> Green
+            <option value="blue"> Blue
+            <option value="purple"> Purple
+            <option value="white"> White
+            <option value="black"> Black
+            <option value="pink"> Pink
+            <option value="grey"> Grey
+            <option value="brown"> Brown
+          </select><br>
           
           <label>Pattern:</label>
-          <input type="radio" name="shoe_pattern" value="pattern"> Pattern
-          <input type="radio" name="shoe_pattern" value="no_pattern"> No Pattern<br>
+          <select name="shoes_pattern" id="shoes_pattern">
+            <option value="no_pattern"> No Pattern
+            <option value="pattern"> Pattern
+          </select>
+          <br>
           
       </div>
 
@@ -454,43 +487,24 @@ function resetImagePreview() {
 function validateForm() {
     var category = document.querySelector('input[name="category"]:checked');
     
-    if (category) {
         categoryValue = category.value;
+        console.log(category.value);
 
         if (categoryValue === "shoes") {
-            var typeCheck = document.querySelector('input[name="shoe_type"]:checked');
-            var patternCheck = document.querySelector('input[name="shoe_pattern"]:checked');
-            var colorCheck = document.querySelector('input[name="shoe_color"]:checked');
-
-            if (!colorCheck || !patternCheck || !typeCheck) {
-                alert("Please select options for the chosen category.");
-                return false;
-            }
-
-            selType = typeCheck.value;
-            selColor = colorCheck.value;
-            selPattern = patternCheck.value;
+          selType = document.getElementById(categoryValue + '_type').value;
+          selColor = document.getElementById(categoryValue + '_color').value;
+          selPattern = document.getElementById(categoryValue + '_pattern').value;
         } else {
-            var typeCheck = document.querySelector('input[name="' + categoryValue + '_type"]:checked');
-            var patternCheck = document.querySelector('input[name="' + categoryValue + '_pattern"]:checked');
-            var colorCheck = document.querySelector('input[name="' + categoryValue + '_color"]:checked');
-            var fitCheck = document.querySelector('input[name="' + categoryValue + '_fit"]:checked');
-
-            if (!colorCheck || !typeCheck || !patternCheck || !fitCheck) {
-                alert("Please select options for the chosen category.");
-                return false;
-            }
-
-            selType = typeCheck.value;
-            selPattern = patternCheck.value;
-            selColor = colorCheck.value;
-            selFit = fitCheck.value;
+            selType = document.getElementById(categoryValue + '_type').value;
+            selPattern = document.getElementById(categoryValue + '_pattern').value;
+            selColor = document.getElementById(categoryValue + '_color').value;
+            selFit = document.getElementById(categoryValue + '_fit').value;
         }
 
         selAddColors = [];
-        var additionalColors = document.getElementsByName(categoryValue + '_additional_color');
+        var additionalColors = document.getElementById(categoryValue + '_additional_color');
         for (var i = 0; i < additionalColors.length; i++) {
-            if (additionalColors[i].checked) {
+            if (additionalColors[i].selected) {
                 selAddColors.push(additionalColors[i].value);
             }
         }
@@ -503,10 +517,6 @@ function validateForm() {
         console.log(selFit);
         */
         return true;
-    } else {
-        alert("Please select a clothing category.");
-        return false;
-    }
 }
   
 
