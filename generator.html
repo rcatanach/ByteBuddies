@@ -96,6 +96,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     
     <style>
     body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
@@ -168,6 +169,46 @@
     }
     .navbar-button:hover{
       background-color: #442C21;
+    }
+    .generate-items { 
+      visibility: hidden;
+    }
+    .generate-items button {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: -0.02em;
+      height: 40px;
+      line-height: 24px;
+      width: 50%;
+      border: 0;
+      border-radius: 10px;
+      box-sizing: border-box;
+      background-color: #73c573;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 0 0 transparent;
+      
+      transition: 125ms all;
+    }
+    .generate-items button:hover {
+               background: #DE7E5D;
+               /*background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), hsla(var(--fc-primary-hsl)); */
+             }
+             
+    .generate-items button:focus {
+        background: #73c573;
+        /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl)); 
+        border-inline: 1px solid inline rgba(255, 255, 255, 0.6);
+        box-shadow: 0px 0px 0px 3px rgba(var(--fc-primary-hsl), 12%); */
+    }
+         
+    .generate-items button:active {
+        background: #73c573;
+        /*background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl)); */
+    }
+    .generate-items.show-buttons {
+      visibility: visible !important;
     }
     .generate button {
                font-family: "Montserrat", sans-serif;
@@ -437,25 +478,29 @@
     <div class="step">
         <h2>Bring Magic to Your Style</h2>
         <div class="outfit">
+          
             <div class="image-block">
+              <h1>TOP</h1>
                 <!-- Add your image here for the top -->
                 <img src="https://static.vecteezy.com/system/resources/previews/014/989/719/original/question-mark-hand-drawn-doodle-faq-symbol-free-vector.jpg" alt="Top Image" id="TopImage" class="outfit-image">
-                <div class="generate">
-                    <button type="submit" id="GenerateTop">TOP</button>
+                <div class="generate-items">
+                    <button type="submit" id="GenerateTop"><span class="glyphicon glyphicon-refresh"></span> RELOAD</button>
                 </div>
             </div>
             <div class="image-block">
+              <h1>BOTTOM</h1>
                 <!-- Add your image here for the bottom -->
                 <img src="https://static.vecteezy.com/system/resources/previews/014/989/719/original/question-mark-hand-drawn-doodle-faq-symbol-free-vector.jpg" alt="Bottom Image" id="BottomImage" class="outfit-image">
-                <div class="generate">
-                    <button type="submit" id="GenerateBottom">BOTTOM</button>
+                <div class="generate-items">
+                    <button type="submit" id="GenerateBottom"><span class="glyphicon glyphicon-refresh"></span> RELOAD</button>
                 </div>
             </div>
             <div class="image-block">
+              <h1>SHOES</h1>
                 <!-- Add your image here for the shoes -->
                 <img src="https://static.vecteezy.com/system/resources/previews/014/989/719/original/question-mark-hand-drawn-doodle-faq-symbol-free-vector.jpg" alt="Shoes Image" id="ShoesImage" class="outfit-image">
-                <div class="generate">
-                    <button type="submit" id="GenerateShoes">SHOES</button>
+                <div class="generate-items">
+                    <button type="submit" id="GenerateShoes"><span class="glyphicon glyphicon-refresh"></span> RELOAD</button>
                 </div>
             </div>
         </div>
@@ -536,6 +581,7 @@
   generateOutfitButton.addEventListener("click", generateOutfit);
 
   document.getElementById("TryOnOutfit").addEventListener("click", function () {
+    // display top bottom and shoes buttons
     const outfitPreview = document.querySelector('.outfit-preview');
     const generateOutfitSection = document.querySelector('.step');
     const tryOnButton = document.getElementById("TryOnOutfit");
@@ -588,6 +634,10 @@ function generateConfetti(container) {
   function generateOutfit() {
     
 
+    document.querySelectorAll('.generate-items').forEach(function (element) {
+        element.classList.toggle('show-buttons');
+        console.log("show buttons");
+    });
 
     // TOP IMAGES
   // Initialize the top image URLs
