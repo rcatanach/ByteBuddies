@@ -13,27 +13,21 @@
     window.includeDone = includeDone;
   </script>
   
-  <style>
-        body,h2,h3,h4,h5,h6, #imageInput {font-family: Arial, sans-serif;;           
-                            text-align: center;
-                          background-color: #f6f6f6 }
-    h1{
-   background-color: #C5A477; /* brown background color */
- color: #fff; /* Text color for the header */
- padding-top: 35px; /* Add padding for better visibility */
- padding-bottom: 5px;
- font-family: "Lato", sans-serif;
- }
-    .w3-bar {font-family: "Montserrat", sans-serif}
-
-    /* Add your custom styles here */
-
-    /* ... (your additional styles for upload_images.html) ... */
-
-  </style>
-
-
 <style>
+body,h2,h3,h4,h5,h6, #imageInput {
+  font-family: Arial, sans-serif;;           
+  text-align: center;
+  background-color: #f6f6f6 
+}
+h1{
+    background-color: #C5A477; /* brown background color */
+  color: #fff; /* Text color for the header */
+  padding-top: 35px; /* Add padding for better visibility */
+  padding-bottom: 5px;
+  font-family: "Lato", sans-serif;
+  }
+.w3-bar {font-family: "Montserrat", sans-serif}
+
 input[type="file"]::file-selector-button {
   font-family: "Montserrat", sans-serif;
   border-radius: 4px;
@@ -55,7 +49,7 @@ input[type="file"]::file-selector-button:active {
   background-color: #e5e7eb;
 }
 #uploadButton {
-  margin-top: 100px; /* Adds 100 pixels of margin at the top */
+  margin-top: 40px; /* Adds 100 pixels of margin at the top */
   font-family: "Montserrat", sans-serif;
   background-color: #C5A477;
   padding: 5px;
@@ -71,22 +65,7 @@ input[type="file"]::file-selector-button:active {
 </style>
 
 
-  <script>
-    /*
-function showOptions(category) {
-            document.getElementById("topOptions").style.display = "none";
-            document.getElementById("bottomOptions").style.display = "none";
-            document.getElementById("shoesOptions").style.display = "none";
-
-            if (category === "top") {
-                document.getElementById("topOptions").style.display = "block";
-            } else if (category === "bottom") {
-                document.getElementById("bottomOptions").style.display = "block";
-            } else if (category === "shoes") {
-                document.getElementById("shoesOptions").style.display = "block";
-            }
-        }
-*/
+<script>
 /* Resets the chosen options when switching between top, bottom, and shoes*/
 function resetOptions(category) {
     var typeRadio = document.querySelectorAll('input[name="' + category + '_type"]');
@@ -140,6 +119,7 @@ function resetForm() {
     resetOptions("shoes");
 }
 
+// Listener for Xhttp
 document.addEventListener("DOMContentLoaded", function() {
   var includeHTML = function() {
     var z, i, elmnt, file, xhttp;
@@ -181,8 +161,9 @@ document.addEventListener("DOMContentLoaded", function() {
       <input type="file" id="imageUpload" name="imageUpload" required>
     
 
-  </br>
-  <!-- Add this img element inside your form -->
+</br>
+
+<!-- Form to get input for variables, using select boxes -->
 <img id="imagePreview" src="#" alt="Selected Image" style="max-width: 300px; max-height: 300px; margin-top: 10px; display: none; display: block; margin-left: auto; margin-right: auto;">
   </br>
 
@@ -225,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </select>
           <br>
 
-          <label>Additional Colors (Optional, Ctrl click for multiple): </label>
+          <label>Additional Colors (Optional, Ctrl-click for multiple): </label> <br/>
           <select name = "top_additional_color" id="top_additional_color" multiple size = "2">
             <option value="red"> Red
             <option value="orange"> Orange
@@ -282,8 +263,8 @@ document.addEventListener("DOMContentLoaded", function() {
           </select>
           <br>
 
-          <label>Additional Colors (Optional, Ctrl click for multiple): </label>
-          <select name="bottom_additional_color" id="bottom_additional_color" multiple size="3">
+          <label>Additional Colors (Optional, Ctrl-click for multiple): </label> <br/>
+          <select name="bottom_additional_color" id="bottom_additional_color" multiple size="2">
             <option value="red"> Red
             <option value="orange"> Orange
             <option value="yellow"> Yellow 
@@ -332,8 +313,8 @@ document.addEventListener("DOMContentLoaded", function() {
           </select>
           <br>
 
-          <label>Additional Colors (Optional, Ctrl click for multiple): </label>
-          <select name="shoes_additional_color" id="shoes_additional_color" multiple size="3">
+          <label>Additional Colors (Optional, Ctrl-click for multiple): </label> <br/>
+          <select name="shoes_additional_color" id="shoes_additional_color" multiple size="2">
             <option value="red"> Red
             <option value="orange"> Orange
             <option value="yellow"> Yellow 
@@ -352,7 +333,6 @@ document.addEventListener("DOMContentLoaded", function() {
             <option value="no_pattern"> No Pattern
             <option value="pattern"> Pattern
           </select>
-          <br>
           
       </div>
 
@@ -366,79 +346,68 @@ document.addEventListener("DOMContentLoaded", function() {
 <script type="module" src="firebase.js"></script>
 <script type="module">
   
-  import { storage, firebaseApp, auth, ref, storageRef, uploadBytes, getDownloadURL, db, doc, setDoc, getDoc, getDocs, collection } from './firebase.js';
-  const userEmail = localStorage.getItem('userEmail');
-  let additionalColors = [];
-  let selType = null;
-  let selPattern = null;
-  let selColor = null;
-  let selFit = null;
-  let selAddColors = [];
-  let categoryValue = null;
+import { storage, firebaseApp, auth, ref, storageRef, uploadBytes, getDownloadURL, db, doc, setDoc, getDoc, getDocs, collection } from './firebase.js';
+const userEmail = localStorage.getItem('userEmail');
+let additionalColors = [];
+let selType = null;
+let selPattern = null;
+let selColor = null;
+let selFit = null;
+let selAddColors = [];
+let categoryValue = null;
+
+// Main function to upload to firebase server
+function fireUpload() {
+  const imageInput = document.getElementById('imageUpload');
+  const file = imageInput.files[0]; // Access the selected file
   
-  /*
-  document.addEventListener('DOMContentLoaded', function() {
-    // Add event listener to the form for form submission
-    const uploadButton = document.getElementById('uploadButton');
-    uploadButton.addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent the default form submission
-      
-      if (validateForm()) {
-        fireUpload(); // Call the fireUpload function after validation
-        document.imageInput.reset();
-      }
-    });
-  });
-*/
-  function fireUpload() {
-    const imageInput = document.getElementById('imageUpload');
-    const file = imageInput.files[0]; // Access the selected file
-    
-    if (file) {
-      // Generate a unique file name
-      const uniqueFileName = `${Date.now()}-${file.name}`;
-      const imagesRef = ref(storage, 'images');
-      const fileRef = ref(storage, 'images/' + uniqueFileName);
+  if (file) {
+    // Generate a unique file name
+    const uniqueFileName = `${Date.now()}-${file.name}`;
+    const imagesRef = ref(storage, 'images');
+    const fileRef = ref(storage, 'images/' + uniqueFileName);
 
-      uploadBytes(fileRef, file)
-        .then((snapshot) => {
-          console.log('Image uploaded successfully:', snapshot);
-          // get the downloadURL to store in Firestore
-          getDownloadURL(ref(storage, fileRef))
-            .then((downloadURL) => {
-              const userRef = doc(db, "users", userEmail);
+    uploadBytes(fileRef, file)
+      .then((snapshot) => {
+        console.log('Image uploaded successfully:', snapshot);
+        // get the downloadURL to store in Firestore
+        getDownloadURL(ref(storage, fileRef))
+          .then((downloadURL) => {
+            const userRef = doc(db, "users", userEmail);
 
-              // Define the variables selColor, selAddColors, selType, selPattern, selFit
-              // based on your form inputs here
+            // Define the variables selColor, selAddColors, selType, selPattern, selFit
+            // based on your form inputs here
 
-              setDoc(doc(userRef, "clothing", uniqueFileName), {
-                color: selColor,
-                additionalColors: selAddColors,
-                type: selType,
-                pattern: selPattern,
-                fit: selFit,
-                category: categoryValue,
-                image: downloadURL
-              }).then(function() {
-                console.log("Clothing created");
-                window.alert('Image Uploaded Sucessfully');
-              });
-            })
-            .catch((error) => {
-              // Handle any errors
-              console('Error:', error)
+            setDoc(doc(userRef, "clothing", uniqueFileName), {
+              color: selColor,
+              additionalColors: selAddColors,
+              type: selType,
+              pattern: selPattern,
+              fit: selFit,
+              category: categoryValue,
+              image: downloadURL
+            }).then(function() {
+              console.log("Clothing created");
+              window.alert('Image Uploaded Sucessfully');
             });
-        })
-        .catch((error) => {
-          console.error('Image upload error:', error);
-        });
-    } else {
-      console.error('No file selected for upload');
-    }
+          })
+          .catch((error) => {
+            // Handle any errors
+            console('Error:', error)
+          });
+      })
+
+      // Handle any uploading errors
+      .catch((error) => {
+        console.error('Image upload error:', error);
+      });
+  } else {
+    console.error('No file selected for upload');
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-  // Add event listener to the file input for change event
+}
+// Add event listener to the file input for change event
+document.addEventListener('DOMContentLoaded', function() {
   const imageInput = document.getElementById('imageUpload');
   imageInput.addEventListener('change', function(event) {
     previewImage(event.target);
@@ -447,8 +416,8 @@ document.addEventListener("DOMContentLoaded", function() {
   // Add event listener to the form for form submission
   const uploadButton = document.getElementById('uploadButton');
   uploadButton.addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the default form submission
-
+    event.preventDefault(); // Prevent the default form  submission
+    // Validate form first, then call firebase upload and reset the page
     if (validateForm()) {
       fireUpload(); // Call the fireUpload function after validation
       document.imageInput.reset();
@@ -483,7 +452,7 @@ function resetImagePreview() {
   imagePreview.style.display = 'none';
 }
 
-     // Makes sure that everything has been filled out
+// Makes sure that everything has been filled out
 function validateForm() {
     var category = document.querySelector('input[name="category"]:checked');
     
