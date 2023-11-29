@@ -373,13 +373,13 @@
     }
 
     .confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    opacity: 0.7;
-    transform: rotate(45deg);
-    animation: fall linear infinite;
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      opacity: 0.7;
+      transform: rotate(45deg);
+      animation: fall linear infinite;
     }
 
     @keyframes fall {
@@ -390,6 +390,33 @@
             transform: translateY(100vh) rotate(45deg);
         }
     }
+    .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      /* background: rgba(255, 255, 255, 0.8); Optional: Add a semi-transparent overlay */
+      z-index: 9999;
+}
+
+.loadcirc {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
     /*connect to the firebase SDK */
     </style>
@@ -508,6 +535,8 @@
             <button type="submit" id="GenerateOutfit">Generate Outfit</button>
         </div>
     </div>
+
+    <div class="loader-container"></div>
 
     <div class="confetti-container"></div>
 
@@ -631,7 +660,31 @@ function generateConfetti(container) {
     }
 }
 
+function generateLoader(container) {
+
+  // Clear existing loaders
+  const existingLoaders = container.querySelectorAll('.loadcirc');
+  existingLoaders.forEach(loader => loader.remove());
+
+
+    const colors = ['#FFD700', '#FF6347', '#00FA9A', '#9400D3']; // Define your confetti colors
+
+
+      const loader = document.createElement('div');
+      loader.className = 'loadcirc';
+
+      loader.style.animationDuration = `${Math.random() * 1 + 0.5}s`; // Adjust the animation duration
+      container.appendChild(loader);
+
+      setTimeout(() => {
+          container.removeChild(loader);
+      }, 2000);
+    
+}
+
   function generateOutfit() {
+    const loaderContainer = document.querySelector('.loader-container'); // Define loader container
+
     
 
     document.querySelectorAll('.generate-items').forEach(function (element) {
@@ -683,6 +736,7 @@ function generateConfetti(container) {
 
         generateTopButton.addEventListener("click", function() {
           // Randomly choose a top image URL
+          generateLoader(loaderContainer);
           const randomImage = topImageUrls[Math.floor(Math.random() * topImageUrls.length)];
           console.log("stuff:" + randomImage);
           const randomImageUrl = randomImage[0];
@@ -783,6 +837,7 @@ function generateConfetti(container) {
         bottomColor = randomImageUrl[1];
 
       generateBottomButton.addEventListener("click", function() {
+        generateLoader(loaderContainer);
         // Randomly choose a top image URL
         getBottoms()
           .then(() => {
@@ -872,6 +927,7 @@ getDocs(shoesQuery)
       shoesImage.src = randomImageUrl[0];
 
       generateShoesButton.addEventListener("click", function() {
+        generateLoader(loaderContainer);
         // Randomly choose a top image URL
         getShoes()
           .then(() => {
