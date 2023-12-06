@@ -235,6 +235,34 @@ footer.f3-container {
   color: red; /* Change the heart icon color to red when clicked */
 }
 
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    /* background: rgba(255, 255, 255, 0.8); Optional: Add a semi-transparent overlay */
+    z-index: 9999;
+}
+
+.loadcirc {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
 /*connect to the firebase SDK */
 </style>
 <script type="module" src="firebase.js"></script>
@@ -293,6 +321,7 @@ footer.f3-container {
 </div>
 
 <!-- Wardrobe Gallery -->
+<div class="loader-container"></div>
 <div class="container">
             <div class="gallery" id="imageGallery">
                 
@@ -453,13 +482,19 @@ footer.f3-container {
         return;
       }
       else {
+      // variables for loader
+      const loadContainer = document.querySelector('.loader-container');
+      const loader = document.createElement('div');
+      loader.className = 'loadcirc';
+      loadContainer.appendChild(loader);
       const userEmail = localStorage.getItem('userEmail');
       const docId = event.target.closest('.gallery_item').getAttribute('data-id');
       const clothingDocRef = doc(db, "users", userEmail, "clothing", docId);
       console.log(clothingDocRef);
       deleteDoc(clothingDocRef);
+      // give firebase time to remove, then remove loader and reload
       setTimeout(() => {
-        location.reload();
+        loadContainer.removeChild(loader); location.reload();
         }, 2000);
       }
   }
