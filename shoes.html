@@ -156,6 +156,64 @@ footer.f3-container {
   width: 200px;
   object-fit: contain; /* Set to 'contain' */
 }
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  opacity: 0; /* Start with overlay hidden */
+  transition: opacity 0.2s; /* Add opacity transition */
+}
+
+.gallery_item:hover .overlay {
+  opacity: 1; /* Show overlay on hover */
+}
+
+.fa-heart, .fa-trash {
+  font-size: 24px;
+  margin: 0 10px;
+  color: #fff; /* Set icon color to white */
+  cursor: pointer;
+}
+
+.fa-heart.clicked {
+  color: red; /* Change the heart icon color to red when clicked */
+}
+
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    /* background: rgba(255, 255, 255, 0.8); Optional: Add a semi-transparent overlay */
+    z-index: 9999;
+}
+
+.loadcirc {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
   
   /* Styling gallery items */
 .gallery_item {
@@ -264,6 +322,7 @@ footer.f3-container {
 </div>
 
 <!-- Wardrobe Gallery -->
+<div class="loader-container"></div>
 <div class="container">
             <div class="gallery" id="imageGallery">
                 
@@ -341,7 +400,7 @@ footer.f3-container {
  </script>
 
 <script type="module">
-  import { db, doc, collection, getDocs, query, where } from './firebase.js';
+  import { db, doc, setDoc, collection, getDocs, query, where, deleteDoc } from './firebase.js';
 
   const imageGallery = document.getElementById("imageGallery");
 
@@ -364,15 +423,40 @@ footer.f3-container {
         querySnapshot.forEach((doc) => {
           const data = doc.data();
           const imageUrl = data.image;
+          const docId = doc.id;
           // You can now use 'imageUrl' to display the images or do anything else with them
           console.log("Image URL: " + imageUrl);
 
           const galleryItem = document.createElement("div");
           galleryItem.classList.add("gallery_item");
+          galleryItem.setAttribute("data-id", docId);
 
           const image = document.createElement("img");
           image.classList.add("gallery_img");
           image.src = imageUrl; // Set the image URL
+
+          const overlay = document.createElement("div");
+          overlay.classList.add("overlay");
+
+          const heartIcon = document.createElement("i");
+          heartIcon.classList.add("fa", "fa-heart");
+
+          // Check local storage for liked status
+          const isLiked = localStorage.getItem(`liked-${docId}`) === 'true';
+          if (isLiked) {
+              heartIcon.classList.add('clicked');
+          }
+
+          heartIcon.addEventListener('click', handleHeartClick);
+
+          const trashIcon = document.createElement("i");
+          trashIcon.classList.add("fa", "fa-trash");
+          trashIcon.addEventListener('click', handleTrashClick);
+
+          overlay.appendChild(heartIcon);
+          overlay.appendChild(trashIcon);
+
+          galleryItem.appendChild(overlay);
 
           galleryItem.appendChild(image);
           imageGallery.appendChild(galleryItem);
@@ -384,6 +468,45 @@ footer.f3-container {
       console.error("User email not found in local storage");
     }
   });
+
+  function handleHeartClick(event) {
+        event.stopPropagation();
+        const userEmail = localStorage.getItem('userEmail');
+        const docId = event.target.closest('.gallery_item').getAttribute('data-id');
+        const clothingDocRef = doc(db, "users", userEmail, "clothing", docId);
+        const isLiked = event.target.classList.toggle('clicked');
+        localStorage.setItem(`liked-${docId}`, isLiked);
+
+        setDoc(clothingDocRef, { liked: isLiked }, { merge: true });
+
+        // Call the function to update favorites
+        //updateFavorites(docId, isLiked);
+    }
+
+  function handleTrashClick() {
+    console.log('Trash button clicked');
+      event.stopPropagation();
+      if (!confirm('Are you sure you want to delete this item?')) {
+        //action confirmed
+        return;
+      }
+      else {
+      // variables for loader
+      const loadContainer = document.querySelector('.loader-container');
+      const loader = document.createElement('div');
+      loader.className = 'loadcirc';
+      loadContainer.appendChild(loader);
+      const userEmail = localStorage.getItem('userEmail');
+      const docId = event.target.closest('.gallery_item').getAttribute('data-id');
+      const clothingDocRef = doc(db, "users", userEmail, "clothing", docId);
+      console.log(clothingDocRef);
+      deleteDoc(clothingDocRef);
+      // give firebase time to remove, then remove loader and reload
+      setTimeout(() => {
+        loadContainer.removeChild(loader); location.reload();
+        }, 2000);
+      }
+  }
 </script>
 
 
