@@ -120,7 +120,7 @@ footer.f3-container {
     /*background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), hsla(var(--fc-primary-hsl)); */
 }
 .step img {
-  width: 150px;
+  width: 200px;
   border-radius: 50%;
   margin-bottom: 20px;
 }
@@ -142,6 +142,20 @@ footer.f3-container {
     cursor: pointer;
     transition: transform 0.2s;
   }
+
+  .gallery_item {
+  position: relative;
+  height: 200px;
+  width:200px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.gallery_item img {
+  height: 100%;
+  width: 200px;
+  object-fit: contain; /* Set to 'contain' */
+}
   
   /* Styling gallery items */
 .gallery_item {

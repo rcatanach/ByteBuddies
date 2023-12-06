@@ -62,10 +62,41 @@ input[type="file"]::file-selector-button:active {
 .show {
         display: block !important;
     }
+
+    .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      /* background: rgba(255, 255, 255, 0.8); Optional: Add a semi-transparent overlay */
+      z-index: 9999;
+}
+
+.loadcirc {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
 </style>
 
 
 <script>
+
+var loader = null;
 /* Resets the chosen options when switching between top, bottom, and shoes*/
 function resetOptions(category) {
     var typeRadio = document.querySelectorAll('input[name="' + category + '_type"]');
@@ -166,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- Form to get input for variables, using select boxes -->
 <img id="imagePreview" src="#" alt="Selected Image" style="max-width: 300px; max-height: 300px; margin-top: 10px; display: none; display: block; margin-left: auto; margin-right: auto;">
   </br>
-
+  <div class="loader-container"></div>
   <label>Select Clothing Category:</label><br>
       <input type="radio" name="category" value="top" id="top" onclick="showOptions('top')"> Top
       <input type="radio" name="category" value="bottom" id="bottom" onclick="showOptions('bottom')"> Bottom
@@ -360,7 +391,7 @@ let categoryValue = null;
 function fireUpload() {
   const imageInput = document.getElementById('imageUpload');
   const file = imageInput.files[0]; // Access the selected file
-  
+  const container = document.querySelector('.loader-container');
   if (file) {
     // Generate a unique file name
     const uniqueFileName = `${Date.now()}-${file.name}`;
@@ -387,6 +418,7 @@ function fireUpload() {
               category: categoryValue,
               image: downloadURL
             }).then(function() {
+              container.removeChild(loader)
               console.log("Clothing created");
               window.alert('Image Uploaded Sucessfully');
             });
@@ -404,7 +436,6 @@ function fireUpload() {
   } else {
     console.error('No file selected for upload');
   }
-
 }
 // Add event listener to the file input for change event
 document.addEventListener('DOMContentLoaded', function() {
@@ -416,14 +447,19 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add event listener to the form for form submission
   const uploadButton = document.getElementById('uploadButton');
   uploadButton.addEventListener('click', function(event) {
+    const container = document.querySelector('.loader-container');
     event.preventDefault(); // Prevent the default form  submission
     // Validate form first, then call firebase upload and reset the page
     if (validateForm()) {
+      loader = document.createElement('div');
+      loader.className = 'loadcirc';
+      container.appendChild(loader);
       fireUpload(); // Call the fireUpload function after validation
       document.imageInput.reset();
       resetImagePreview(); // Reset image preview after upload
     }
   });
+  
 });
 
 // shows the image that was uploaded using file reader

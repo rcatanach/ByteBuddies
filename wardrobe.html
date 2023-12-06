@@ -144,7 +144,7 @@ footer.f3-container {
   
   /* Styling gallery items */
 .gallery_item {
-  width: 100%; /* Adjust the width as needed */
+  width: 200px; /* Adjust the width as needed */
   text-align: center; /* Optional: Center align text within the item */
 }
 
@@ -194,12 +194,14 @@ footer.f3-container {
 .gallery_item {
   position: relative;
   height: 200px;
+  width:200px;
   cursor: pointer;
   transition: transform 0.2s;
 }
 
 .gallery_item img {
   height: 100%;
+  width: 200px;
   object-fit: contain; /* Set to 'contain' */
 }
 
@@ -362,7 +364,7 @@ footer.f3-container {
  </script>
 
 <script type="module">
-    import { db, doc, setDoc, collection, getDocs, query, where } from './firebase.js';
+    import { db, doc, setDoc, collection, getDocs, query, where, deleteDoc } from './firebase.js';
   
     const imageGallery = document.getElementById("imageGallery");
   
@@ -444,8 +446,22 @@ footer.f3-container {
     }
 
   function handleTrashClick() {
-      console.log('Trash button clicked');
-      // Add your trash button functionality here
+    console.log('Trash button clicked');
+      event.stopPropagation();
+      if (!confirm('Are you sure you want to delete this item?')) {
+        //action confirmed
+        return;
+      }
+      else {
+      const userEmail = localStorage.getItem('userEmail');
+      const docId = event.target.closest('.gallery_item').getAttribute('data-id');
+      const clothingDocRef = doc(db, "users", userEmail, "clothing", docId);
+      console.log(clothingDocRef);
+      deleteDoc(clothingDocRef);
+      setTimeout(() => {
+        location.reload();
+        }, 2000);
+      }
   }
   </script>
   
