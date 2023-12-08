@@ -400,7 +400,7 @@
       align-items: center;
       justify-content: center;
       pointer-events: none;
-      /* background: rgba(255, 255, 255, 0.8); Optional: Add a semi-transparent overlay */
+      /* background: rgba(255, 255, 255, 0.8); Add a semi-transparent overlay */
       z-index: 9999;
 }
 
@@ -486,12 +486,11 @@
       </div>
     </div>
 
-       <!-- Add the following code to display the user info -->
+       <!-- Display the user info -->
        <script type="module">
         document.addEventListener('DOMContentLoaded', function() {
           const userInfoElement = document.getElementById('userInfo');
           const userEmail = localStorage.getItem('userEmail');
-  
           if (userEmail) {
               userInfoElement.textContent = `Logged in as: ${userEmail}`;
           } else {
@@ -562,10 +561,7 @@
       </div>
   </div>
     
-   
-    
-    
-    <!-- ... (keep your existing content) ... -->
+  
     
     </body>
     </html>
@@ -825,7 +821,7 @@ function generateLoader(container) {
         
       });
 
-      // Now that we have the top image URLs, you can use them for generating the bottom image
+      // Now that we have the top image URLs, use them for generating the bottom image
       const bottomImage = document.getElementById("BottomImage");
       const generateBottomButton = document.getElementById("GenerateBottom");
       // let bottomColor = "";
@@ -917,7 +913,7 @@ getDocs(shoesQuery)
         }
     });
 
-    // Now that we have the top image URLs, you can use them for generating the shoes image
+    // Now that we have the top image URLs, use them for generating the shoes image
     const shoesImage = document.getElementById("ShoesImage");
     const generateShoesButton = document.getElementById("GenerateShoes");
 
@@ -1021,7 +1017,7 @@ getDocs(shoesQuery)
         }
       });
 
-      // Now that we have the top image URLs, you can use them for generating the bottom image
+      // Now that we have the top image URLs, use them for generating the bottom image
      const bottomImage = document.getElementById("BottomImage");
      const generateBottomButton = document.getElementById("GenerateBottom");
       let bottomColor = "";
@@ -1107,7 +1103,7 @@ getDocs(shoesQuery)
         }
     });
 
-    // Now that we have the top image URLs, you can use them for generating the shoes image
+    // Now that we have the top image URLs, use them for generating the shoes image
     const shoesImage = document.getElementById("ShoesImage");
     const generateShoesButton = document.getElementById("GenerateShoes");
 

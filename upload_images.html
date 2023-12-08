@@ -73,7 +73,7 @@ input[type="file"]::file-selector-button:active {
       align-items: center;
       justify-content: center;
       pointer-events: none;
-      /* background: rgba(255, 255, 255, 0.8); Optional: Add a semi-transparent overlay */
+      /* background: rgba(255, 255, 255, 0.8); Add a semi-transparent overlay */
       z-index: 9999;
 }
 
@@ -105,7 +105,7 @@ function resetOptions(category) {
     var fitRadio = document.querySelectorAll('input[name="' + category + '_fit"]');
     var additionalColorsCheckbox = document.getElementsByName(category + '_additional_color');
 
-    // Reset radio buttons
+    // Reset radio buttons, depreciated
     typeRadio.forEach(function (radio) {
         radio.checked = false;
     });
@@ -119,7 +119,7 @@ function resetOptions(category) {
         radio.checked = false;
     });
 
-    // Reset additional colors checkboxes
+    // Reset additional colors checkboxes, depreciated
     additionalColorsCheckbox.forEach(function (checkbox) {
         checkbox.checked = false;
     });
@@ -406,8 +406,7 @@ function fireUpload() {
           .then((downloadURL) => {
             const userRef = doc(db, "users", userEmail);
 
-            // Define the variables selColor, selAddColors, selType, selPattern, selFit
-            // based on your form inputs here
+            // Define the variables  
 
             setDoc(doc(userRef, "clothing", uniqueFileName), {
               color: selColor,

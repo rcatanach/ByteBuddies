@@ -145,7 +145,7 @@ footer.f3-container {
   /* Styling gallery items */
 .gallery_item {
   width: 200px; /* Adjust the width as needed */
-  text-align: center; /* Optional: Center align text within the item */
+  text-align: center; /* Center align text within the item */
 }
 
 /* Style for the dropdown button */
@@ -245,7 +245,7 @@ footer.f3-container {
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    /* background: rgba(255, 255, 255, 0.8); Optional: Add a semi-transparent overlay */
+    /* background: rgba(255, 255, 255, 0.8);  Add a semi-transparent overlay */
     z-index: 9999;
 }
 
@@ -478,7 +478,7 @@ footer.f3-container {
     console.log('Trash button clicked');
       event.stopPropagation();
       if (!confirm('Are you sure you want to delete this item?')) {
-        //action confirmed
+        // cancelled
         return;
       }
       else {

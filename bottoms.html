@@ -199,7 +199,7 @@ footer.f3-container {
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    /* background: rgba(255, 255, 255, 0.8); Optional: Add a semi-transparent overlay */
+    /* background: rgba(255, 255, 255, 0.8); Add a semi-transparent overlay */
     z-index: 9999;
 }
 
@@ -420,7 +420,6 @@ footer.f3-container {
           const data = doc.data();
           const imageUrl = data.image;
           const docId = doc.id;
-          // You can now use 'imageUrl' to display the images or do anything else with them
           //console.log("Image URL: " + imageUrl);
 
           const galleryItem = document.createElement("div");
@@ -483,7 +482,7 @@ function handleTrashClick() {
   console.log('Trash button clicked');
     event.stopPropagation();
     if (!confirm('Are you sure you want to delete this item?')) {
-      //action confirmed
+      // cancelled
       return;
     }
     else {
